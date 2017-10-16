@@ -1,0 +1,132 @@
+# RealmsCore by Kyle Necrowolf
+# Help Prompt
+
+# RealmsCore prompt help can be found at http://wolfiamc.com/plugins/realmscore/prompts
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied immediately, no reload needed.
+
+
+# This prompt file is used for the /help command. Put your server information and help here.
+# Prompts let you have multiple help pages, for different topics. Six are included as examples.
+# This is all based off the official server, so you'll want to customize the information for your server, otherwise it might confuse players.
+
+help:
+
+  # The main prompt is used when "/help" is typed on its own. 
+  # In this example, it's used as a menu, leading to specific help topics. You can change this and put all your info in main, if you prefer.
+  main:
+    question:
+      - "&8Choose a help topic:"
+    # Answers is the clickable text, and action is what happens when it's clicked.    
+    # Remember that the "answers" and "actions" list must always be the same length!
+    answers:
+      - "Commands - general server commands"
+      - "Teleporting - how to warp and teleport"
+      - "Realms - how to join a realm"
+      - "Money - how to earn and spend money"
+      - "Admins - contact server staff for more help"
+      - "Bukkit Help - other plugin commands"
+    actions:
+     - "prompt_help.commands"
+     - "prompt_help.teleporting"
+     - "prompt_help.realms"
+     - "prompt_help.money"
+     - "prompt_help.admins"
+     - "command_bukkit:help"
+
+
+
+  # This commands prompt shows when chosen from the menu above, or when "/help commands" is typed.
+  # You can add your own commands here, or change this entirely.
+  commands:
+    question:
+      - "&8--- &7Help: Commands &8---"
+      - "&8Type these into chat, or just click below to use them"
+    answers:
+      - "/Help - access server help and information from anywhere"
+      - "/Player <player name> - learn about a player"
+      - "/Realm <realm name> - learn about a realm"
+      - "/List - list all online players"
+      - "/AFK [message...] - notify other players that you're AFK (away-from-keyboard), with an optional message"
+      - "/Me <message...> - send a message in third-person"
+      - "/Msg <player name> <message...> - send a private message to another player"
+      - "/Pack [pack name] - download and use a server resource pack"
+    actions:
+      - "command_help"
+      - "command_player"
+      - "command_realm"
+      - "command_list"
+      - "command_afk"
+      - "command_me"
+      - "command_msg"
+      - "command_pack"
+
+
+
+  # More commands, this time for teleportation. If you're not using Warpstones, you'll probably need to change this.
+  # Again, this shows up when clicked from the menu, or when "/warpstones teleporting" is typed.
+  teleporting:
+    question:
+      - "&8--- &7Help: Teleporting &8---"
+      - "&8Type these into chat, or just click below to use them"
+    answers:
+      - "/Spawn - return to the server spawn"
+      - "/Home - return to your home warpstone"
+      - "/Last - return to the last warpstone you activated"
+      - "/TP <Player> - teleport to another player"
+      - "/TPHere <Players...> - teleport other players to you"
+    actions:
+      - "command_spawn"
+      - "command_home"
+      - "command_last"
+      - "command_tp"
+      - "command_tphere"
+
+
+
+  # An example prompt about using realms.
+  realms:
+    question:
+      - "&8--- &7Help: Realms &8---"
+      - "You can create or join a &orealm&7. Realms let you team up with any number of players as a nation."
+      - "&8-- &7Starting a realm &8--"
+      - "- /realm create <realm name> <players...>"
+      - "- The specified players will be invited to your new realm. Depending on the server, you may have to invite a minimum number of players, or be part of an existing realm, where you can create a sub-realm."
+      - "- You can edit your realm with /realm <realm name> set <fullname/color/tagline> <new data...>"
+      - "&8-- &7Joining a realm &8--"
+      - "- To join another realm, you must be invited. Ask players with titles in front of their name, to learn about their realms, and how you can be invited."
+
+
+
+  # Just an example, you'll probably want to put information that makes sense for your server.
+  money:
+    question:
+      - "&8--- &7Help: Money &8---"
+      - "&cNOTE: This is example text, change this in plugins/RealmsCore/prompts/help.yml"
+      - "Type &a/money&7 to see how much money you have."
+      - "&8-- &7Earning Money &8--"
+      - "- You can earn money from selling items, completing quests, and winning arena battles."
+      - "&8-- &7Spending Money &8--"
+      - "- You can use money to buy items, property, and pets. Look for stores and malls to see what you can buy."
+
+
+
+  # If you change the admin prefix, you'll want to fix it here.
+  admins:
+    question:
+      - "&8--- &7Admins &8---"
+      - "Admins have a &5+&7 in chat and on the player list."
+    answers:
+     - "List online admins"
+     - "See all server staff and leave messages/feedback at spawn"
+    actions:
+     - "command_list"
+     - "command_spawn"
+
+
+  # You can add as many help pages as you want, and they'll be accessible with "/help <topic>".
+  # Adding links to them from the main help prompt makes it easy for players to find!

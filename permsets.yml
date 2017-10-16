@@ -1,0 +1,229 @@
+# RealmsCore by Kyle Necrowolf
+# Permission Sets
+
+# RealmsCore permissions help can be found at http://wolfiamc.com/plugins/realmscore/permissions
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied on login, or when switching sets. No reload needed. 
+
+
+# This file contains all the permission sets used on your server. This is where you list permission nodes.
+# A player can only have one permission set active at a time (but can be allowed to switch between multiple permission sets).
+
+# Five example sets are included and pre-configured here, but you can have any number of sets.
+
+sets:
+
+  ### Basic permission set
+  ### This set should be available to everyone. Additionally, all other sets should "inherit" it (more on that below).
+  basic:
+
+    # These are the permissions included in this set. You can add or remove items to allow/deny players to access them.
+    permissions:
+      # General server commands
+      - realms.player
+      - realms.realm
+      - realms.realm.set
+      - realms.realm.players
+      - realms.realm.officers
+      - realms.realm.titles
+      - realms.afk
+      - realms.msg
+      - realms.pack
+
+      # Allows switching between permission sets. It's important that everyone has this, otherwise players won't be able to switch to other permission sets they have.
+      - realms.permissions.setswitch
+
+      # Teleport & Warpstones permissions (if the Warpstones plugin is installed)
+      - warpstones.tp
+      - warpstones.tphere
+      - warpstones.home
+      - warpstones.last
+      - warpstones.spawn
+
+      # Magic permissions (if the RealmsMagic plugin is installed)
+      - magic.xp
+      - magic.spells
+      - magic.skills
+      - magic.books
+
+      # Skype permissions (if the RealmsSkype plugin is installed)
+      - skype.setname
+      - skype.start
+
+
+
+  ### Builder utility set
+  ### As the name suggests, you might set this as the utility set for your "builder rank" players. Designed to be survival-friendly.
+  builder_utility:
+
+    # This inheritedSets section lets you copy all permissions from another set, instead of retyping all of them.
+    # You'll almost always want to copy the permissions from the basic set.
+    inheritedSets:
+      - basic
+    
+    # Then, as before, list the permission nodes.
+    permissions:
+      # Some commands to help builders get around easily
+      - realms.fly
+      - realms.speed
+
+      # Some basic WorldEdit functions, nothing too powerful. Of course, the WorldEdit plugin must be installed to use these.
+      - worldedit.wand
+      - worldedit.selection.*
+      - worldedit.navigation.*
+      - worldedit.analysis.*
+      - worldedit.history.*
+      - worldedit.superpickaxe
+      - worldedit.extinguish
+      - worldedit.green
+      - worldedit.thaw
+
+
+
+  ### Builder cheat set
+  ### Again, you might set this as the cheat set for your "builder rank" players.
+  builder_cheat:
+
+    # Copy all the permissions from the builder_utility set, which also copies from basic, so you don't have to retype those permissions.
+    inheritedSets:
+      - builder_utility
+
+    permissions:
+      # Gamemode switching
+      - realms.gamemode.survival
+      - realms.gamemode.creative
+
+      # Some more powerful WorldEdit functions
+      - worldedit.clipboard.*
+      - worldedit.generation.*
+      - worldedit.region.*
+      - worldedit.tool.*
+      - worldedit.brush.*
+      - worldedit.drain
+      - worldedit.fill
+      - worldedit.fixwater
+      - worldedit.replacenear
+      - worldedit.snow
+
+
+
+  ### Admin utility set
+  ### A utility set for admins, this has all the moderation commands, while remaining survival-friendly.
+  admin_utility:
+
+    inheritedSets:
+      - builder_utility
+
+    permissions:
+      # The realms.admin permission is required for many other commands, as well as to receive various admin notifications.
+      - realms.admin
+
+      # Editing anyone's player and realm data
+      - realms.player.admin
+      - realms.player.set
+      - realms.realm.set.others
+      - realms.realm.players.others
+      - realms.realm.officers.others
+      - realms.realm.titles.others
+
+      # Permissions commands
+      - realms.permissions.setswitch.others
+      - realms.permissions.set
+      - realms.permissions.player
+      - realms.permissions.revoke
+
+      # Moderation commands
+      - realms.kick
+      - realms.ban
+      - realms.tempban
+      - realms.mute
+      - realms.unmute
+
+      # Some general server commands
+      - realms.reload
+      - realms.time
+      - realms.weather
+      - realms.world
+      - realms.world.enter
+      - realms.world.load
+      - realms.prompts.display
+      - bukkit.command.tps
+      - minecraft.command.scoreboard
+      - minecraft.command.tellraw
+      - minecraft.command.testfor
+      - minecraft.command.testforblock
+      - minecraft.command.playsound
+      - minecraft.command.particle
+      - minecraft.command.title
+      - minecraft.command.toggledownfall
+
+      # Teleport and Warpstones commands (if the Warpstones plugin is installed)
+      - warpstones.tp.noask
+      - warpstones.to.*
+      - warpstones.manage
+
+      # RealmsMagic commands (if RealmsMagic is installed)
+      - magic.xp.others
+      - magic.edit
+
+      # Skype commands (if RealmsSkype is installed)
+      - skype.setname.others
+
+
+
+  ### Admin cheat set
+  ### A cheat set for admins, only for the people you fully trust. Has most of the commands.
+  admin_cheat:
+
+    # Includes all the builder cheats, and all the admin utilities
+    inheritedSets:
+      - builder_cheat
+      - admin_utility
+
+    permissions:
+      # Op - Allows players to give themselves full access to everything. Players are de-opped automatically after disconnecting.
+      # Useful if some plugins don't have permissions set up, or to edit command blocks.
+      # Do NOT give people you don't trust access to this permission!
+      - minecraft.command.op
+      - minecraft.command.deop
+
+      # Moderation commands
+      - realms.inventory
+      - realms.enderchest
+
+      # More powerful server commands
+      - realms.entity
+      - realms.world.create
+      - minecraft.command.summon
+      - minecraft.command.setblock
+      - minecraft.command.kill
+
+      # Full access to WorldEdit and WorldGuard, if installed
+      - worldedit.*
+      - worldguard.*
+
+      # Gamemode and cheat commands
+      - realms.gamemode.adventure
+      - realms.gamemode.spectator
+      - realms.gamemode.others
+      - realms.item
+      - realms.fly.others
+      - realms.speed.others
+      - minecraft.command.give
+      - minecraft.command.xp
+      - minecraft.command.effect
+
+      # Teleport and Warpstones commands (if Warpstones is installed)
+      - warpstones.tp.instant
+      - warpstones.tp.nolimits
+      - warpstones.warpothers
+      - warpstones.give
+      - minecraft.command.tp
+      
+      # RealmsMagic commands (if RealmsMagic is installed)
+      - magic.give
+      - magic.spells.nocost

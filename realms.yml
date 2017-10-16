@@ -1,0 +1,55 @@
+# RealmsCore by Kyle Necrowolf
+# Realms
+
+# RealmsCore realms help can be found at http://wolfiamc.com/plugins/realmscore/realms
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied on login. To reload manually, use "/player reload".
+# This file can also be modified in-game with the command "/realm <realm name> set <fullname/color/tagline/parent>".
+
+
+# This file contains all realms/nations/holds/factions in use on your server.
+# Note that players (and their titles) are NOT listed here, those are in individual playerdata files.
+
+# Five example realms are included and pre-configured here, but you can have any number of realms.
+
+realms:
+
+  # Realm names shouldn't have spaces, and must be unique.
+  # All realm details are optional.
+
+  # Here is a simple example realm:
+  Awesomeness:
+    # Full name is the longer "official name" of the realm, can contain spaces.
+    fullname: Nation of Awesomeness
+    color: GOLD
+    # Tagline is a description or slogan, can contain spaces.
+    tagline: We are the nation of awesomeness and we are awesome!
+
+
+  # Here is a sub-realm:
+  Cakeland:
+    # The parent realm is "Awesomeness", so this is a sub-realm of Awesomeness.
+    parent: Awesomeness
+    fullname: Kingdom of Cakeland
+    color: AQUA
+    tagline: Cake is the future.
+
+
+  # You can have as many realms and sub-realms as you want.
+  Tamriel:
+    fullname: Empire of Tamriel
+    color: DARK_RED
+
+  Skyrim:
+    parent: Tamriel
+    fullname: Province of Skyrim
+    color: DARK_GRAY
+
+  Whiterun:
+    parent: Skyrim
+    fullname: Whiterun Hold, Skyrim
+    color: GOLD

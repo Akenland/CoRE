@@ -1,0 +1,24 @@
+# RealmsCore by Kyle Necrowolf
+# Resource Packs
+
+# RealmsCore help can be found at http://wolfiamc.com/plugins/realmscore
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied immediately, no reload needed.
+
+
+# This file can have multiple resource packs listed, allowing players to download and use any listed pack.
+# Players can choose a pack with "/pack <pack name>".
+# To send a pack to another player (such as with command blocks), use "/pack <pack name> <player>"
+# Add "setdefault" to the end of either command to set it as the player's default pack. It will be automatically applied on next login.
+
+packs:
+
+  # SMP's Revival, a 16x medieval fantasy pack that is currently maintained by the Realms of Wolfia.
+  # Players can type "/pack revival" to use this pack when on your server.
+  revival:
+    url: http://wolfiamc.com/downloads/Revival080217.zip
+

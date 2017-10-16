@@ -1,0 +1,72 @@
+# RealmsCore by Kyle Necrowolf
+# Example Prompt
+
+# RealmsCore prompt help can be found at http://wolfiamc.com/plugins/realmscore/prompts
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied immediately, no reload needed.
+
+
+# Prompts let you create interactive menus and conversations, which can be used to access commands and information in-game.
+# Each file in the prompts folder can contain multiple prompts.
+# To display prompts in-game, use the command "/prompts display [player name] <fileName.promptName>"
+# For example, to display this prompt in game, you can use "/prompts display @p example.promptTest"
+
+
+# All prompts must be listed under the file name.
+example:
+
+
+  # This is an example prompt. Can be named anything. Name must be unique in the file, and is not case sensitive.
+  prompttest:
+
+    # The Question section is where you can list text. Usually this will ask some sort of question, which the player can choose an answer to.
+    question:
+      - "This is a RealmsCore example prompt!"
+      - "What would you like to do?"
+
+    # Answers is the clickable text, and action is what happens when it's clicked. The first answer corresponds to the first action, and so on.
+    # Remember that the "answers" and "actions" list must always be the same length!
+    answers:
+      - "Show general server help."
+      - "Go to the server spawn."
+      - "Learn more about the Prompts system."
+
+    # Actions begin with a type:
+    # -  command - run a command (do not include the "/"). The command is run as the player, so if the player doesn't have permission, the command won't run.
+    # -  prompt - show a different prompt (in the format of fileName.promptName)
+    # -  url - open a webpage
+    # Other plugins can add additional action types.
+    actions:
+     - "prompt_help.main"
+     - "command_spawn"
+     - "url_http://wolfiamc.com/plugins/realmscore/prompts"
+
+
+
+
+  # A different example prompt, intended to be a conversation.
+  # When RealmsStory is installed, you can use prompts to create NPC dialogue. This is called a conversation.
+  # They're exactly like normal prompts, but instead of being displayed from a command (or command block), they show when interacting with an NPC.
+  # RealmsStory is another plugin in the Realms suite. Learn more at http://wolfiamc.com/plugins/
+  conversationtest:
+
+    question:
+      - "Hi! Welcome to the city."
+      - "Can I help you find anything?"
+
+    answers:
+      - "Who's in charge of the city?"
+      - "Where is the mall?"
+      - "Where is the library?"
+      - "Can I build here?"
+
+    # Since this is just an example, the following prompts don't actually exist. You can change this or create your own prompts.
+    actions:
+      - "prompt_citygreeter.mayor"
+      - "prompt.citygreeter.mall"
+      - "prompt.citygreeter.library"
+      - "prompt.citygreeter.build"

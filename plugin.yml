@@ -1,0 +1,129 @@
+name: RealmsCore
+version: 1.2pre
+description: A roleplaying framework and essential server functions, for small/medium survival and roleplay servers.
+author: Kyle_Necrowolf
+website: http://WolfiaMC.com/plugins
+
+main: com.KyleNecrowolf.RealmsCore.Main
+softdepend: [Citizens]
+
+commands:
+  realmscore:
+    description: Display Realms plugin version
+
+  player:
+    description: View and edit information about a player
+    aliases: [playerinfo, seen, whois, nick]
+    usage: "Usage: /player <player name>"
+  realm:
+    description: View and edit realms/nations/holds
+    aliases: [realms, nation, nations, hold, holds]
+    usage: "Usage: /realm <name>"
+
+  permissions:
+    description: Manage permissions for players
+    aliases: [perms, switchset, set, default, utility, cheat]
+    usage: "Usage: /permissions <set/player> <set name/player name>"
+
+  prompts:
+    description: Display a prompt to a player
+    aliases: [prompt, conversations]
+    usage: "Usage: /prompts display [player] <fileName.promptName>"
+  help:
+    description: Access server help and information
+    aliases: [?]
+
+
+  world:
+    description: Manage worlds on the server
+    aliases: [worlds, multiworld]
+    usage: "Usage: /world <world name/create> [enter/load/unload]"
+  #plugin:
+  #  description: Manage plugins on the server
+  #  aliases: [plugins, pl]
+  #  usage: "Usage: /world <plugin name> [load/enable/disable/reload]"
+
+  kick:
+    description: Kick a player from the server
+    usage: "Usage: /kick <player> [reason]"
+  ban:
+    description: Ban a player from the server
+    usage: "Usage: /ban <player> [reason]"
+  tempban:
+    description: Temporarily ban a player from the server
+    usage: "Usage: /tempban <player> <duration (such as 2d) or date in yyyy-mm-dd (such as 2017-12-03)> [reason]"
+  mute:
+    description: Mute a player, preventing their chat messages from being seen
+    usage: "Usage: /mute <player> [duration (such as 2h30m)]"
+  unmute:
+    description: Unmute a player, allowing their chat messages to be seen
+    usage: "Usage: /unmute <player>"
+  inventory:
+    description: Access another player's inventory
+    aliases: [invsee]
+    usage: "Usage: /invsee <player>"
+  enderchest:
+    description: Access another player's Ender Chest
+    aliases: [ec]
+    usage: "Usage: /enderchest [player]"
+
+  time:
+    description: Change in-game time
+    aliases: [day, night, noon, sun]
+    usage: "Usage: /time <time as hh:mm/sunrise/day/noon/sunset/night/midnight>"
+  weather:
+    description: Change in-game weather
+    aliases: [rain, storm, toggledownfall]
+    usage: "Usage: /weather <clear/rain/storm>"
+  entity:
+    description: Manage entities in the world
+    usage: "Usage: /entity [entity ID]"
+  remove:
+    description: "Remove all entities of a certain type"
+    usage: "Usage: /remove <drops/monsters/animals/vehicles/projectiles> [radius]"
+  lowerlag:
+    description: "Quickly clear drops, monsters, and projectiles to improve server performance"
+    aliases: [ll]
+
+  gamemode:
+    description: Change a player's gamemode
+    aliases: [gm, survival,gms,gm0, creative,gmc,gm1, adventure,gma,gm2, spectator,gmsp,gm3,vanish]
+    usage: "Usage: /gamemode <s/c/a/sp> [player]"
+  fly:
+    description: Allow a player to fly
+    usage: "Usage: /fly [player]"
+  speed:
+    description: Change a player's movement speed
+    aliases: [walkspeed, flyspeed]
+    usage: "Usage: /speed <0-10> [player]"
+  item:
+    description: Spawn an item
+    aliases: [i]
+    usage: "Usage: /item <material> [amount] [damage]"
+
+  list:
+    description: List online players
+  notifyadmins:
+    description: Broadcast a message to admins (intended for use in command blocks)
+    aliases: [adminbroadcast]
+    usage: "Usage: /notifyadmins <message...>"
+  notifyall:
+    description: Broadcast a message to all players (intended for use in command blocks)
+    usage: "Usage: /notifyall <message...>"
+  afk:
+    description: Notify players that you are away-from-keyboard
+    usage: "Usage: /afk [message...]"
+  me:
+    description: Send a message in third-person
+    usage: "Usage: /me <message...>"
+  msg:
+    description: Send a private message to other players, realm members, or admins
+    aliases: [w, tell, pm, r, reply]
+    usage: "Usage: /msg <player name/realm/admins> <message...>"
+  pack:
+    description: Download and use a resource pack set by the server
+    aliases: [resourcepack]
+    usage: "Usage: /pack <pack name>"
+  bladeoflight:
+    description: Realms of Wolfia command, has no use on other servers
+    usage: "This command does not work on this server."

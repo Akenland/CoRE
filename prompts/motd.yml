@@ -1,0 +1,22 @@
+# RealmsCore by Kyle Necrowolf
+# Message-of-the-Day Prompt
+
+# RealmsCore prompt help can be found at http://wolfiamc.com/plugins/realmscore/prompts
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied immediately, no reload needed.
+
+
+# This prompt file lets you define messages to be shown on login. Put your server news and important notices here.
+
+motd:
+
+  # The join prompt is displayed to every player that logs into the server.
+  # Remove the content if you don't want the message to appear, or disable it in coreconfig.yml.
+  join:
+    question:
+      - "Welcome to the server! Edit or remove this message in /plugins/RealmsCore/prompts/motd.yml"
+      # You can add more lines here, or add answers/actions sections, if you want clickable actions in the join message.

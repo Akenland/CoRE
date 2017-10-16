@@ -1,0 +1,127 @@
+# RealmsCore by Kyle Necrowolf
+# Player Permissions
+
+# RealmsCore permissions help can be found at http://wolfiamc.com/plugins/realmscore/permissions
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this file to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# Any changes to this file are applied on login, or when switching sets. No reload needed. 
+
+
+# This file is where you list the permission sets that are available to each player.
+
+players:
+
+  # This "everyone" section is where you list the permission sets available to everyone on the server, including those not listed below.
+  everyone:
+    permissions:
+      # The "basic" set is default for everyone, meaning that it is applied on login.
+      default: basic
+
+      # The set is also listed under instantAccess, so if players switch to a different set, they can switch back to basic at any time.
+      instantAccess:
+        - basic
+
+
+
+  # Players are listed by UUID. Type "/player <name>" in-game to get UUIDs. Clicking the UUID will open a website where you can copy it.
+
+
+  # Here's an example, for Kyle_Necrowolf (developer of RealmsCore).
+  # If Kyle_Necrowolf joins your server, these permission sets will be available to him.
+  c7a0e7df-5141-4344-b119-9f1102e5178c:
+    permissions:
+      # Kyle will have the permissions from the "builder_utility" set when he logs on. If you don't specify a default, the one from "everyone" above will be used.
+      default: builder_utility
+      # The utility and cheat sets are accessed via shortcut commands "/utility" and "/cheat". 
+      utility: admin_utility
+      cheat: admin_cheat
+
+      # Kyle has instant access to builder_utility, so he can manually switch to it anytime.
+      instantAccess:
+      - builder_utility
+
+      # Kyle has admin supervised access to admin_utility, meaning that another admin must be online to supervise, before Kyle can use this permission set.
+      adminSupervised:
+      - admin_utility
+
+      # Notice how admin_cheat isn't listed again? if you don't specify instantAccess or adminSupervised, it will default to requiring an admin to approve it.
+      # If an admin doesn't approve it, the player can't use those permissions!
+
+
+
+  # Here's another example, for Dinnerbone (Minecraft developer).
+  61699b2e-d327-4a01-9f1e-0ea8c3f06bc6:
+    permissions:
+      # Here we're only going to specify a utility set. Because "everyone" has "default: basic", Dinnerbone will also have that automatically.
+      utility: admin_utility
+
+
+
+  # Here's an example of how to give another player the same permissions, for jeb_ (lead developer of Minecraft)
+  853c80ef-3c37-49fd-aa49-938b674adae6:
+    # Instead of listing permission sets, put "inherit: " to copy all permissions from another player.
+    # In this case, we're inheriting Dinnerbone's permissions.
+    inherit: 61699b2e-d327-4a01-9f1e-0ea8c3f06bc6
+
+
+
+  # You can also list permission sets under arbitrary names, and have players inherit them.
+  # This is useful if you have a lot of players with the same permissions, like a builder rank.
+  builder:
+    permissions:
+      utility: builder_utility
+      cheat: builder_cheat
+
+
+
+  # Now we can inherit those permissions, and even add to them. Using GalvinNerth as an example (contributor to the plugin and an admin of the official server).
+  47abe964-563f-45b7-80ec-f5c6b366b2f1:
+    inherit: builder
+    permissions:
+      # Galvin will have access to the inherited builder_utility set when an admin is online to supervise.
+      adminSupervised:
+      - builder_utility
+
+
+
+  # Here's an example for an "admin rank".
+  admin:
+    permissions:
+      default: admin_utility
+      utility: admin_utility
+      cheat: admin_cheat
+
+      # If you want to give more sets than just default/utility/cheat, list them under "other".
+      other:
+      - builder_utility
+      - builder_cheat
+
+      instantAccess:
+      - builder_utility
+      - builder_cheat
+      - admin_utility
+
+
+
+  # You can put your UUID here to get your own permissions set up quickly.
+  put-your-uuid-here:
+    # This "admin: true" line is part of Admin Multi-Check. If this line is missing, you won't be able to use all admin commands.
+    # This cannot be inherited. It must be explicitly listed for each admin player.
+    admin: true
+    
+    # Inherit from the "admin" section above, and give yourself instant access to admin_cheat, so you can get access to all server commands.
+    inherit: admin
+    permissions:
+      instantAccess:
+      - admin_cheat
+
+  
+
+  # Got another admin? You can just put their UUID here.
+  put-another-admin's-uuid-here:
+    admin: true
+    inherit: admin
+    # They'll have access to admin_utility and the two builder sets any time, but need your approval to use the permissions in admin_cheat.
