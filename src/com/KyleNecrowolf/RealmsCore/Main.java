@@ -27,7 +27,6 @@ import com.KyleNecrowolf.RealmsCore.Permissions.PermissionsCommands;
 
 import com.KyleNecrowolf.RealmsCore.Player.PlayerCommands;
 import com.KyleNecrowolf.RealmsCore.Player.PlayerListener;
-import com.KyleNecrowolf.RealmsCore.Prompts.NPCListener;
 import com.KyleNecrowolf.RealmsCore.Prompts.PromptActionListener;
 import com.KyleNecrowolf.RealmsCore.Prompts.PromptCommands;
 
@@ -104,7 +103,7 @@ public final class Main extends JavaPlugin {
 		// Register event listeners
 		getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		getServer().getPluginManager().registerEvents(new PromptActionListener(), this);
-		if(ConfigValues.enableNpcPrompts) getServer().getPluginManager().registerEvents(new NPCListener(), this);
+		//if(ConfigValues.enableNpcPrompts) getServer().getPluginManager().registerEvents(new NPCListener(), this);
 		getServer().getPluginManager().registerEvents(new ModerationCommands(), this);
 		getServer().getPluginManager().registerEvents(new RealmCommands(), this);
 		getServer().getPluginManager().registerEvents(new EntityCommands(), this);
