@@ -30,8 +30,7 @@ import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-
+import org.bukkit.plugin.Plugin;
 import com.KyleNecrowolf.RealmsCore.Main;
 
 /**
@@ -40,7 +39,7 @@ import com.KyleNecrowolf.RealmsCore.Main;
 public class ConfigAccessor {
 
     private final String fileName;
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
     
     private File configFile;
     private FileConfiguration fileConfiguration;
@@ -50,7 +49,7 @@ public class ConfigAccessor {
      * @param fileName the name of the file, relative to the plugin folder
      * @param plugin the plugin folder to look in
      */
-    public ConfigAccessor(String fileName, JavaPlugin plugin) {
+    public ConfigAccessor(String fileName, Plugin plugin) {
         this.plugin = plugin;
         this.fileName = fileName;
         File dataFolder = plugin.getDataFolder();
