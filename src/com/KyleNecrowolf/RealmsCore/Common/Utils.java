@@ -9,8 +9,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import com.KyleNecrowolf.RealmsCore.ConfigValues;
+import com.KyleNecrowolf.RealmsCore.Main;
 import com.KyleNecrowolf.RealmsCore.Player.PlayerData;
 
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -162,48 +164,4 @@ public final class Utils {
     		p.sendMessage(s);
     	}
     }
-	
-	
-	// Set player data
-	@Deprecated
-	public static String setPlayerData(Player player, String key, String data){
-		// Convert colour codes
-		data = ChatColor.translateAlternateColorCodes('&', data);
-		
-		// Store the data in playerdata
-		PlayerData playerData = new PlayerData(player);
-		playerData.save("playerdata."+key, data);
-		
-		// Update chat format and display name
-		//EventListener.chatFormats.remove(player.getUniqueId());
-		//playerData.loadDisplayName();
-		
-		return data;
-	}
-	
-	
-	// Set player data from a command
-	@Deprecated
-	public static boolean setPlayerData(CommandSender sender, String key, String[] args){
-		if(args.length == 2){
-			Player targetPlayer = Bukkit.getPlayer(args[0]);
-			if(targetPlayer!=null){
-				// If arguments and player are valid
-				sender.sendMessage(infoText+targetPlayer.getName()+"'s "+key+" is now "+setPlayerData(targetPlayer,key,args[1]));
-				return true;
-			}
-			// If player not found
-			Utils.sendActionBar(sender, errorText+"Player not found.");
-			return false;
-		}
-		else if(args.length == 1){
-			sender.sendMessage(infoText+"Your "+key+" is now "+setPlayerData((Player) sender, key, args[0]));
-			return true;
-		}
-		// If arguments missing
-		Utils.sendActionBar(sender, errorText+"Could not set "+key+", incorrect arguments.");
-		return false;
-	}
-	
-	
 }
