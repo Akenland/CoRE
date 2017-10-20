@@ -41,6 +41,9 @@ public class Prompt {
 	 * @param config the {@link ConfigurationSection} to load prompt data from
 	 */
 	public Prompt(ConfigurationSection config){
+		// Make sure file exists
+		if(config==null) return;
+
 		// Load the data from file
 		this.questions = config.getStringList("questions");
 		this.randomQuestions = config.getBoolean("randomQuestions");
