@@ -2,6 +2,7 @@ package com.KyleNecrowolf.RealmsCore.Prompts;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -109,6 +110,34 @@ public class Prompt {
 	public void addQuestion(String question){
 		this.questions.add(question);
 	}
+	/**
+	 * Gets the questions in this Prompt.
+	 * @return all questions, in the order they will be displayed
+	 */
+	public List<String> getQuestions(){
+		return questions;
+	}
+	/**
+	 * Sets the questions in this Prompt. The previous questions will be overwritten.
+	 * @param questions the new questions
+	 */
+	public void setQuestions(List<String> questions){
+		this.questions = questions;
+	}
+	/**
+	 * Checks if questions will be displayed randomly, instead of in order.
+	 * @return true if questions will be displayed at random
+	 */
+	public boolean isRandomQuestions(){
+		return randomQuestions;
+	}
+	/**
+	 * Sets if questions will be displayed randomly, instead of in order.
+	 * @param random true if questions will be displayed at random
+	 */
+	public void setRandomQuestions(boolean random){
+		this.randomQuestions = random;
+	}
 
 	/**
 	 * Adds an answer to this Prompt.
@@ -128,6 +157,36 @@ public class Prompt {
 	 */
 	public void addAnswer(String answer, String action){
 		addAnswer(answer, action, null);
+	}
+	/**
+	 * Gets the answers, and their corresponding actions, in this Prompt.
+	 * @return a map with answer text as keys, and actions as values
+	 */
+	public Map<String,String> getAnswers(){
+		Map<String,String> map = new HashMap<String,String>();
+		for(int i=0; i<answers.size(); i++){
+			map.put(answers.get(i),actions.get(i));
+		}
+		return map;
+	}
+	/**
+	 * Sets the answers in this Prompt. All lists must be the same length. The previous answers will be overwritten.
+	 * @param answers the answer strings to set
+	 * @param actions the actions to run when the corresponding answer is clicked
+	 * @param conditions the conditions on which to show each answer
+	 */
+	public void setAnswers(List<String> answers, List<String> actions, List<String> conditions){
+		this.answers = answers;
+		this.actions = actions;
+		this.conditions = conditions;
+	}
+	/**
+	 * Sets the answers in this Prompt. All lists must be the same length. The previous answers will be overwritten.
+	 * @param answers the answer strings to set
+	 * @param actions the actions to run when the corresponding answer is clicked
+	 */
+	public void setAnswers(List<String> answers, List<String> actions){
+		setAnswers(answers, actions, null);
 	}
 
 
