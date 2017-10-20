@@ -213,7 +213,7 @@ public class Prompt {
 
 		// If randomQuestion, pick one question line randomly
 		if(randomQuestions){
-			String questionLine = questions.get(ThreadLocalRandom.current().nextInt(questions.size()-1));
+			String questionLine = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
 			sender.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', questionLine));
 		}
 		// Otherwise, display each line of the question
