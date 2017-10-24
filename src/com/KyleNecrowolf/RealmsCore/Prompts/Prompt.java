@@ -1,6 +1,7 @@
 package com.KyleNecrowolf.RealmsCore.Prompts;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public class Prompt {
 	 * @return a map with answer text as keys, and actions as values
 	 */
 	public Map<String,String> getAnswers(){
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,String> map = new LinkedHashMap<String,String>();
 		for(int i=0; i<answers.size(); i++){
 			map.put(answers.get(i),actions.get(i));
 		}
@@ -220,8 +221,25 @@ public class Prompt {
 		else for (String questionLine : questions) sender.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', questionLine));
 
 
+
+
 		// If there are answers, prompt the player and list the options
 		if (!answers.isEmpty() && sender instanceof Player){
+
+			List<String> playerAnswers = answers;
+			List<String> playerActions = actions;
+
+			// Remove answers which the player does not meet conditions for
+			Plugin realmsStory = Bukkit.getPluginManager().getPlugin("RealmsStory");
+			if(conditions!=null && realmsStory!=null){
+				for(int i=0; i<conditions.size(); i++){
+					String condition = conditions.get(i);
+					if(condition!=null && !condition.isEmpty()){
+						// Evaluate condition
+						new com.kylenecrowolf.realmsstory.tags.Condition(condition).eval((Player)sender);
+					}
+				}
+			}
 
 			// If server is incompatible version, warn player and admins, and do not display answers
 			if(!Utils.isLatestVersion()){
@@ -238,12 +256,12 @@ public class Prompt {
 			
 			// Save the possible actions and prefix in a hashmap
 			Prompt.playerPromptPrefix.put(sender.getName(), prefix);
-			Prompt.playerActions.put(sender.getName(), actions);
+			Prompt.playerActions.put(sender.getName(), playerActions);
 			
 			// Show each option, formatted with JSON
-			for (int i = 0; i < answers.size(); i++) {
-				String answer = ChatColor.translateAlternateColorCodes('&', answers.get(i));
-				String action = actions.get(i);
+			for (int i = 0; i < playerAnswers.size(); i++) {
+				String answer = ChatColor.translateAlternateColorCodes('&', playerAnswers.get(i));
+				String action = playerActions.get(i);
 				
 				// If action exists, send the JSON message
 				if(action!=null && action.length()>1){
