@@ -167,7 +167,7 @@ public final class EntityCommands implements TabExecutor, Listener {
         // Tameable info
         if(entity instanceof Tameable){
             Tameable tamed = ((Tameable)entity);
-            String tamedStatus = tamed.isTamed() ? "Owner: "+tamed.getOwner().getName() : "Not tamed";
+            String tamedStatus = tamed.isTamed()&&tamed.getOwner()!=null ? "Owner: "+tamed.getOwner().getName() : "Not tamed";
             prompt.addAnswer(tamedStatus, "");
         }
 
