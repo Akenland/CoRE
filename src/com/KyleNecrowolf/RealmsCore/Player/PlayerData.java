@@ -186,8 +186,8 @@ public class PlayerData {
 		if(isAdmin() || (!isOnline() && new PlayerPerms(player).getDefault().hasPermission("realms.admin"))) prompt.addAnswer(ConfigValues.adminColor+"Server "+ConfigValues.adminName, "");
 
 		// Basic info
-		prompt.addAnswer("Username: "+player.getName(), "url_https://mcuuid.net/?q="+player.getName());
-		prompt.addAnswer("UUID: "+player.getUniqueId(), "url_https://mcuuid.net/?q="+player.getUniqueId());
+		prompt.addAnswer("Username: "+player.getName()+" "+Utils.infoText+player.getUniqueId(), "url_https://mcuuid.net/?q="+player.getName());
+		//prompt.addAnswer("UUID: "+player.getUniqueId(), "url_https://mcuuid.net/?q="+player.getUniqueId());
 		prompt.addAnswer("First joined "+getFirstLoginString(), "");
 		prompt.addAnswer("Last joined "+getLastLoginString(), "");
 
