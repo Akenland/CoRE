@@ -73,6 +73,8 @@ public class Prompt {
 		else{
 			file = new ConfigAccessor("prompts\\"+fileName+".yml").getConfig().getConfigurationSection(fileName);
 		}
+
+		if(file==null) Utils.notifyAdminsError("Could not find prompt "+fileName+"."+promptName);
 		
 		file = file.getConfigurationSection(promptName);
 		if(file!=null){
@@ -204,8 +206,8 @@ public class Prompt {
 	public void display(CommandSender sender, String prefix){
 		// If not loaded, show an error and stop
 		if(questions==null || questions.isEmpty()){
-			Utils.sendActionBar(sender, Utils.errorText+"Prompt not found. Ask an Admin for help.");
-			Utils.notifyAdminsError("Could not find prompt to display to "+sender.getName());
+			//Utils.sendActionBar(sender, Utils.errorText+"Prompt not found. Ask an Admin for help.");
+			//Utils.notifyAdminsError("Could not find prompt to display to "+sender.getName());
 			return;
 		}
 

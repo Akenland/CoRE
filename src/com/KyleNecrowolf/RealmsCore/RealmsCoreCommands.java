@@ -19,7 +19,7 @@ public final class RealmsCoreCommands implements TabExecutor {
         // Version command
         if(args.length==0 || args[0].equalsIgnoreCase("version")){
             Prompt prompt = new Prompt();
-            prompt.addQuestion("RealmsCore "+Main.plugin.getDescription().getVersion()+" by Kyle Necrowolf");
+            prompt.addQuestion("&rRealmsCore "+Main.plugin.getDescription().getVersion()+" by Kyle Necrowolf");
             prompt.addAnswer("A roleplaying framework and essential server functions, for small/medium survival and roleplay servers.","");
             prompt.addAnswer("Website: http://WolfiaMC.com/plugins", "url_http://WolfiaMC.com/plugins");
 
