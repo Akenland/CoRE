@@ -104,7 +104,7 @@ public class PlayerData {
 	}
 	public String getLastLoginString(){
 		LocalDateTime lastLogin = getLastLoginDate();
-		return lastLogin!=null ? lastLogin.format(DateTimeFormatter.ofPattern("MMM d, uuuu, h:mm:ssa")) : "Unknown";
+		return lastLogin!=null ? lastLogin.format(DateTimeFormatter.ofPattern("MMM d, uuuu, h:mm:ss a")) : "Unknown";
 	}
 	public long getFirstLogin(){
 		return getFile().getLong("playerdata.firstlogin");
@@ -115,7 +115,7 @@ public class PlayerData {
 	}
 	public String getFirstLoginString(){
 		LocalDateTime firstLogin = getFirstLoginDate();
-		return firstLogin!=null ? firstLogin.format(DateTimeFormatter.ofPattern("MMM d, uuuu, h:mm:ssa")) : "Unknown";
+		return firstLogin!=null ? firstLogin.format(DateTimeFormatter.ofPattern("MMM d, uuuu, h:mm:ss a")) : "Unknown";
 	}
 	public boolean isAdmin(){
 		return new PlayerPerms(player).isAdmin();

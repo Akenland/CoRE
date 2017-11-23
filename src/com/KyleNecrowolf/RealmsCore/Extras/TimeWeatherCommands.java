@@ -214,7 +214,7 @@ public final class TimeWeatherCommands implements TabExecutor {
 
     // Get a string with time in both hh:mm and ticks
     private String getTimeString(long ticks){
-        LocalTime time = getTime(ticks);
+        /*LocalTime time = getTime(ticks);
         int hour = time.getHour();
         int min = time.getMinute();
         
@@ -223,9 +223,9 @@ public final class TimeWeatherCommands implements TabExecutor {
         if(hour>12){
             hour -= 12;
             pm = (hour==12) ? "am" : "pm";
-        }
+        }*/
 
-        return hour+":"+min+pm+" ("+ticks+" ticks)";
+        return /*hour+":"+min+pm*/getTime(ticks).format(DateTimeFormatter.ofPattern("h:mm a"))+" ("+ticks+" ticks)";
     }
 
 
