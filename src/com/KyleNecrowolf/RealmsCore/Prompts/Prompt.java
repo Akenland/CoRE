@@ -40,7 +40,9 @@ public class Prompt {
 	/**
 	 * Loads a prompt from a {@link ConfigurationSection}.
 	 * @param config the {@link ConfigurationSection} to load prompt data from
+	 * @deprecated use {@link #getFromConfig(ConfigurationSection)} instead
 	 */
+	@Deprecated
 	public Prompt(ConfigurationSection config){
 		// Make sure file exists
 		if(config==null) return;
@@ -104,6 +106,15 @@ public class Prompt {
 		this.answers = new ArrayList<String>();
 		this.actions = new ArrayList<String>();
 		this.conditions = new ArrayList<String>();
+	}
+
+	/**
+	 * Retrieves a prompt from a {@link ConfigurationSection}.
+	 * @param config the {@link ConfigurationSection} to load prompt data from
+	 * @return the prompt
+	 */
+	public static Prompt getFromConfig(ConfigurationSection config){
+		return new Prompt(config);
 	}
 
 
