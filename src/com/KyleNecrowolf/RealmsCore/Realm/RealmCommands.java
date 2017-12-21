@@ -181,13 +181,13 @@ public final class RealmCommands implements TabExecutor, Listener {
                     prompt.addQuestion(data.getRealm().getColor()+data.getTitle()+" "+data.getDisplayName()+Utils.messageText+" has invited you to join the "+realm.getFullName()+tagline);
                     if(ConfigValues.enableWolfiaFeatures) prompt.addQuestion("- Located in "+realm.getTopParent().getFullName());
                     Realm oldRealm = new PlayerData(player).getRealm();
-                    String hasRealmString = (oldRealm.exists()) ? ", and leave the "+oldRealm.getFullName()+Utils.messageText+" behind." : ".";
+                    String hasRealmString = (oldRealm.exists() && oldRealm.getName().length()>1) ? ", and leave the "+oldRealm.getFullName()+Utils.messageText+" behind." : ".";
                     prompt.addQuestion("- By pledging allegiance, you agree to become a loyal member of the "+realm.getFullName()+Utils.messageText+hasRealmString);
                     prompt.addAnswer("Pledge allegiance to the "+realm.getFullName()+Utils.messageText+" and join", "realm_join_"+realm.getName());
                     prompt.addAnswer("Decline invitation", "realm_declineinvite_"+sender.getName());
                     prompt.display(player);
 
-                    sender.sendMessage(data.getDisplayName()+Utils.messageText+" was invited to the "+realm.getFullName()+Utils.messageText+".");
+                    sender.sendMessage(player.getDisplayName()+Utils.messageText+" was invited to the "+realm.getFullName()+Utils.messageText+".");
                 }
             }
 
