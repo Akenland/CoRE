@@ -144,7 +144,7 @@ public class PlayerData {
 		if(loaded){
 			// Get their title, if it exists
 			String title = getTitle();
-			title = (title!="") ? title+" " : "";
+			title = (title.length()>2) ? title+" " : title;
 
 			// If they're an admin, add the prefix
 			String adminPrefix = isAdmin() ? ConfigValues.adminPrefix : "";
