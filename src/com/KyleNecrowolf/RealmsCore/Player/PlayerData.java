@@ -172,7 +172,7 @@ public class PlayerData {
 		Realm realm = getRealm();
 		String title = getTitle();
 		if(!realm.getName().equals("")){
-			title = (!title.equals("")) ? title : "Member";
+			title = (title.length()>2) ? title : "Member";
 			prompt.addAnswer(realm.getColor()+title+" of the "+realm.getFullName(), "command_realm "+realm.getName());
 		}
 
