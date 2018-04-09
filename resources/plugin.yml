@@ -1,15 +1,15 @@
-name: RealmsCore
+name: CoRE
 version: 1.2pre
-description: A roleplaying framework and essential server functions, for small/medium survival and roleplay servers.
-author: Kyle_Necrowolf
-website: http://WolfiaMC.com/plugins
+description: A roleplaying framework and server essentials, for small/medium survival and roleplay servers.
+author: Kyle Nanakdewa
+website: http://Akenland.com/plugins
 
-main: com.KyleNecrowolf.RealmsCore.Main
+main: com.kylenanakdewa.core.CorePlugin
 softdepend: [Citizens]
 
 commands:
-  realmscore:
-    description: Display Realms plugin version
+  core:
+    description: Display CoRE plugin information
 
   player:
     description: View and edit information about a player

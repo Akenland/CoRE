@@ -14,7 +14,7 @@
 # This file contains all realms/nations/holds/factions in use on your server.
 # Note that players (and their titles) are NOT listed here, those are in individual playerdata files.
 
-# Five example realms are included and pre-configured here, but you can have any number of realms.
+# Five example realms are included and pre-configured here, but you can have any number of core.
 
 realms:
 

@@ -4,8 +4,8 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.kylenecrowolf</groupId>
-  <artifactId>RealmsCore</artifactId>
+  <groupId>com.kylenanakdewa</groupId>
+  <artifactId>CoRE</artifactId>
   <version>1.0</version>
 
   <build>
@@ -46,7 +46,7 @@
     </dependency>
     <!--RealmsStory-->
     <dependency>
-      <groupId>com.kylenecrowolf</groupId>
+      <groupId>com.kylenanakdewa</groupId>
       <artifactId>realmsstory</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
