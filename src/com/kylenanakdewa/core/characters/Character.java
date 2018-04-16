@@ -36,4 +36,10 @@ public interface Character extends RealmMember {
 	 */
 	public String getFormattedName();
 
+	/**
+	 * Gets the chat format used for this Character.
+	 * The first format parameter is the character's name ({@link #getName()}), and the second parameter is the chat message
+	 * @see AsyncPlayerChatEvent#getFormat()
+	 */
+	public String getChatFormat();
 }

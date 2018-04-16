@@ -24,7 +24,7 @@ general:
   show-admins-on-join: true
 
   # Whether a MOTD (message-of-the-day) prompt should be shown on login. Default true.
-  # Edit the prompt in RealmsCore/prompts/motd.yml
+  # Edit the prompt in CoRE/prompts/motd.yml
   show-motd-on-join: true
 
   # Whether commands that accept player names should also accept display names (nicknames). Default true.

@@ -432,7 +432,7 @@ public class Prompt {
 	 * @param conditions the condition on which to show each answer, or null to always show
 	 * @throws IllegalArgumentException if lists are not the same length
 	 */
-	private void setAnswers(List<String> answerTexts, List<String> actions, List<String> conditions){
+	public void setAnswers(List<String> answerTexts, List<String> actions, List<String> conditions){
 		// Make sure all lists are the same length
 		final int listLength = answerTexts.size();
 		if(listLength!=actions.size() || (conditions!=null && !conditions.isEmpty() && listLength!=conditions.size())) throw new IllegalArgumentException("Invalid list length for prompt answers");
@@ -457,23 +457,47 @@ public class Prompt {
 
 	//// Prompt Display methods
 	/**
-	 * Displays the questions of this prompt to a {@link CommandSender}.
-	 * @param target the {@link CommandSender} to display to
+	 * Displays a question in this prompt to a CommandSender.
+	 * Override this method to change how individual questions are displayed.
+	 * @param target the CommandSender to display to
+	 * @param question the question to display
+	 */
+	protected void displayQuestion(CommandSender target, String question){
+		target.sendMessage(question);
+	}
+	/**
+	 * Displays the questions of this prompt to a CommandSender, either randomly or in order.
+	 * @param target the CommandSender to display to
 	 */
 	private void displayQuestions(CommandSender target){
 		// If randomQuestion, pick one question line randomly
-		if(randomQuestions){
-			String questionLine = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
-			target.sendMessage(questionLine);
-		}
+		if(randomQuestions) displayRandomQuestion(target);
 		// Otherwise, display each line of the question
-		else for (String questionLine : questions) target.sendMessage(questionLine);
+		else displayAllQuestions(target);
 	}
 	/**
-	 * Displays the answers of this prompt to a CommandSender.
-	 * @param sender the {@link CommandSender} to display to
+	 * Displays a random question of this prompt to a CommandSender.
+	 * Override this method to change how random questions are selected and displayed.
+	 * @param target the CommandSender to display to
 	 */
-	private void displayAnswers(CommandSender target){
+	protected void displayRandomQuestion(CommandSender target){
+		String questionLine = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
+		displayQuestion(target, questionLine);
+	}
+	/**
+	 * Displays all questions of this prompt to a CommandSender, in order.
+	 * Override this method to change how questions are selected and displayed.
+	 * @param target the CommandSender to display to
+	 */
+	protected void displayAllQuestions(CommandSender target){
+		questions.forEach(question -> displayQuestion(target, question));
+	}
+
+	/**
+	 * Displays the answers of this prompt to a CommandSender.
+	 * @param target the {@link CommandSender} to display to
+	 */
+	protected void displayAnswers(CommandSender target){
 
 		/** The answers visible to this target. */
 		List<Answer> targetAnswers = answers;
@@ -495,25 +519,11 @@ public class Prompt {
 	}
 
 	/**
-	 * Displays this prompt to a {@link CommandSender}.
-	 * @param target the {@link CommandSender} to display to
-	 * @param prefix an optional prefix for all questions
-	 * @deprecated the prefix stuff should be moved into a subclass, in Story
+	 * Displays this prompt to a CommandSender.
+	 * @param target the CommandSender to display to
 	 */
-	public void display(CommandSender target, String prefix){
-
-		// Make the prefix gray
-		if(prefix!=null) prefix = ChatColor.GRAY + prefix + ChatColor.GRAY;
-
+	public void display(CommandSender target){
 		displayQuestions(target);
 		displayAnswers(target);
-	}
-
-	/**
-	 * Displays this prompt to a {@link CommandSender}.
-	 * @param sender the {@link CommandSender} to display to
-	 */
-	public void display(CommandSender sender){
-		display(sender, "");
 	}
 }

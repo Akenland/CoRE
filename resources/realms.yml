@@ -22,7 +22,7 @@ realms:
   # All realm details are optional.
 
   # Here is a simple example realm:
-  Awesomeness:
+  awesomeness:
     # Full name is the longer "official name" of the realm, can contain spaces.
     fullname: Nation of Awesomeness
     color: GOLD
@@ -31,25 +31,25 @@ realms:
 
 
   # Here is a sub-realm:
-  Cakeland:
+  cakeland:
     # The parent realm is "Awesomeness", so this is a sub-realm of Awesomeness.
-    parent: Awesomeness
+    parent: awesomeness
     fullname: Kingdom of Cakeland
     color: AQUA
     tagline: Cake is the future.
 
 
   # You can have as many realms and sub-realms as you want.
-  Tamriel:
+  tamriel:
     fullname: Empire of Tamriel
     color: DARK_RED
 
-  Skyrim:
-    parent: Tamriel
+  skyrim:
+    parent: tamriel
     fullname: Province of Skyrim
     color: DARK_GRAY
 
-  Whiterun:
-    parent: Skyrim
+  whiterun:
+    parent: skyrim
     fullname: Whiterun Hold, Skyrim
     color: GOLD

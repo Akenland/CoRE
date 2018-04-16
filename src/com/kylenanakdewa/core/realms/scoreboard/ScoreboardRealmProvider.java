@@ -28,7 +28,8 @@ public class ScoreboardRealmProvider implements RealmProvider {
 
 
 	/**
-	 * Creates a RealmProvider for the specified scoreboard.
+	 * Creates a RealmProvider for the specified Scoreboard.
+	 * @param scoreboard the Scoreboard to track
 	 */
 	public ScoreboardRealmProvider(Scoreboard scoreboard){
 		this.scoreboard = scoreboard;

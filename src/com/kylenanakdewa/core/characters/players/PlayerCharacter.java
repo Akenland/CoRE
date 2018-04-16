@@ -16,6 +16,7 @@ import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.common.prompts.Prompt;
+import com.kylenanakdewa.core.common.savedata.SaveDataSection;
 import com.kylenanakdewa.core.realms.Realm;
 
 import org.bukkit.Bukkit;
@@ -344,8 +345,9 @@ public class PlayerCharacter implements Character {
 	 * @param plugin the plugin for which to retrieve a data section
 	 * @return the plugin's data section, as a Bukkit ConfigurationSection
 	 */
-	public ConfigurationSection getData(Plugin plugin){
-		return dataFile.getConfig().getConfigurationSection(plugin.getName());
+	public SaveDataSection getData(Plugin plugin){
+		return new SaveDataSection(dataFile.getConfig(), plugin.getName());
+		//return dataFile.getConfig().getConfigurationSection(plugin.getName());
 	}
 	/**
 	 * Saves all data for this Character.

@@ -32,6 +32,8 @@ import com.kylenanakdewa.core.common.prompts.PromptCommands;
 import com.kylenanakdewa.core.realms.RealmCommandExecutor;
 import com.kylenanakdewa.core.realms.RealmProvider;
 import com.kylenanakdewa.core.realms.composite.CompositeRealmProvider;
+import com.kylenanakdewa.core.realms.configuration.CoreRealmProvider;
+import com.kylenanakdewa.core.realms.scoreboard.ScoreboardRealmProvider;
 
 /**
  * Project CoRE for Bukkit
@@ -249,6 +251,11 @@ public final class CorePlugin extends JavaPlugin {
 	 * Do not call until all plugins have loaded! Otherwise, the providers might not be registered, and exceptions will be thrown.
 	 */
 	private void setupCompositeRealmProvider(){
+		// Register CoRE's included providers
+		CompositeRealmProvider.registerProvider("scoreboard", new ScoreboardRealmProvider(getServer().getScoreboardManager().getMainScoreboard()));
+		CompositeRealmProvider.registerProvider("core", new CoreRealmProvider(this));
+
+
 		CompositeRealmProvider compositeProvider = new CompositeRealmProvider();
 		CoreConfig.realmLoadSource.forEach(activeProvider -> compositeProvider.activateProvider(activeProvider));
 		realmProvider = compositeProvider;

@@ -3,6 +3,7 @@ package com.kylenanakdewa.core.realms.configuration;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.characters.players.PlayerCharacter;
+import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.realms.Realm;
 import com.kylenanakdewa.core.realms.RealmProvider;
 
@@ -28,6 +29,12 @@ public class ConfigRealmProvider implements RealmProvider {
 	/** The Realms provided by this provider. */
 	private Map<String,ConfigRealm> realms;
 
+	/**
+	 * Creates a RealmProvider for the specified ConfigurationSecion.
+	 * <p>
+	 * Remember that ConfigurationSections must be saved in order to be persistent!
+	 * @param config the ConfigurationSection to use
+	 */
 	public ConfigRealmProvider(ConfigurationSection config){
 		this.config = config;
 		realms = new HashMap<>();
