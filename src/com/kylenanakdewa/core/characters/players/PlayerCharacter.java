@@ -204,7 +204,7 @@ public class PlayerCharacter implements Character {
 
 		// Chat format string
 		ChatColor realmColor = realm!=null ? realm.getColor() : ChatColor.GRAY;
-		ChatColor topParentRealmColor = realm.getTopParentRealm()!=null ? realm.getTopParentRealm().getColor() : realmColor;
+		ChatColor topParentRealmColor = realm!=null && realm.getTopParentRealm()!=null ? realm.getTopParentRealm().getColor() : realmColor;
 		String spacedTitle = getTitle() + (ChatColor.stripColor(title).length()>0 ? " " : "");
 
 		chatFormat = topParentRealmColor+"<" + adminPrefix+ChatColor.GRAY + spacedTitle+"%s" + topParentRealmColor+"> " + ChatColor.RESET+"%s";
