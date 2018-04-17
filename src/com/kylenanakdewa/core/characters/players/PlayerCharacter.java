@@ -194,7 +194,7 @@ public class PlayerCharacter implements Character {
 	 * Updates the display name, list name, and chat format, for the Player represented by this Character.
 	 * This must be called after changing data, to make the changes visible.
 	 */
-	private void updateDisplayName(){
+	public void updateDisplayName(){
 		if(!CoreConfig.formatChat || !isOnline()) return;
 
 		// Display name - used in most messages

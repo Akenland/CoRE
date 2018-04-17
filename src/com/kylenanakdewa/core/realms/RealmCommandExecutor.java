@@ -94,6 +94,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			switch(key){
 				case "color":
 					realm.setColor(ChatColor.valueOf(data));
+					realm.getOnlineCharacters().forEach(character -> character.updateDisplayName());
 					sender.sendMessage(CommonColors.MESSAGE+"The official color of the "+realm.getName()+CommonColors.MESSAGE+" is now "+realm.getColor()+realm.getColor().name());
 					return true;
 				case "fullname":
@@ -110,6 +111,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 					Realm parent = provider.getRealm(data);
 					if(parent==null) return Error.REALM_NOT_FOUND.displayActionBar(sender);
 					realm.setParentRealm(parent);
+					realm.getOnlineCharacters().forEach(character -> character.updateDisplayName());
 					sender.sendMessage(CommonColors.MESSAGE+"The "+realm.getName()+CommonColors.MESSAGE+" is now a faction of the "+parent.getName());
 					return true;
 				default:
