@@ -43,7 +43,8 @@ public class CompositeRealm implements Realm {
 		String name = identifier;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
 		while(activeProviders.hasNext() && name.equals(identifier)){
-			name = activeProviders.next().getRealm(identifier).getName();
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) name = realm.getName();
 		}
 		return name;
 	}
@@ -58,7 +59,8 @@ public class CompositeRealm implements Realm {
 		String tagline = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
 		while(activeProviders.hasNext() && tagline==null){
-			tagline = activeProviders.next().getRealm(identifier).getName();
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) tagline = realm.getTagline();
 		}
 		return tagline;
 	}
@@ -73,7 +75,8 @@ public class CompositeRealm implements Realm {
 		ChatColor color = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
 		while(activeProviders.hasNext() && color==null){
-			color = activeProviders.next().getRealm(identifier).getColor();
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) color = realm.getColor();
 		}
 		return color;
 	}
@@ -85,12 +88,13 @@ public class CompositeRealm implements Realm {
 
 	@Override
 	public Realm getParentRealm() {
-		Realm realm = null;
+		Realm parentRealm = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
-		while(activeProviders.hasNext() && realm==null){
-			realm = activeProviders.next().getRealm(identifier).getParentRealm();
+		while(activeProviders.hasNext() && parentRealm==null){
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) parentRealm = realm.getParentRealm();
 		}
-		return realm;
+		return parentRealm;
 	}
 
 	@Override
@@ -103,19 +107,21 @@ public class CompositeRealm implements Realm {
 		List<Realm> realms = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
 		while(activeProviders.hasNext() && realms==null){
-			realms = activeProviders.next().getRealm(identifier).getAllParentRealms();
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) realms = realm.getAllParentRealms();
 		}
 		return realms;
 	}
 
 	@Override
 	public Realm getTopParentRealm() {
-		Realm realm = null;
+		Realm parentRealm = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
-		while(activeProviders.hasNext() && realm==null){
-			realm = activeProviders.next().getRealm(identifier).getTopParentRealm();
+		while(activeProviders.hasNext() && parentRealm==null){
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) parentRealm = realm.getTopParentRealm();
 		}
-		return realm;
+		return parentRealm;
 	}
 
 	@Override
@@ -123,7 +129,8 @@ public class CompositeRealm implements Realm {
 		Collection<Realm> realms = null;
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
 		while(activeProviders.hasNext() && realms==null){
-			realms = activeProviders.next().getRealm(identifier).getChildRealms();
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) realms = realm.getChildRealms();
 		}
 		return realms;
 	}

@@ -19,7 +19,7 @@ public class CoreRealmProvider extends ConfigRealmProvider implements Listener {
 	 * Creates a RealmProvider for the default realms.yml file in CoRE.
 	 */
 	public CoreRealmProvider(CorePlugin plugin){
-        super(REALMS_CONFIG_ACCESSOR.getConfig());
+        super(REALMS_CONFIG_ACCESSOR.getConfig().getConfigurationSection("realms"));
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
