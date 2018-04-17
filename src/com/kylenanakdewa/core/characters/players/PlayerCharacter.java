@@ -185,7 +185,7 @@ public class PlayerCharacter implements Character {
 
 	@Override
 	public String getFormattedName(){
-		return title + (ChatColor.stripColor(title).length()>0 ? " " : "") + name;
+		return getTitle() + (ChatColor.stripColor(getTitle()).length()>0 ? " " : "") + name;
 	}
 
 	/**
