@@ -171,6 +171,7 @@ public class PlayerCharacter implements Character {
 	public void setName(String name){
 		this.name = name;
 		updateDisplayName();
+		saveData();
 	}
 
 	@Override
@@ -181,6 +182,7 @@ public class PlayerCharacter implements Character {
 	public void setTitle(String title){
 		this.title = title;
 		updateDisplayName();
+		saveData();
 	}
 
 	@Override
@@ -229,6 +231,7 @@ public class PlayerCharacter implements Character {
 		if(realm!=null) realm.addPlayer(this);
 
 		updateDisplayName();
+		saveData();
 	}
 
 	@Override
