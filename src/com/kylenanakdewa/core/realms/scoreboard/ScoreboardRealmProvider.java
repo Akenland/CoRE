@@ -24,7 +24,7 @@ public class ScoreboardRealmProvider implements RealmProvider {
 	private Scoreboard scoreboard;
 
 	/** All realms represented by this scoreboard. */
-	private Map<Team,ScoreboardRealm> realms = new HashMap<Team,ScoreboardRealm>(scoreboard.getTeams().size());
+	private Map<Team,ScoreboardRealm> realms = new HashMap<Team,ScoreboardRealm>();
 
 
 	/**
