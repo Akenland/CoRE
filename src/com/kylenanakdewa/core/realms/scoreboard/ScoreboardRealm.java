@@ -96,7 +96,7 @@ public class ScoreboardRealm implements Realm {
 	@Override
 	public Collection<Realm> getChildRealms(){
 		// Scoreboard realms cannot have child realms
-		return null;
+		return new HashSet<Realm>();
 	}
 
 	@Override

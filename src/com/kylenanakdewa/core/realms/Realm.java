@@ -91,7 +91,7 @@ public interface Realm {
 	public Realm getTopParentRealm();
 	/**
 	 * Gets a view of all child Realms, below this Realm. This Realm has full control over all child Realms.
-	 * @return a view of all child Realms, or null if this Realm has no children
+	 * @return a view of all child Realms, or an empty collection if this Realm has no children
 	 */
 	public Collection<Realm> getChildRealms();
 

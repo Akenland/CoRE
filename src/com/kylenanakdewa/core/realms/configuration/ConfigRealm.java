@@ -136,7 +136,7 @@ public class ConfigRealm implements Realm {
 	@Override
 	public Collection<Realm> getChildRealms() {
 		// Not available without a provider
-		if(provider==null) return null;
+		if(provider==null) return new HashSet<Realm>();
 
 		// Get all realms in the provider, whose parents include this realm
 		Collection<Realm> realms = new HashSet<Realm>(provider.getAllRealms());

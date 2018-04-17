@@ -129,11 +129,11 @@ public class CompositeRealm implements Realm {
 
 	@Override
 	public Collection<Realm> getChildRealms() {
-		Collection<Realm> realms = null;
+		Collection<Realm> realms = new HashSet<Realm>();
 		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
-		while(activeProviders.hasNext() && realms==null){
+		while(activeProviders.hasNext()){
 			Realm realm = activeProviders.next().getRealm(identifier);
-			if(realm!=null) realms = realm.getChildRealms();
+			if(realm!=null) realms.addAll(realm.getChildRealms());
 		}
 		return realms;
 	}
