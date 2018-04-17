@@ -43,7 +43,7 @@ public class ConfigRealm implements Realm {
 	 * The Realm will be backed by a ConfigurationSection, in the provider's ConfigurationSection, under a key matching the identifier.
 	 */
 	ConfigRealm(ConfigRealmProvider provider, String identifier){
-		this(provider, provider.getConfig(), identifier);
+		this(provider, provider.getConfig().getConfigurationSection(identifier), identifier);
 	}
 	/**
 	 * Creates a new Realm backed by the specified ConfigurationSection.
