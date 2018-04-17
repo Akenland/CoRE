@@ -258,6 +258,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			// Otherwise, return own realm, and all child realms
 			else if(sender instanceof Player){
 				Realm playerRealm = provider.getCharacterRealm(PlayerCharacter.getCharacter((Player) sender));
+				if(playerRealm==null) return Arrays.asList("");
 				List<String> completions = new ArrayList<String>(Arrays.asList(playerRealm.getIdentifier()));
 				playerRealm.getChildRealms().forEach(realm -> completions.add(realm.getIdentifier()));
 				return completions;
