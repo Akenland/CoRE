@@ -15,6 +15,7 @@ import com.kylenanakdewa.core.Permissions.PlayerPerms;
 import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;
+import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
 import com.kylenanakdewa.core.common.savedata.SaveDataSection;
 import com.kylenanakdewa.core.realms.Realm;
@@ -307,6 +308,31 @@ public class PlayerCharacter implements Character {
 	void onJoin(PlayerJoinEvent event){
 		updateDisplayName();
 		ipAddress = event.getPlayer().getAddress().getAddress().getHostAddress();
+
+		// Set up permissions, apply the player's default set
+		final boolean isOp = player.isOp();
+		if(CoreConfig.permsEnabled) new PlayerPerms(event.getPlayer()).applyDefaultSetOnJoin();
+
+		if(CoreConfig.formatChat){
+			// Set join message
+			String joinMessage = String.format(CoreConfig.joinQuitColor+CoreConfig.joinMessage, getName()+CoreConfig.joinQuitColor);
+			event.setJoinMessage(joinMessage+".");
+			// If player was opped, hide their join message
+			if(isOp){
+				Utils.notifyAdmins(joinMessage+" silently.");
+				event.setJoinMessage(null);
+			}
+			// Check if this is their first time on the server
+			if(!player.hasPlayedBefore()){
+				event.setJoinMessage(joinMessage+". "+CoreConfig.firstJoinMessage);
+			}
+		}
+
+		// Send them a list of online admins
+		if(CoreConfig.showAdminListOnJoin) event.getPlayer().sendMessage(CommonColors.INFO+"Online "+CoreConfig.adminName+"s: "+Utils.listOnlineAdmins());
+
+		// Show them the motd_join prompt
+		if(CoreConfig.showMotdPromptOnJoin) Prompt.getFromPluginFolder("motd","join").display(event.getPlayer());
 	}
 	/**
 	 * Called when the Player represented by this Character quits the server.
@@ -314,6 +340,20 @@ public class PlayerCharacter implements Character {
 	 */
 	void onQuit(PlayerQuitEvent event){
 		lastLogin = event.getPlayer().getLastPlayed();
+
+		if(CoreConfig.formatChat){
+			// Set quit message
+			String quitMessage = String.format(CoreConfig.joinQuitColor+CoreConfig.quitMessage, getName()+CoreConfig.joinQuitColor);
+			event.setQuitMessage(quitMessage+".");
+			// If player was opped, hide their join message
+			if(event.getPlayer().isOp()){
+				Utils.notifyAdmins(quitMessage+" silently.");
+				event.setQuitMessage(null);
+			}
+		}
+
+		// Remove permissions
+		new PlayerPerms(player).removePermissions();
 
 		// Remove this stored PlayerCharacter
 		playerCharacters.remove(player.getUniqueId());
