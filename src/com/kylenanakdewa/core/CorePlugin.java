@@ -176,7 +176,7 @@ public final class CorePlugin extends JavaPlugin {
 		CoreConfig.saveDefaultConfig();
 
 		// Realms file
-		if(!new File(this.getDataFolder(),"core.yml").exists()) this.saveResource("core.yml", false);
+		if(!new File(this.getDataFolder(),"realms.yml").exists()) this.saveResource("realms.yml", false);
 
 		// Permissions files
 		if(CoreConfig.permsEnabled){
