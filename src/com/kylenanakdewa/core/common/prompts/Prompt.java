@@ -481,6 +481,7 @@ public class Prompt {
 	 * @param target the CommandSender to display to
 	 */
 	protected void displayRandomQuestion(CommandSender target){
+		if(questions==null || questions.isEmpty()) return;
 		String questionLine = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
 		displayQuestion(target, questionLine);
 	}
@@ -498,11 +499,12 @@ public class Prompt {
 	 * @param target the {@link CommandSender} to display to
 	 */
 	protected void displayAnswers(CommandSender target){
+		if(answers==null || answers.isEmpty()) return;
 
 		/** The answers visible to this target. */
 		List<Answer> targetAnswers = answers;
 		// If target is an entity, remove answers which they do not meet conditions for
-		if(target instanceof Entity) answers.removeIf(answer -> !answer.visibleTo((Player)target));
+		if(target instanceof Entity) targetAnswers.removeIf(answer -> !answer.visibleTo((Player)target));
 
 		// Send action bar message, prompting target, if any answers have actions
 		targetAnswers.forEach(answer -> {
