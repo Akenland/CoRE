@@ -283,8 +283,8 @@ public class Prompt {
 		 * @param code the random code for verifying the prompt response
 		 */
 		private void sendAnswer(CommandSender target, int code){
-			// If player, use raw JSON
-			if(target instanceof Player) Utils.sendRawJson((Player)target, getRawJson(code));
+			// If player, and action exists, use raw JSON
+			if(target instanceof Player && action!=null && !action.isEmpty()) Utils.sendRawJson((Player)target, getRawJson(code));
 
 			// If not a player, send normal message
 			else target.sendMessage(getFormattedAnswerText());
