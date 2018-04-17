@@ -257,7 +257,11 @@ public final class CorePlugin extends JavaPlugin {
 
 
 		CompositeRealmProvider compositeProvider = new CompositeRealmProvider();
-		CoreConfig.realmLoadSource.forEach(activeProvider -> compositeProvider.activateProvider(activeProvider));
+		CoreConfig.realmLoadSource.forEach(activeProvider -> {
+			compositeProvider.activateProvider(activeProvider);
+			getLogger().info("Activated Realm Provider: "+activeProvider);
+		});
+		getLogger().info("Loaded "+compositeProvider.getAllRealms().size()+" realms");
 		realmProvider = compositeProvider;
 
 		// Register commands and listener
