@@ -77,6 +77,7 @@ public final class CorePlugin extends JavaPlugin {
 
 		saveDefaultConfigs();
 		CoreConfig.reloadConfig();
+		CoreRealmProvider.reload();
 
 		// Set up Realm Providers - delayed so it runs after server startup
 		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> setupCompositeRealmProvider());

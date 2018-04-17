@@ -32,15 +32,15 @@ public class CoreRealmProvider extends ConfigRealmProvider implements Listener {
     }
 
     /**
-     * Saves the realms.yml file. This will remove changes 
+     * Saves the realms.yml file. This will overwrite the file.
      */
-    public void save(){
+    public static void save(){
         REALMS_CONFIG_ACCESSOR.saveConfig();
     }
     /**
      * Reloads the realms.yml file. This will remove changes in memory.
      */
-    public void reload(){
+    public static void reload(){
         REALMS_CONFIG_ACCESSOR.reloadConfig();
     }
 
