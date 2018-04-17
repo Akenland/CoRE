@@ -3,7 +3,6 @@ package com.kylenanakdewa.core.realms.configuration;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.characters.players.PlayerCharacter;
-import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.realms.Realm;
 import com.kylenanakdewa.core.realms.RealmProvider;
 

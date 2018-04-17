@@ -5,8 +5,11 @@ import com.kylenanakdewa.core.realms.Realm;
 import com.kylenanakdewa.core.realms.RealmProvider;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -137,14 +140,24 @@ public class CompositeRealm implements Realm {
 
 	@Override
 	public Collection<PlayerCharacter> getOnlineCharacters() {
-		// Only use the first provider
-		return compositeProvider.getActiveProviders().next().getRealm(identifier).getOnlineCharacters();
+		Set<PlayerCharacter> allPlayers = new HashSet<PlayerCharacter>();
+		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
+		while(activeProviders.hasNext()){
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) allPlayers.addAll(realm.getOnlineCharacters());
+		}
+		return allPlayers;
 	}
 
 	@Override
 	public Collection<Player> getOnlinePlayers() {
-		// Only use the first provider
-		return compositeProvider.getActiveProviders().next().getRealm(identifier).getOnlinePlayers();
+		Set<Player> allPlayers = new HashSet<Player>();
+		Iterator<RealmProvider> activeProviders = compositeProvider.getActiveProviders();
+		while(activeProviders.hasNext()){
+			Realm realm = activeProviders.next().getRealm(identifier);
+			if(realm!=null) allPlayers.addAll(realm.getOnlinePlayers());
+		}
+		return allPlayers;
 	}
 
 	@Override
