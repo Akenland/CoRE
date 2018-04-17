@@ -49,6 +49,7 @@ public class CompositeRealmProvider implements RealmProvider {
 	 */
 	public CompositeRealmProvider(){
 		activeProviders = new ArrayList<RealmProvider>();
+		realms = new HashMap<String,CompositeRealm>();
 	}
 
 	/**
