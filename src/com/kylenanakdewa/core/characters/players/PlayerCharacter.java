@@ -82,7 +82,7 @@ public class PlayerCharacter implements Character {
 		firstLogin = coreData.getLong("firstlogin", player.getFirstPlayed());
 
 		// Load Realm from server's RealmProvider
-		plugin.getRealmProvider().getCharacterRealm(this);
+		realm = plugin.getRealmProvider().getCharacterRealm(this);
 	}
 
 	/**
