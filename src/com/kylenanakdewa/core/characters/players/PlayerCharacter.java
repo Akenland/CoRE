@@ -389,8 +389,9 @@ public class PlayerCharacter implements Character {
 	 * @return the plugin's data section, as a Bukkit ConfigurationSection
 	 */
 	public SaveDataSection getData(Plugin plugin){
-		return new SaveDataSection(dataFile.getConfig().getConfigurationSection(plugin.getName()));
-		//return dataFile.getConfig().getConfigurationSection(plugin.getName());
+		ConfigurationSection data = dataFile.getConfig().getConfigurationSection(plugin.getName());
+		if(data==null) data = dataFile.getConfig().createSection(plugin.getName());
+		return new SaveDataSection(data);
 	}
 	/**
 	 * Saves all data for this Character.
