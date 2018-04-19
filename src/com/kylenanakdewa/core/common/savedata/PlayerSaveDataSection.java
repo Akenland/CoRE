@@ -22,7 +22,7 @@ public abstract class PlayerSaveDataSection extends SaveDataSection {
      * @param plugin the plugin that is saving data
      */
     public PlayerSaveDataSection(PlayerCharacter player, Plugin plugin){
-        super(player.getData(plugin), "");
+        super(player.getData(plugin));
         this.character = player;
     }
 

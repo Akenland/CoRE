@@ -74,7 +74,7 @@ public class PlayerCharacter implements Character {
 		dataFile = new ConfigAccessor("players"+File.separator+getUniqueId()+".yml");
 
 		// Load name and title from player file
-		ConfigurationSection coreData = getData(plugin);
+		ConfigurationSection coreData = getData(plugin).getData();
 		name = coreData.getString("displayname", getUsername());
 		title = coreData.getString("title");
 		ipAddress = coreData.getString("ip");
@@ -389,7 +389,7 @@ public class PlayerCharacter implements Character {
 	 * @return the plugin's data section, as a Bukkit ConfigurationSection
 	 */
 	public SaveDataSection getData(Plugin plugin){
-		return new SaveDataSection(dataFile.getConfig(), plugin.getName());
+		return new SaveDataSection(dataFile.getConfig().getConfigurationSection(plugin.getName()));
 		//return dataFile.getConfig().getConfigurationSection(plugin.getName());
 	}
 	/**
@@ -401,7 +401,7 @@ public class PlayerCharacter implements Character {
 	 */
 	public void saveData(){
 		// Save basic data
-		ConfigurationSection data = getData(plugin);
+		ConfigurationSection data = getData(plugin).getData();
 		data.set("username", getUsername());
 		data.set("ip", ipAddress);
 		data.set("firstlogin", firstLogin);

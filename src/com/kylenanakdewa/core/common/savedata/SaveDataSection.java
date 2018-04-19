@@ -1,16 +1,26 @@
 package com.kylenanakdewa.core.common.savedata;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
 
 /**
  * Represents Save Data that can be stored in a SaveDataHolder.
  */
-public class SaveDataSection extends MemorySection {
+public class SaveDataSection {
 
-    public SaveDataSection(ConfigurationSection parent, String path){
-        super(parent, path);
-    }
+	/** The data section. */
+	protected final ConfigurationSection data;
+
+    public SaveDataSection(ConfigurationSection data){
+        this.data = data;
+	}
+	public SaveDataSection(SaveDataSection data){
+		this.data = data.data;
+	}
+
+
+	public ConfigurationSection getData(){
+		return data;
+	}
 
 
     /**

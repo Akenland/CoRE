@@ -120,7 +120,7 @@ public class PlayerCharacterManager implements Listener, TabExecutor {
 					Utils.sendActionBar(sender, playerCharacter.getName()+CommonColors.MESSAGE+"'s title set to "+playerCharacter.getTitle());
 					break;
 				default:
-					playerCharacter.getData(plugin).set(key, data);
+					playerCharacter.getData(plugin).getData().set(key, data);
 					playerCharacter.saveData();
 					sender.sendMessage(playerCharacter.getName()+CommonColors.MESSAGE+"'s character was updated with custom data: "+key+": "+data);
 					break;

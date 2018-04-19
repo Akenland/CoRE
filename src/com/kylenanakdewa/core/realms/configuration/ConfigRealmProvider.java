@@ -78,7 +78,7 @@ public class ConfigRealmProvider implements RealmProvider {
 
 		// This only works for PlayerCharacters
 		if(character instanceof PlayerCharacter){
-			String realmName = ((PlayerCharacter)character).getData(CorePlugin.plugin).getString("realm");
+			String realmName = ((PlayerCharacter)character).getData(CorePlugin.plugin).getData().getString("realm");
 			if(realmName!=null) return getRealm(realmName);
 		}
 		return null;
@@ -93,7 +93,7 @@ public class ConfigRealmProvider implements RealmProvider {
 			// Always return true if player has permission
 			if(((PlayerCharacter)character).isOnline() && ((Player)((PlayerCharacter)character).getPlayer()).hasPermission("core.realm.globalofficer")) return true;
 
-			return ((PlayerCharacter)character).getData(CorePlugin.plugin).getBoolean("realmofficer");
+			return ((PlayerCharacter)character).getData(CorePlugin.plugin).getData().getBoolean("realmofficer");
 		}
 		return false;
 	}
@@ -104,7 +104,7 @@ public class ConfigRealmProvider implements RealmProvider {
 
 		// This only works for PlayerCharacters
 		if(character instanceof PlayerCharacter){
-			((PlayerCharacter)character).getData(CorePlugin.plugin).set("realmofficer", isOfficer);
+			((PlayerCharacter)character).getData(CorePlugin.plugin).getData().set("realmofficer", isOfficer);
 			((PlayerCharacter)character).saveData();
 		}
 	}
