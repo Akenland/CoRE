@@ -162,7 +162,7 @@ public class ConfigRealm implements Realm {
 
 	@Override
 	public void addPlayer(PlayerCharacter character) {
-		character.getData(CorePlugin.plugin).set("realm", this.getIdentifier());
+		character.getData(CorePlugin.plugin).getData().set("realm", this.getIdentifier());
 		character.saveData();
 	}
 
@@ -174,7 +174,7 @@ public class ConfigRealm implements Realm {
 	@Override
 	public void removePlayer(PlayerCharacter character) {
 		if(character.getRealm().equals(this)){
-			character.getData(CorePlugin.plugin).set("realm", null);
+			character.getData(CorePlugin.plugin).getData().set("realm", null);
 			character.saveData();
 		}
 	}

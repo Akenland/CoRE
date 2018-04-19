@@ -124,12 +124,12 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
 
     // Get the default resource pack for a player
     private String getPlayerDefaultPack(OfflinePlayer player){
-        return PlayerCharacter.getCharacter(player).getData(CorePlugin.plugin).getString("resourcepacks.default");
+        return PlayerCharacter.getCharacter(player).getData(CorePlugin.plugin).getData().getString("resourcepacks.default");
     }
     // Set the default resource pack for a player
     private void setPlayerDefaultPack(OfflinePlayer player, String packName){
         PlayerCharacter character = PlayerCharacter.getCharacter(player);
-        character.getData(CorePlugin.plugin).set("resourcepacks.default", packName);
+        character.getData(CorePlugin.plugin).getData().set("resourcepacks.default", packName);
         character.saveData();
     }
 
