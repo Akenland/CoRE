@@ -162,22 +162,34 @@ public class CompositeRealm implements Realm {
 
 	@Override
 	public void addPlayer(PlayerCharacter character) {
-		compositeProvider.getActiveProviders().forEachRemaining(provider -> provider.getRealm(identifier).addPlayer(character));
+		compositeProvider.getActiveProviders().forEachRemaining(provider -> {
+			Realm realm = provider.getRealm(identifier);
+			if(realm!=null) realm.addPlayer(character);
+		});
 	}
 
 	@Override
 	public void addPlayer(Player player) {
-		compositeProvider.getActiveProviders().forEachRemaining(provider -> provider.getRealm(identifier).addPlayer(player));
+		compositeProvider.getActiveProviders().forEachRemaining(provider -> {
+			Realm realm = provider.getRealm(identifier);
+			if(realm!=null) realm.addPlayer(player);
+		});
 	}
 
 	@Override
 	public void removePlayer(PlayerCharacter character) {
-		compositeProvider.getActiveProviders().forEachRemaining(provider -> provider.getRealm(identifier).removePlayer(character));
+		compositeProvider.getActiveProviders().forEachRemaining(provider -> {
+			Realm realm = provider.getRealm(identifier);
+			if(realm!=null) realm.removePlayer(character);
+		});
 	}
 
 	@Override
 	public void removePlayer(Player player) {
-		compositeProvider.getActiveProviders().forEachRemaining(provider -> provider.getRealm(identifier).removePlayer(player));
+		compositeProvider.getActiveProviders().forEachRemaining(provider -> {
+			Realm realm = provider.getRealm(identifier);
+			if(realm!=null) realm.removePlayer(player);
+		});
 	}
 
 

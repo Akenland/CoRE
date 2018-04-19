@@ -198,11 +198,11 @@ public class PlayerCharacter implements Character {
 		if(!CoreConfig.formatChat || !isOnline()) return;
 
 		// Display name - used in most messages
-		((Player)player).setDisplayName(name);
+		((Player)player).setDisplayName(getName());
 
 		// Tab List name - should have admin prefix
 		String adminPrefix = isAdmin() ? CoreConfig.adminPrefix+ChatColor.RESET : "";
-		((Player)player).setPlayerListName(adminPrefix+name);
+		((Player)player).setPlayerListName(adminPrefix+getName());
 
 		// Chat format string
 		ChatColor realmColor = realm!=null ? realm.getColor() : ChatColor.GRAY;

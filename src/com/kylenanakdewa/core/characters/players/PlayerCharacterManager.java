@@ -66,7 +66,7 @@ public class PlayerCharacterManager implements Listener, TabExecutor {
 		// Check aliases for nick
         if(label.equalsIgnoreCase("nick")){
             if(args.length!=2) return Error.INVALID_ARGS.displayActionBar(sender);
-            return onCommand(sender, command, "player", new String[]{args[0], "set", "displayname", args[1]});
+            return onCommand(sender, command, "player", new String[]{args[0], "set", "name", args[1]});
         }
 
         // If first arg is reload, reload chat formats

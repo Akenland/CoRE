@@ -199,12 +199,13 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 				if(target!=null){
 					// Prepare prompt
 					Prompt prompt = new Prompt();
-					String tagline = realm.getTagline()!=null ? ChatColor.GRAY+ChatColor.ITALIC.toString()+" - "+realm.getTagline() : "";
-					prompt.addQuestion(player.getFormattedName()+CommonColors.MESSAGE+" has invited you to join the "+realm.getName()+tagline);
+					prompt.addQuestion(CommonColors.INFO+"--- Realm Invitation ---");
+					String tagline = realm.getTagline()!=null ? " - "+ChatColor.GRAY+ChatColor.ITALIC+realm.getTagline() : "";
+					prompt.addQuestion("- "+player.getFormattedName()+ChatColor.RESET+" has invited you to join the "+realm.getName()+tagline);
 					if(CoreConfig.enableWolfiaFeatures) prompt.addQuestion("- Located in the "+realm.getTopParentRealm().getName());
 					Realm oldRealm = provider.getCharacterRealm(PlayerCharacter.getCharacter(target));
-					String hasRealmString = (oldRealm!=null) ? ", and leave the "+oldRealm.getName()+CommonColors.MESSAGE+" behind." : ".";
-					prompt.addQuestion("- By pledging allegiance, you agree to become a loyal member of the "+realm.getName()+CommonColors.MESSAGE+hasRealmString);
+					String hasRealmString = (oldRealm!=null) ? ", and leave the "+oldRealm.getName()+ChatColor.RESET+" behind." : ".";
+					prompt.addQuestion("- By pledging allegiance, you agree to become a loyal member of the "+realm.getName()+ChatColor.RESET+hasRealmString);
 					prompt.addAnswer("Pledge allegiance to the "+realm.getName()+CommonColors.MESSAGE+" and join", "realm_join_"+realm.getIdentifier());
 					prompt.addAnswer("Decline invitation", "realm_declineinvite_"+sender.getName());
 					prompt.display(target);
