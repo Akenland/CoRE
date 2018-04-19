@@ -39,7 +39,7 @@ public class ScoreboardRealm implements Realm {
 
 	@Override
 	public String getName() {
-		return team.getDisplayName();
+		return getColor()+team.getDisplayName();
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class ConfigRealm implements Realm {
 
 	@Override
 	public String getName() {
-		return config.getString("fullname", identifier);
+		return getColor()+config.getString("fullname", identifier);
 	}
 
 	@Override
