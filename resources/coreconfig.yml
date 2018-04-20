@@ -1,7 +1,7 @@
 # Project CoRE by Kyle Nanakdewa
 # Configuration
 
-# Thank you for using CoRE! See my other plugins at http://akenland.com/plugins
+# Thank you for using CoRE! See my other plugins at http://plugins.akenland.com/
 
 # Help can be found at http://akenland.com/plugins/core
 # Please read the Getting Started section, as it explains possible conflicts with other plugins. 
@@ -132,9 +132,11 @@ players:
 
 realms:
 
-  # Where to load realms from. Default "playerdata".
+  # Where to load realms from. Default "core".
   # You can import realms from other plugins (such as Factions). See here for instructions: http://akenland.com/plugins/core/realms/import-other-plugins/
-  load-realms-from: "playerdata"
+  load-realms-from:
+  - core
+  - scoreboard
 
 
   # Whether to integrate with Minecraft Scoreboards. Default true.
