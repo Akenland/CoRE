@@ -6,7 +6,6 @@ website: http://plugins.akenland.com/
 
 main: com.kylenanakdewa.core.CorePlugin
 softdepend: [Citizens]
-load: STARTUP
 
 commands:
   core:

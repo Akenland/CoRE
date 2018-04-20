@@ -249,6 +249,9 @@ public final class WorldCommands implements TabExecutor {
 
     //// Load worlds on startup
     public static void loadWorldStartup(){
-        new ConfigAccessor("worlds.yml").getConfig().getStringList("auto-load").forEach(worldName -> new WorldCreator(worldName).createWorld());
+        new ConfigAccessor("worlds.yml").getConfig().getStringList("auto-load").forEach(worldName -> {
+            if(new File(Bukkit.getServer().getWorldContainer(), worldName+"\\level.dat").exists())
+                new WorldCreator(worldName).createWorld();
+        });
     }
 }
