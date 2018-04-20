@@ -329,6 +329,8 @@ public class PlayerCharacter implements Character {
 			if(!player.hasPlayedBefore()){
 				event.setJoinMessage(joinMessage+". "+CoreConfig.firstJoinMessage);
 			}
+
+			updateDisplayName();
 		}
 
 		// Send them a list of online admins
