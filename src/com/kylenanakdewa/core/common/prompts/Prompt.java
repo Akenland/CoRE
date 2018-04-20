@@ -272,7 +272,7 @@ public class Prompt {
 				actionValue = action.split("_",2)[1];
 			} else {
 				actionType = "run_command";
-				actionValue = "/conversations trigger "+answers.indexOf(this)+" "+code;
+				actionValue = "/prompts trigger "+answers.indexOf(this)+" "+code;
 			}
 
 			return "[{\"text\":\""+getFormattedAnswerText()+"\",\"clickEvent\":{\"action\":\""+actionType+"\",\"value\":\""+actionValue+"\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\""+hoverText+"\"}}}]";
