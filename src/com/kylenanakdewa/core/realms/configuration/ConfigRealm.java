@@ -112,7 +112,7 @@ public class ConfigRealm implements Realm {
 	@Override
 	public List<Realm> getAllParentRealms() {
 		// Not available without a provider
-		if(getParentRealm()==null) return null;
+		if(getParentRealm()==null) return new ArrayList<Realm>();
 
 		List<Realm> realms = new ArrayList<Realm>();
 		Realm realmToCheck = getParentRealm();

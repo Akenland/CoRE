@@ -13,7 +13,7 @@ commands:
 
   player:
     description: View and edit information about a player
-    aliases: [playerinfo, seen, whois, nick]
+    aliases: [seen, whois, nick]
     usage: "Usage: /player <player name>"
   realm:
     description: View and edit realms

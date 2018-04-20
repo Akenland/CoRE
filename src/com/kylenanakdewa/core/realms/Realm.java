@@ -77,7 +77,7 @@ public interface Realm {
 	public void setParentRealm(Realm realm);
 	/**
 	 * Gets a view of all parent Realms, above this Realm. These parent Realms have full control over this Realm.
-	 * @return a view of all parent Realms, ordered from lowest to highest, or null if this Realm has no parent Realm
+	 * @return a view of all parent Realms, ordered from lowest to highest, or an empty list if this Realm has no parent Realm
 	 * @see Realm#getParentRealm() for getting the immediate parent only
 	 * @see Realm#getTopParentRealm() for getting the top-most parent only
 	 */
