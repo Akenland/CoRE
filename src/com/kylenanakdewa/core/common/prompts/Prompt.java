@@ -42,7 +42,7 @@ public class Prompt {
 		if(config==null) return;
 
 		// Load the data from file
-		this.questions = config.getStringList("questions");
+		setQuestions(config.getStringList("questions"));
 		this.randomQuestions = config.getBoolean("randomQuestions");
 		setAnswers(config.getStringList("answers"), config.getStringList("actions"), config.getStringList("conditions"));
 	}
@@ -76,7 +76,7 @@ public class Prompt {
 		file = file.getConfigurationSection(promptName);
 		if(file!=null){
 			// Load the data from file
-			this.questions = file.getStringList("questions");
+			setQuestions(file.getStringList("questions"));
 			this.randomQuestions = file.getBoolean("randomQuestions");
 			setAnswers(file.getStringList("answers"), file.getStringList("actions"), file.getStringList("conditions"));
 		} else {
