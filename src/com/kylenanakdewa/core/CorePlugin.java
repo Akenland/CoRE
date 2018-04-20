@@ -59,6 +59,10 @@ public final class CorePlugin extends JavaPlugin {
 
 		//// bStats Metrics
 		startMetrics();
+
+
+		// World loader 9 - TEMP
+		WorldCommands.loadWorldStartup();
 	}
 
 	@Override

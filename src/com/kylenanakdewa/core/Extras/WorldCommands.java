@@ -17,6 +17,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import com.kylenanakdewa.core.common.CommonColors;
+import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.Permissions.PermsUtils;
@@ -243,5 +244,11 @@ public final class WorldCommands implements TabExecutor {
             default:
                 return CommonColors.MESSAGE.getColor();
         }
+    }
+
+
+    //// Load worlds on startup
+    public static void loadWorldStartup(){
+        new ConfigAccessor("worlds.yml").getConfig().getStringList("auto-load").forEach(worldName -> new WorldCreator(worldName).createWorld());
     }
 }
