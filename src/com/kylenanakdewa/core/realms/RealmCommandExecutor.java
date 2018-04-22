@@ -184,7 +184,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 
 		// Inviting members
 		if(args.length>2 && args[1].equalsIgnoreCase("invite")){
-			if(!sender.hasPermission("core.realm.players") || !(sender instanceof Player)) return Error.NO_PERMISSION.displayChat(sender);
+			if(!sender.hasPermission("core.realm.players")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
 			if(sender instanceof Player && !provider.isOfficer(player)) return Error.NO_PERMISSION.displayChat(sender);
@@ -200,8 +200,9 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 					// Prepare prompt
 					Prompt prompt = new Prompt();
 					prompt.addQuestion(CommonColors.INFO+"--- Realm Invitation ---");
+					String senderName = sender instanceof Player ? player.getFormattedName()+ChatColor.RESET+" has invited you" : "You have been invited";
 					String tagline = realm.getTagline()!=null ? " - "+ChatColor.GRAY+ChatColor.ITALIC+realm.getTagline() : "";
-					prompt.addQuestion("- "+player.getFormattedName()+ChatColor.RESET+" has invited you to join the "+realm.getName()+tagline);
+					prompt.addQuestion("- "+senderName+" to join the "+realm.getName()+tagline);
 					if(CoreConfig.enableWolfiaFeatures) prompt.addQuestion("- Located in the "+realm.getTopParentRealm().getName());
 					Realm oldRealm = provider.getCharacterRealm(PlayerCharacter.getCharacter(target));
 					String hasRealmString = (oldRealm!=null) ? ", and leave the "+oldRealm.getName()+ChatColor.RESET+" behind." : ".";
