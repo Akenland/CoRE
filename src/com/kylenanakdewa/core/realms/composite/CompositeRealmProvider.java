@@ -42,6 +42,12 @@ public class CompositeRealmProvider implements RealmProvider {
 	public static void registerProvider(String name, RealmProvider provider){
 		registeredProviders.putIfAbsent(name, provider);
 	}
+	/**
+	 * Unregisters all RealmProviders.
+	 */
+	public static void unregisterAllProviders(){
+		registeredProviders.clear();
+	}
 
 
 	/**

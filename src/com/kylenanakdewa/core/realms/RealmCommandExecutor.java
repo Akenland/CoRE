@@ -203,7 +203,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 					String senderName = sender instanceof Player ? player.getFormattedName()+ChatColor.RESET+" has invited you" : "You have been invited";
 					String tagline = realm.getTagline()!=null ? " - "+ChatColor.GRAY+ChatColor.ITALIC+realm.getTagline() : "";
 					prompt.addQuestion("- "+senderName+" to join the "+realm.getName()+tagline);
-					if(CoreConfig.enableWolfiaFeatures) prompt.addQuestion("- Located in the "+realm.getTopParentRealm().getName());
+					if(CoreConfig.enableWolfiaFeatures && realm.getTopParentRealm()!=null) prompt.addQuestion("- Located in the "+realm.getTopParentRealm().getName());
 					Realm oldRealm = provider.getCharacterRealm(PlayerCharacter.getCharacter(target));
 					String hasRealmString = (oldRealm!=null) ? ", and leave the "+oldRealm.getName()+ChatColor.RESET+" behind." : ".";
 					prompt.addQuestion("- By pledging allegiance, you agree to become a loyal member of the "+realm.getName()+ChatColor.RESET+hasRealmString);

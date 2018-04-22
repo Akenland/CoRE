@@ -84,6 +84,7 @@ public final class CorePlugin extends JavaPlugin {
 		CoreRealmProvider.reload();
 
 		// Set up Realm Providers - delayed so it runs after server startup
+		CompositeRealmProvider.unregisterAllProviders();
 		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> setupCompositeRealmProvider());
 
 		// Set up Player Characters
