@@ -377,7 +377,7 @@ public class Prompt {
 	 */
 	public void setQuestions(List<String> questions){
 		// Convert color codes
-		questions.forEach(question -> question = ChatColor.translateAlternateColorCodes('&', question));
+		questions.replaceAll(question -> question = ChatColor.translateAlternateColorCodes('&', question));
 
 		this.questions = questions;
 	}
