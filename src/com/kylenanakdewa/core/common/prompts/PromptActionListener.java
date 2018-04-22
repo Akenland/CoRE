@@ -1,5 +1,6 @@
 package com.kylenanakdewa.core.common.prompts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -21,6 +22,11 @@ public final class PromptActionListener implements Listener {
 		// Command action - send a command from the player
 		if(event.isType("command")){
 			event.getPlayer().performCommand(event.getAction());
+		}
+
+		// Console command action - send a command from the console
+		if(event.isType("consolecommand")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), event.getAction());
 		}
 
 	}
