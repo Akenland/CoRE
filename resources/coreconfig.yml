@@ -1,9 +1,9 @@
-# RealmsCore by Kyle Necrowolf
+# Project CoRE by Kyle Nanakdewa
 # Configuration
 
-# Thank you for using RealmsCore! See the other Realms plugins at http://wolfiamc.com/plugins
+# Thank you for using CoRE! See my other plugins at http://plugins.akenland.com/
 
-# RealmsCore help can be found at http://wolfiamc.com/plugins/realmscore
+# Help can be found at http://akenland.com/plugins/core
 # Please read the Getting Started section, as it explains possible conflicts with other plugins. 
 # Most servers won't need to modify this config, so if you're not sure what to change, just try out the default settings. 
 
@@ -11,7 +11,7 @@
 # We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
 # Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
 
-# Most options can be applied with "/realmscore reload". Some options (marked below) require a server restart to take effect.
+# Most options can be applied with "/core reload". Some options (marked below) require a server restart to take effect.
 # However, you are encouraged to restart your server after ALL changes to keep your server running smoothly.
 
 
@@ -24,7 +24,7 @@ general:
   show-admins-on-join: true
 
   # Whether a MOTD (message-of-the-day) prompt should be shown on login. Default true.
-  # Edit the prompt in RealmsCore/prompts/motd.yml
+  # Edit the prompt in CoRE/prompts/motd.yml
   show-motd-on-join: true
 
   # Whether commands that accept player names should also accept display names (nicknames). Default true.
@@ -41,7 +41,7 @@ appearance:
   use-actionbar-messages: true
 
 
-  # The colours here are used for all text in all Realms plugins, so you can quickly re-theme your server.
+  # The colours here are used for all text in all Aken plugins, so you can quickly re-theme your server.
   # You can use any of the Minecraft color technical names: https://minecraft.gamepedia.com/Formatting_codes#Color_codes
   colors:
     # The color of normal messages. Default GRAY.
@@ -86,7 +86,7 @@ permissions:
   # The following three settings control the Admin Multi-Check security feature. This protects the use of permissions and moderation commands on your server.
   # Learn more at http://wolfiamc.com/plugins/realmscore/permissions/admin-multi-check/
 
-  # Whether to check both the permission "realms.admin" and the playerperms.yml file to make sure players are admins. Default true.
+  # Whether to check both the permission "core.admin" and the playerperms.yml file to make sure players are admins. Default true.
   # You should not need to disable, unless you are seeing "failed security check (Admin Multi-Check failed)" for legitimate admins.
   # This option is automatically disabled if permissions are disabled above.
   multi-check-players: true
@@ -112,9 +112,9 @@ permissions:
 
 players:
 
-  # Whether RealmsCore will manage chat formatting. Default true.
+  # Whether CoRE will manage chat formatting. Default true.
   # NOTE: If you want to use another plugin for chat formatting or display names, set this to false.
-  # Setting this to false will disable RealmsCore displaynames, titles and realms in chat, as well as join/quit messages. Most of the options under "text" above will be ignored.
+  # Setting this to false will disable CoRE displaynames, titles and realms in chat, as well as join/quit messages. Most of the options under "text" above will be ignored.
   use-chat-formatting: true
 
 
@@ -132,9 +132,11 @@ players:
 
 realms:
 
-  # Where to load realms from. Default "playerdata".
-  # You can import realms from other plugins (such as Factions). See here for instructions: http://wolfiamc.com/plugins/realmscore/realms/import-other-plugins/
-  load-realms-from: "playerdata"
+  # Where to load realms from. Default "core".
+  # You can import realms from other plugins (such as Factions). See here for instructions: http://akenland.com/plugins/core/realms/import-other-plugins/
+  load-realms-from:
+  - core
+  - scoreboard
 
 
   # Whether to integrate with Minecraft Scoreboards. Default true.
@@ -172,5 +174,5 @@ realms:
   # Setting this to false restricts players to creating sub-realms only. 
   players-create-new-realms: true
 
-  # Whether only realm officers can create sub-realms. Default false.
+  # Whether only realm officers can create sub-core. Default false.
   officers-create-sub-realms: false

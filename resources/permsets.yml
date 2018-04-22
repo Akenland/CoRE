@@ -24,18 +24,18 @@ sets:
     # These are the permissions included in this set. You can add or remove items to allow/deny players to access them.
     permissions:
       # General server commands
-      - realms.player
-      - realms.realm
-      - realms.realm.set
-      - realms.realm.players
-      - realms.realm.officers
-      - realms.realm.titles
-      - realms.afk
-      - realms.msg
-      - realms.pack
+      - core.player
+      - core.realm
+      - core.realm.set
+      - core.realm.players
+      - core.realm.officers
+      - core.realm.titles
+      - core.afk
+      - core.msg
+      - core.pack
 
       # Allows switching between permission sets. It's important that everyone has this, otherwise players won't be able to switch to other permission sets they have.
-      - realms.permissions.setswitch
+      - core.permissions.setswitch
 
       # Teleport & Warpstones permissions (if the Warpstones plugin is installed)
       - warpstones.tp
@@ -68,8 +68,8 @@ sets:
     # Then, as before, list the permission nodes.
     permissions:
       # Some commands to help builders get around easily
-      - realms.fly
-      - realms.speed
+      - core.fly
+      - core.speed
 
       # Some basic WorldEdit functions, nothing too powerful. Of course, the WorldEdit plugin must be installed to use these.
       - worldedit.wand
@@ -94,8 +94,8 @@ sets:
 
     permissions:
       # Gamemode switching
-      - realms.gamemode.survival
-      - realms.gamemode.creative
+      - core.gamemode.survival
+      - core.gamemode.creative
 
       # Some more powerful WorldEdit functions
       - worldedit.clipboard.*
@@ -119,38 +119,38 @@ sets:
       - builder_utility
 
     permissions:
-      # The realms.admin permission is required for many other commands, as well as to receive various admin notifications.
-      - realms.admin
+      # The core.admin permission is required for many other commands, as well as to receive various admin notifications.
+      - core.admin
 
       # Editing anyone's player and realm data
-      - realms.player.admin
-      - realms.player.set
-      - realms.realm.set.others
-      - realms.realm.players.others
-      - realms.realm.officers.others
-      - realms.realm.titles.others
+      - core.player.admin
+      - core.player.set
+      - core.realm.set.others
+      - core.realm.players.others
+      - core.realm.officers.others
+      - core.realm.titles.others
 
       # Permissions commands
-      - realms.permissions.setswitch.others
-      - realms.permissions.set
-      - realms.permissions.player
-      - realms.permissions.revoke
+      - core.permissions.setswitch.others
+      - core.permissions.set
+      - core.permissions.player
+      - core.permissions.revoke
 
       # Moderation commands
-      - realms.kick
-      - realms.ban
-      - realms.tempban
-      - realms.mute
-      - realms.unmute
+      - core.kick
+      - core.ban
+      - core.tempban
+      - core.mute
+      - core.unmute
 
       # Some general server commands
-      - realms.reload
-      - realms.time
-      - realms.weather
-      - realms.world
-      - realms.world.enter
-      - realms.world.load
-      - realms.prompts.display
+      - core.reload
+      - core.time
+      - core.weather
+      - core.world
+      - core.world.enter
+      - core.world.load
+      - core.common.prompts.display
       - bukkit.command.tps
       - minecraft.command.scoreboard
       - minecraft.command.tellraw
@@ -192,12 +192,12 @@ sets:
       - minecraft.command.deop
 
       # Moderation commands
-      - realms.inventory
-      - realms.enderchest
+      - core.inventory
+      - core.enderchest
 
       # More powerful server commands
-      - realms.entity
-      - realms.world.create
+      - core.entity
+      - core.world.create
       - minecraft.command.summon
       - minecraft.command.setblock
       - minecraft.command.kill
@@ -207,12 +207,12 @@ sets:
       - worldguard.*
 
       # Gamemode and cheat commands
-      - realms.gamemode.adventure
-      - realms.gamemode.spectator
-      - realms.gamemode.others
-      - realms.item
-      - realms.fly.others
-      - realms.speed.others
+      - core.gamemode.adventure
+      - core.gamemode.spectator
+      - core.gamemode.others
+      - core.item
+      - core.fly.others
+      - core.speed.others
       - minecraft.command.give
       - minecraft.command.xp
       - minecraft.command.effect

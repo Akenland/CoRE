@@ -1,23 +1,22 @@
-name: RealmsCore
+name: CoRE
 version: 1.2pre
-description: A roleplaying framework and essential server functions, for small/medium survival and roleplay servers.
-author: Kyle_Necrowolf
-website: http://WolfiaMC.com/plugins
+description: A roleplaying framework and server essentials, for small/medium survival and roleplay servers.
+author: Kyle Nanakdewa
+website: http://plugins.akenland.com/
 
-main: com.KyleNecrowolf.RealmsCore.Main
+main: com.kylenanakdewa.core.CorePlugin
 softdepend: [Citizens]
 
 commands:
-  realmscore:
-    description: Display Realms plugin version
+  core:
+    description: Display CoRE plugin information
 
   player:
     description: View and edit information about a player
-    aliases: [playerinfo, seen, whois, nick]
+    aliases: [seen, whois, nick]
     usage: "Usage: /player <player name>"
   realm:
-    description: View and edit realms/nations/holds
-    aliases: [realms, nation, nations, hold, holds]
+    description: View and edit realms
     usage: "Usage: /realm <name>"
 
   permissions:
@@ -27,7 +26,6 @@ commands:
 
   prompts:
     description: Display a prompt to a player
-    aliases: [prompt, conversations]
     usage: "Usage: /prompts display [player] <fileName.promptName>"
   help:
     description: Access server help and information
@@ -87,14 +85,13 @@ commands:
 
   gamemode:
     description: Change a player's gamemode
-    aliases: [gm, survival,gms,gm0, creative,gmc,gm1, adventure,gma,gm2, spectator,gmsp,gm3,vanish]
+    aliases: [gm, survival,gms, creative,gmc, adventure,gma, spectator,gmsp]
     usage: "Usage: /gamemode <s/c/a/sp> [player]"
   fly:
     description: Allow a player to fly
     usage: "Usage: /fly [player]"
   speed:
     description: Change a player's movement speed
-    aliases: [walkspeed, flyspeed]
     usage: "Usage: /speed <0-10> [player]"
   item:
     description: Spawn an item
@@ -125,5 +122,5 @@ commands:
     aliases: [resourcepack]
     usage: "Usage: /pack <pack name>"
   bladeoflight:
-    description: Realms of Wolfia command, has no use on other servers
+    description: Akenland command, has no use on other servers
     usage: "This command does not work on this server."

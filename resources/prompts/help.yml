@@ -88,7 +88,7 @@ help:
 
 
 
-  # An example prompt about using realms.
+  # An example prompt about using core.
   realms:
     question:
       - "&8--- &7Help: Realms &8---"

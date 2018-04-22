@@ -20,5 +20,5 @@ packs:
   # SMP's Revival, a 16x medieval fantasy pack that is currently maintained by the Realms of Wolfia.
   # Players can type "/pack revival" to use this pack when on your server.
   revival:
-    url: http://wolfiamc.com/downloads/Revival080217.zip
+    url: http://wolfiamc.com/downloads/Revival.zip
 
