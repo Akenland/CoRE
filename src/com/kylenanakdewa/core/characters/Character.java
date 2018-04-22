@@ -39,7 +39,7 @@ public interface Character extends RealmMember {
 	/**
 	 * Gets the chat format used for this Character.
 	 * The first format parameter is the character's name ({@link #getName()}), and the second parameter is the chat message
-	 * @see AsyncPlayerChatEvent#getFormat()
+	 * @see org.bukkit.event.player.AsyncPlayerChatEvent#getFormat()
 	 */
 	public String getChatFormat();
 }
