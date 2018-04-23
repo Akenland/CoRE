@@ -447,8 +447,8 @@ public class PlayerCharacter implements Character {
 		// Admin info
 		if(includeAdminInfo){
 	
-			prompt.addAnswer("IP: "+getIP(), "url_http://www.whatsmyip.org/ip-geo-location/?ip="+getIP().substring(getIP().indexOf('/')+1));
-			
+			if(getIP()!=null) prompt.addAnswer("IP: "+getIP(), "url_http://www.whatsmyip.org/ip-geo-location/?ip="+getIP().substring(getIP().indexOf('/')+1));
+
 			// Game info
 			if(player.isOnline()){
 				Location loc = ((Player) player).getLocation();
