@@ -81,11 +81,12 @@ public class ConfigRealm implements Realm {
 
 	@Override
 	public ChatColor getColor() {
+		String colorString = config.getString("color");
+		ChatColor color = null;
 		try{
-			return ChatColor.valueOf(config.getString("color"));
-		} catch(IllegalArgumentException e){
-			return null;
-		}
+			color = ChatColor.valueOf(colorString);
+		} catch(IllegalArgumentException e){}
+		return color;
 	}
 
 	@Override
