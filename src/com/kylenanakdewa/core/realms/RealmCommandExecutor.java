@@ -158,7 +158,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			if(!sender.hasPermission("core.realm.edit")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && provider.isOfficer(player))
+			if(sender instanceof Player && !provider.isOfficer(player))
 				return Error.NO_PERMISSION.displayChat(sender);
 
 
