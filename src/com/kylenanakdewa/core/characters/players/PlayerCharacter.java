@@ -106,11 +106,8 @@ public class PlayerCharacter implements Character {
 	 * Clears inactive PlayerCharacters from memory.
 	 */
 	private static void clearCharacters(){
-		playerCharacters.keySet().forEach(uuid -> {
-			// If player is not online, clear from memory
-			if(!Bukkit.getPlayer(uuid).isOnline())
-				playerCharacters.remove(uuid);
-		});
+		// If player is not online, clear from memory
+		playerCharacters.keySet().removeIf(uuid -> Bukkit.getPlayer(uuid)==null || !Bukkit.getPlayer(uuid).isOnline());
 	}
 	/**
 	 * Reloads all online PlayerCharacters.
