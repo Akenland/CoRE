@@ -152,4 +152,13 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
     private Set<String> getResourcePacks(){
         return getPackFile().getConfigurationSection("packs").getKeys(false);
     }
+
+
+    /**
+     * Gets a hash for a resource pack.
+     */
+    private String getPackHash(){
+		return null;
+    }
+
 }
