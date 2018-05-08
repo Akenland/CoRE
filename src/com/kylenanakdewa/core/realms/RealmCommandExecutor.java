@@ -166,7 +166,10 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			OfflinePlayer target = Utils.getPlayer(args[2], true);
 			if(target==null) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
 			PlayerCharacter character = PlayerCharacter.getCharacter(target);
-			if(!provider.getCharacterRealm(character).equals(realm)) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
+			if(!provider.getCharacterRealm(character).equals(realm)){
+				Utils.sendActionBar(sender, character.getName()+CommonColors.ERROR+" is not a member of "+realm.getName());
+				return false;
+			}
 
 			// Merge all remaining args into a single string
 			List<String> lastArgs = new ArrayList<String>(Arrays.asList(args));
