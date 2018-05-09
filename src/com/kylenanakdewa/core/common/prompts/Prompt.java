@@ -258,7 +258,7 @@ public class Prompt {
 		 * @param code the random code of this prompt, used to trigger correct action
 		 * @return the raw JSON string
 		 */
-		private String getRawJson(int code){
+		public String getRawJson(int code){
 			/** The action type, as used in Minecraft's raw JSON. */
 			String actionType;
 			/** The action value, as used in Minecraft's raw JSON. */
