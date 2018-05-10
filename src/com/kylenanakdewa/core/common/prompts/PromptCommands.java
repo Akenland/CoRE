@@ -60,10 +60,9 @@ public final class PromptCommands implements TabExecutor {
 
 			// Get the action that they clicked
 			String action = answerList.get(Integer.parseInt(args[1])).getAction();
-			String[] splitAction = action.split("_", 2);
 
 			// Call the event so plugins can respond to this action
-			Bukkit.getServer().getPluginManager().callEvent(new PromptActionEvent((Player)sender, splitAction));
+			Bukkit.getServer().getPluginManager().callEvent(new PromptActionEvent((Player)sender, action));
 			plugin.getLogger().info(sender.getName()+" used prompt action: "+action);
 
 			return true;

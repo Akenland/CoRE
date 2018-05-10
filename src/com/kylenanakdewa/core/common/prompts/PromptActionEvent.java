@@ -17,12 +17,13 @@ public final class PromptActionEvent extends PlayerEvent {
 	private String actionContent;
 
 
-	PromptActionEvent(Player player, String[] action){
+	public PromptActionEvent(Player player, String action){
 		super(player);
 
 		// Split the action into its type and its content
-		actionType = action[0];
-		actionContent = action[1];
+		String[] splitAction = action.split("_", 2);
+		actionType = splitAction[0];
+		actionContent = splitAction[1];
 	}
 
 
