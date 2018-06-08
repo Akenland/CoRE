@@ -60,8 +60,15 @@ public final class EntityCommands implements TabExecutor, Listener {
 
             // Get entity by ID
             Entity entity = null;
-            for(Entity e : world.getEntities()){
-                try{if(e.getEntityId()==Integer.parseInt(args[0])) entity = e;} catch(NumberFormatException exception){}
+            if(args[0].equalsIgnoreCase("eye")){
+                for(Entity e : ((Player)sender).getNearbyEntities(5, 5, 5)){
+                    if(((Player)sender).hasLineOfSight(e)) entity = e;
+                }
+            }
+            else {
+                for(Entity e : world.getEntities()){
+                    try{if(e.getEntityId()==Integer.parseInt(args[0])) entity = e;} catch(NumberFormatException exception){}
+                }
             }
             if(entity==null) return Error.ENTITY_NOT_FOUND.displayActionBar(sender);
 
