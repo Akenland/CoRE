@@ -47,7 +47,7 @@
     <!--RealmsStory-->
     <dependency>
       <groupId>com.kylenanakdewa</groupId>
-      <artifactId>realmsstory</artifactId>
+      <artifactId>ProjectStory</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
     </dependency>
