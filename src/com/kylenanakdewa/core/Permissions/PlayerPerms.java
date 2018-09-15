@@ -396,7 +396,8 @@ public class PlayerPerms implements Perms {
 
 		// Remove the permission attachment, and clear their current set
 		try{
-			((Player)player).removeAttachment(permissionAttachments.get(player.getUniqueId()));
+			PermissionAttachment oldPerms = permissionAttachments.get(player.getUniqueId());
+			if(oldPerms!=null) ((Player)player).removeAttachment(oldPerms);
 		}
 		catch(IllegalArgumentException e){
 			Utils.notifyAdminsError("Permission attachment could not be removed from "+player.getName()+" because they don't have it.");
