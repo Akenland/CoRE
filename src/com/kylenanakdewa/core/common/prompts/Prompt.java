@@ -243,7 +243,7 @@ public class Prompt {
 			if(storyPlugin==null || !storyPlugin.isEnabled()) return false;
 
 			// Evaluate the condition
-			return new com.kylenanakdewa.realmsstory.tags.Condition(condition).eval(entity);
+			return new com.kylenanakdewa.story.tags.Condition(condition).eval(entity);
 		}
 
 		/**
