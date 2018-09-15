@@ -380,7 +380,7 @@ public class PlayerPerms implements Perms {
 			return false;
 		}
 
-		Utils.notifyAdminsError("Permissions revoked from "+player.getName()+CommonColors.INFO+" - RealmsCore is no longer applying any permissions to this player.");
+		Utils.notifyAdminsError("Permissions revoked from "+player.getName()+CommonColors.INFO+" - CoRE is no longer applying any permissions to this player.");
 		return removePermissions();
 	}
 	// Remove permissions on quit
@@ -395,7 +395,12 @@ public class PlayerPerms implements Perms {
 		((Player)player).setOp(false);
 
 		// Remove the permission attachment, and clear their current set
-		((Player)player).removeAttachment(permissionAttachments.get(player.getUniqueId()));
+		try{
+			((Player)player).removeAttachment(permissionAttachments.get(player.getUniqueId()));
+		}
+		catch(IllegalArgumentException e){
+			Utils.notifyAdminsError("Permission attachment could not be removed from "+player.getName()+" because they don't have it.");
+		}
 		
 		permissionAttachments.remove(player.getUniqueId());
 		currentPermissionSet.remove(player.getUniqueId());
