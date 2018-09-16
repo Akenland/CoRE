@@ -395,7 +395,7 @@ public class PlayerPerms implements Perms {
 		((Player)player).setOp(false);
 
 		// Remove the permission attachment, and clear their current set
-		Utils.notifyAdmins("Permissions removal for "+player.getName()+" succeeded: "+permissionAttachments.get(player.getUniqueId()).remove());
+		permissionAttachments.get(player.getUniqueId()).remove();
 		/*try{
 			PermissionAttachment oldPerms = permissionAttachments.get(player.getUniqueId());
 			if(oldPerms!=null) ((Player)player).removeAttachment(oldPerms);
