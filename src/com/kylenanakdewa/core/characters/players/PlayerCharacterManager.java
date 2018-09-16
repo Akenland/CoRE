@@ -15,6 +15,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -45,12 +46,12 @@ public class PlayerCharacterManager implements Listener, TabExecutor {
 		return PlayerCharacter.getCharacter(event.getPlayer());
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onJoin(PlayerJoinEvent event){
 		getCharacter(event).onJoin(event);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event){
 		getCharacter(event).onQuit(event);
 	}
