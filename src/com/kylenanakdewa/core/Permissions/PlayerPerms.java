@@ -17,6 +17,7 @@ import org.bukkit.permissions.PermissionAttachment;
 
 import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.CorePlugin;
+import com.kylenanakdewa.core.characters.players.PlayerCharacter;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.common.Error;
@@ -348,6 +349,9 @@ public class PlayerPerms implements Perms {
 		// Store data for later use
 		permissionAttachments.put(player.getUniqueId(), playerPerms);
 		currentPermissionSet.put(player.getUniqueId(), new PermissionSet(set.getName()));
+
+		// Update display name
+		PlayerCharacter.getCharacter(player).updateDisplayName();
 		
 		return true;
 	}

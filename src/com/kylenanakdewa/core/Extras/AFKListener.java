@@ -53,7 +53,7 @@ public final class AFKListener implements Listener, CommandExecutor {
         reason = (reason==null || reason.equals("")) ? "" : " - "+ChatColor.translateAlternateColorCodes('&', reason);
 
         // Send message to all online players
-        Utils.notifyAll(player.getDisplayName()+CoreConfig.joinQuitColor+" is now AFK"+(reason.length()>2 ? reason : "."));
+        if(!player.hasPermission("core.invisible")) Utils.notifyAll(player.getDisplayName()+CoreConfig.joinQuitColor+" is now AFK"+(reason.length()>2 ? reason : "."));
 
         // Set sleeping ignored
         player.setSleepingIgnored(true);
@@ -73,7 +73,7 @@ public final class AFKListener implements Listener, CommandExecutor {
         } // If player is AFK, cancel it
         else if(afkPlayers.containsKey(player.getUniqueId())){
             // Send message to all online players
-            Utils.notifyAll(player.getDisplayName()+CoreConfig.joinQuitColor+" is no longer AFK.");
+            if(!player.hasPermission("core.invisible")) Utils.notifyAll(player.getDisplayName()+CoreConfig.joinQuitColor+" is no longer AFK.");
 
             // Set sleeping ignored
             player.setSleepingIgnored(false);

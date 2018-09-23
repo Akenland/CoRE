@@ -97,7 +97,9 @@ public final class Utils {
 		StringBuilder onlineAdmins = new StringBuilder();
 
 		// Build a string with all online admins
-		getOnlineAdmins().forEach(player -> onlineAdmins.append(player.getDisplayName()).append(CommonColors.INFO+", "));
+		getOnlineAdmins().forEach(player -> {
+			if(!player.hasPermission("core.invisible")) onlineAdmins.append(player.getDisplayName()).append(CommonColors.INFO+", ");
+		});
 
 		// If no online admins, show Phoenix, otherwise remove the extra comma at the end
 		if(onlineAdmins.length()<3)

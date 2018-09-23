@@ -207,6 +207,11 @@ public class PlayerCharacter implements Character {
 		String spacedTitle = getTitle() + (ChatColor.stripColor(getTitle()).length()>0 ? " " : "");
 
 		chatFormat = topParentRealmColor+"<" + adminPrefix+ChatColor.GRAY + spacedTitle+"%s" + topParentRealmColor+"> " + ChatColor.RESET+"%s";
+
+		// Invisible mode
+		if(((Player)player).hasPermission("core.invisible")){
+			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.hidePlayer(plugin, (Player)player));
+		}
 	}
 
 
@@ -330,6 +335,11 @@ public class PlayerCharacter implements Character {
 			updateDisplayName();
 		}
 
+		// Hide invisible players
+		Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
+			if(onlinePlayer.hasPermission("core.invisible")) event.getPlayer().hidePlayer(plugin, onlinePlayer);
+		});
+
 		// Send them a list of online admins
 		if(CoreConfig.showAdminListOnJoin) event.getPlayer().sendMessage(CommonColors.INFO+"Online "+CoreConfig.adminName+"s: "+Utils.listOnlineAdmins());
 
@@ -348,7 +358,7 @@ public class PlayerCharacter implements Character {
 			String quitMessage = String.format(CoreConfig.joinQuitColor+CoreConfig.quitMessage, getName()+CoreConfig.joinQuitColor);
 			event.setQuitMessage(quitMessage+".");
 			// If player was opped, hide their join message
-			if(event.getPlayer().isOp()){
+			if(event.getPlayer().hasPermission("core.invisible")){
 				Utils.notifyAdmins(quitMessage+" silently.");
 				event.setQuitMessage(null);
 			}
