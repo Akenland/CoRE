@@ -21,12 +21,13 @@ public final class ListCommands implements CommandExecutor {
         list.addQuestion(CommonColors.INFO+"- "+CoreConfig.adminName+"s"+CommonColors.INFO+" are marked with a "+CoreConfig.adminPrefix);
 
         for(Player player : (CoreConfig.listAllPlayers ? Bukkit.getOnlinePlayers() : Utils.getOnlineAdmins())){
-            
-            // Check if AFK
-            String afkMessage = AFKListener.afkPlayers.get(player.getUniqueId());
-            afkMessage = afkMessage==null ? "" : CommonColors.INFO+" - AFK"+afkMessage;
+            if(!player.hasPermission("core.invisible")){
+                // Check if AFK
+                String afkMessage = AFKListener.afkPlayers.get(player.getUniqueId());
+                afkMessage = afkMessage==null ? "" : CommonColors.INFO+" - AFK"+afkMessage;
 
-            list.addAnswer(player.getPlayerListName()+afkMessage, "command_player "+player.getName());
+                list.addAnswer(player.getPlayerListName()+afkMessage, "command_player "+player.getName());
+            }
         }
 
         list.display(sender);
