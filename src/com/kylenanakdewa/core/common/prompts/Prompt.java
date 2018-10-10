@@ -239,11 +239,11 @@ public class Prompt {
 			if(condition==null || condition.isEmpty()) return true;
 
 			// If Story is not installed, return false
-			Plugin storyPlugin = Bukkit.getPluginManager().getPlugin("RealmsStory");
+			Plugin storyPlugin = Bukkit.getPluginManager().getPlugin("Project Story");
 			if(storyPlugin==null || !storyPlugin.isEnabled()) return false;
 
 			// Evaluate the condition
-			return new com.kylenanakdewa.story.tags.Condition(condition).eval(entity);
+			return false;//new com.kylenanakdewa.story.tags.Condition(condition).eval(entity);
 		}
 
 		/**

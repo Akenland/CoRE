@@ -45,11 +45,11 @@
       <scope>provided</scope>
     </dependency>
     <!--RealmsStory-->
-    <dependency>
+    <!--dependency>
       <groupId>com.kylenanakdewa</groupId>
       <artifactId>ProjectStory</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
-    </dependency>
+    </dependency-->
   </dependencies>
 </project>
