@@ -211,6 +211,8 @@ public class PlayerCharacter implements Character {
 		// Invisible mode
 		if(((Player)player).hasPermission("core.invisible")){
 			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.hidePlayer(plugin, (Player)player));
+		} else {
+			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.showPlayer(plugin, (Player)player));
 		}
 	}
 
@@ -400,7 +402,7 @@ public class PlayerCharacter implements Character {
 	public SaveDataSection getData(Plugin plugin){
 		ConfigurationSection data = dataFile.getConfig().getConfigurationSection(plugin.getName());
 		if(data==null) data = dataFile.getConfig().createSection(plugin.getName());
-		return new SaveDataSection(data);
+		return new SaveDataSection(data, plugin);
 	}
 	/**
 	 * Saves all data for this Character.
