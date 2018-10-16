@@ -1,6 +1,7 @@
 package com.kylenanakdewa.core.common.savedata;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -46,4 +47,17 @@ public class SaveDataSection {
         return plugin;
     }
 
+
+	/**
+	 * Gets a SaveDataSection with the summed values of all specified sections.
+	 * This can be used to "inherit" values across a number of data sections.
+	 * Later sections will override earlier sections.
+	 */
+	public static SaveDataSection mergeData(SaveDataSection... data){
+		MemoryConfiguration mergedData = new MemoryConfiguration();
+		mergedData.options().copyDefaults(true);
+		for(SaveDataSection section : data) mergedData.addDefaults(section.getData().getValues(true));
+
+		return new SaveDataSection(mergedData, data[data.length-1].getPlugin());
+	}
 }
