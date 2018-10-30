@@ -107,7 +107,7 @@ public final class WolfiaListener implements Listener, CommandExecutor {
             // Get a sword for them
             ItemStack sword = getBladeOfLight(PlayerCharacter.getCharacter(player));
             // Add sword, 32 emeralds, and 10 apples to inventory
-            player.getInventory().addItem(sword, new ItemStack(Material.EMERALD, 32), new ItemStack(Material.APPLE, 20));
+            player.getInventory().addItem(sword, new ItemStack(Material.EMERALD, 32), new ItemStack(Material.APPLE, 20), new ItemStack(Material.COMPASS));
         }
     }
 }

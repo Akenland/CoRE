@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -94,13 +95,13 @@ public final class AFKListener implements Listener, CommandExecutor {
 
     //// EVENT HANDLERS
     // Start timer on player join
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void afkPlayerJoin(PlayerJoinEvent event){
         // Start timer
         cancelAFK(event.getPlayer());
     }
     // End timer and remove player on quit
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void afkPlayerQuit(PlayerQuitEvent event){
         UUID uuid = event.getPlayer().getUniqueId();
 

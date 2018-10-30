@@ -12,6 +12,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
@@ -72,14 +73,14 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
 
 
     //// Join listener
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void sendResourcePackOnJoin(PlayerJoinEvent event){
         String packName = getPlayerDefaultPack(event.getPlayer());
         if(packName!=null) sendResourcePack(event.getPlayer(), packName);
     }
 
     //// Pack status listener
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPackStatusChange(PlayerResourcePackStatusEvent event){
         // Send messages in response to pack status
         switch(event.getStatus()){
