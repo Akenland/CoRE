@@ -369,10 +369,12 @@ public class PlayerCharacter implements Character {
 		// Remove permissions
 		new PlayerPerms(player).removePermissions();
 
-		// Remove this stored PlayerCharacter
-		playerCharacters.remove(player.getUniqueId());
-		// Remove all inactive PlayerCharacters
-		clearCharacters();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
+			// Remove this stored PlayerCharacter
+			//playerCharacters.remove(player.getUniqueId());
+			// Remove all inactive PlayerCharacters
+			clearCharacters();
+		});
 	}
 	/**
 	 * Called when the Player represented by this Character sends a chat message.
