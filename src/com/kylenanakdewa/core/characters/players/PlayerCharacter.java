@@ -78,8 +78,8 @@ public class PlayerCharacter implements Character {
 		name = coreData.getString("displayname", getUsername());
 		title = coreData.getString("title");
 		ipAddress = coreData.getString("ip");
-		lastLogin = coreData.getLong("lastlogin", player.getLastPlayed());
-		firstLogin = coreData.getLong("firstlogin", player.getFirstPlayed());
+		lastLogin = coreData.getLong("lastlogin", getPlayer().getLastPlayed());
+		firstLogin = coreData.getLong("firstlogin", getPlayer().getFirstPlayed());
 
 		// Load Realm from server's RealmProvider
 		realm = plugin.getRealmProvider().getCharacterRealm(this);
@@ -122,7 +122,7 @@ public class PlayerCharacter implements Character {
 	 * @return true if the player is logged in to the server
 	 */
 	public boolean isOnline(){
-		return player.isOnline() && player instanceof Player;
+		return player.isOnline();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class PlayerCharacter implements Character {
 	 * @see OfflinePlayer#getName()
 	 */
 	public String getUsername(){
-		return player.getName();
+		return getPlayer().getName();
 	}
 	/**
 	 * Gets the UUID of the Player represented by this Character.
@@ -139,14 +139,15 @@ public class PlayerCharacter implements Character {
 	 * @see OfflinePlayer#getUniqueId()
 	 */
 	public UUID getUniqueId(){
-		return player.getUniqueId();
+		return getPlayer().getUniqueId();
 	}
 	/**
 	 * Gets the Bukkit Player represented by this Character.
 	 * @return the player
 	 */
 	public OfflinePlayer getPlayer(){
-		return player;
+		Player onlinePlayer = player.getPlayer();
+		return onlinePlayer!=null ? onlinePlayer : player;
 	}
 
 	/**
@@ -156,7 +157,7 @@ public class PlayerCharacter implements Character {
 	 */
 	@Deprecated
 	private boolean isAdmin(){
-		return new PlayerPerms(player).isAdmin();
+		return new PlayerPerms(getPlayer()).isAdmin();
 	}
 
 
@@ -195,11 +196,11 @@ public class PlayerCharacter implements Character {
 		if(!CoreConfig.formatChat || !isOnline()) return;
 
 		// Display name - used in most messages
-		((Player)player).setDisplayName(getName());
+		(getPlayer().getPlayer()).setDisplayName(getName());
 
 		// Tab List name - should have admin prefix
 		String adminPrefix = isAdmin() ? CoreConfig.adminPrefix+ChatColor.RESET : "";
-		((Player)player).setPlayerListName(adminPrefix+getName());
+		(getPlayer().getPlayer()).setPlayerListName(adminPrefix+getName());
 
 		// Chat format string
 		ChatColor realmColor = realm!=null ? realm.getColor() : ChatColor.GRAY;
@@ -209,10 +210,10 @@ public class PlayerCharacter implements Character {
 		chatFormat = topParentRealmColor+"<" + adminPrefix+ChatColor.GRAY + spacedTitle+"%s" + topParentRealmColor+"> " + ChatColor.RESET+"%s";
 
 		// Invisible mode
-		if(((Player)player).hasPermission("core.invisible")){
-			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.hidePlayer(plugin, (Player)player));
+		if((getPlayer().getPlayer()).hasPermission("core.invisible")){
+			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.hidePlayer(plugin, getPlayer().getPlayer()));
 		} else {
-			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.showPlayer(plugin, (Player)player));
+			Bukkit.getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.showPlayer(plugin, getPlayer().getPlayer()));
 		}
 	}
 
@@ -317,7 +318,7 @@ public class PlayerCharacter implements Character {
 		ipAddress = event.getPlayer().getAddress().getAddress().getHostAddress();
 
 		// Set up permissions, apply the player's default set
-		final boolean isOp = player.isOp();
+		final boolean isOp = getPlayer().isOp();
 		if(CoreConfig.permsEnabled) new PlayerPerms(event.getPlayer()).applyDefaultSetOnJoin();
 
 		if(CoreConfig.formatChat){
@@ -330,7 +331,7 @@ public class PlayerCharacter implements Character {
 				event.setJoinMessage(null);
 			}
 			// Check if this is their first time on the server
-			if(!player.hasPlayedBefore()){
+			if(!getPlayer().hasPlayedBefore()){
 				event.setJoinMessage(joinMessage+". "+CoreConfig.firstJoinMessage);
 			}
 
@@ -367,7 +368,7 @@ public class PlayerCharacter implements Character {
 		}
 
 		// Remove permissions
-		new PlayerPerms(player).removePermissions();
+		new PlayerPerms(getPlayer()).removePermissions();
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
 			// Remove this stored PlayerCharacter
@@ -448,7 +449,7 @@ public class PlayerCharacter implements Character {
 		}
 
 		// Check if admin
-		if(isAdmin() || (!isOnline() && new PlayerPerms(player).getDefault().hasPermission("core.admin"))) prompt.addAnswer(CoreConfig.adminColor+"Server "+CoreConfig.adminName, "");
+		if(isAdmin() || (!isOnline() && new PlayerPerms(getPlayer()).getDefault().hasPermission("core.admin"))) prompt.addAnswer(CoreConfig.adminColor+"Server "+CoreConfig.adminName, "");
 
 		// Basic info
 		prompt.addAnswer("Username: "+getUsername()+" "+CommonColors.INFO+getUniqueId(), "url_https://mcuuid.net/?q="+getUsername());
@@ -461,11 +462,11 @@ public class PlayerCharacter implements Character {
 			if(getIP()!=null) prompt.addAnswer("IP: "+getIP(), "url_http://www.whatsmyip.org/ip-geo-location/?ip="+getIP().substring(getIP().indexOf('/')+1));
 
 			// Game info
-			if(player.isOnline()){
-				Location loc = ((Player) player).getLocation();
+			if(isOnline()){
+				Location loc = (getPlayer().getPlayer()).getLocation();
 				prompt.addAnswer("Location: "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ()+", "+loc.getWorld().getName(), "command_tp "+getUsername());
-				prompt.addAnswer(((Player) player).getGameMode()+" mode", "");
-				prompt.addAnswer("Permissions: "+new PlayerPerms(player).getCurrentSet().getName(), "command_permissions player "+getUsername());
+				prompt.addAnswer((getPlayer().getPlayer()).getGameMode()+" mode", "");
+				prompt.addAnswer("Permissions: "+new PlayerPerms(getPlayer()).getCurrentSet().getName(), "command_permissions player "+getUsername());
 			}
 		}
 

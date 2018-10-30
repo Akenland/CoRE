@@ -193,11 +193,11 @@ public class PlayerPerms implements Perms {
 
 			// If perms are disabled, just check the permission core.admin - do not double-check
 			if(!CoreConfig.multiCheckAdmins || !CoreConfig.permsEnabled){
-				return ((Player)player).hasPermission("core.admin");
+				return (player.getPlayer()).hasPermission("core.admin");
 			}
 
 			// First check - Make sure they have permission core.admin
-			if(((Player)player).hasPermission("core.admin")){
+			if((player.getPlayer()).hasPermission("core.admin")){
 				// Second check - Make sure they're listed as admin in file
 				if(isAdmin){
 					return isAdmin;
@@ -327,7 +327,7 @@ public class PlayerPerms implements Perms {
 		
 		// Check if player has access to this set
 		if(!getAllSetsNames().contains(set.getName())){
-			((Player)player).sendMessage(CommonColors.ERROR+"Your permissions could not be applied (No access to "+set.getName()+"). Ask an "+CoreConfig.adminName+" for help.");
+			(player.getPlayer()).sendMessage(CommonColors.ERROR+"Your permissions could not be applied (No access to "+set.getName()+"). Ask an "+CoreConfig.adminName+" for help.");
 			Utils.notifyAdminsError(player.getName()+CommonColors.ERROR+" could not be switched to "+set+" permissions, they do not have access.");
 			return false;
 		}
@@ -337,9 +337,9 @@ public class PlayerPerms implements Perms {
 		
 		// Remove previous permissions, and prepare a new attachment
 		PermissionAttachment oldPerms = permissionAttachments.get(player.getUniqueId());
-		if(oldPerms!=null) ((Player)player).removeAttachment(oldPerms);
+		if(oldPerms!=null) player.getPlayer().removeAttachment(oldPerms);
 
-		PermissionAttachment playerPerms = ((Player)player).addAttachment(CorePlugin.plugin);
+		PermissionAttachment playerPerms = player.getPlayer().addAttachment(CorePlugin.plugin);
 		
 		// Apply the new permissions
 		for(String permissionNode : set.getTotalPermissions()){
@@ -365,10 +365,10 @@ public class PlayerPerms implements Perms {
 		}
 
 		// De-op the player
-		((Player)player).setOp(false);
+		(player.getPlayer()).setOp(false);
 
 		// Prepare permission attachment
-		PermissionAttachment playerPerms = ((Player)player).addAttachment(CorePlugin.plugin);
+		PermissionAttachment playerPerms = player.getPlayer().addAttachment(CorePlugin.plugin);
 		permissionAttachments.put(player.getUniqueId(), playerPerms);
 
 		// applySet can be called here because no checks need to be performed for the default set
@@ -396,13 +396,13 @@ public class PlayerPerms implements Perms {
 		}
 
 		// De-op the player
-		((Player)player).setOp(false);
+		(player.getPlayer()).setOp(false);
 
 		// Remove the permission attachment, and clear their current set
 		permissionAttachments.get(player.getUniqueId()).remove();
 		/*try{
 			PermissionAttachment oldPerms = permissionAttachments.get(player.getUniqueId());
-			if(oldPerms!=null) ((Player)player).removeAttachment(oldPerms);
+			if(oldPerms!=null) (player.getPlayer()).removeAttachment(oldPerms);
 		}
 		catch(IllegalArgumentException e){
 			Utils.notifyAdminsError("Permission attachment could not be removed from "+player.getName()+" because they don't have it.");
@@ -435,7 +435,7 @@ public class PlayerPerms implements Perms {
 			if(PermsUtils.isDoubleCheckedAdmin(sender)){
 				// Notify admins and player
 				Utils.notifyAdmins(player.getName()+CommonColors.INFO+" was switched to "+set.getName()+" permissions by "+sender.getName()+".");
-				Utils.sendActionBar((Player)player, "Switched to "+set.getName()+" permissions");
+				Utils.sendActionBar(player.getPlayer(), "Switched to "+set.getName()+" permissions");
 
 				// Apply the permission set
 				return applySet(set);
@@ -451,7 +451,7 @@ public class PlayerPerms implements Perms {
 			if(getInstantAccessSetsNames().contains(set.getName())){
 				// Notify admins and player
 				Utils.notifyAdmins(player.getName()+CommonColors.INFO+" switched to "+set.getName()+" permissions.");
-				Utils.sendActionBar((Player)player, "Switched to "+set.getName()+" permissions");
+				Utils.sendActionBar(player.getPlayer(), "Switched to "+set.getName()+" permissions");
 
 				// Apply the permission set
 				return applySet(set);
@@ -462,19 +462,19 @@ public class PlayerPerms implements Perms {
 				if(!Utils.getOnlineAdmins().isEmpty()){
 					// Notify admins and player
 					Utils.notifyAdmins(player.getName()+CommonColors.INFO+" switched to "+set.getName()+" permissions.");
-					Utils.sendActionBar((Player)player, "Switched to "+set.getName()+" permissions");
+					Utils.sendActionBar(player.getPlayer(), "Switched to "+set.getName()+" permissions");
 
 					// Apply the permission set
 					return applySet(set);
 				}
 				// If no admins online, notify console and player
 				Utils.notifyAdminsError(player.getName()+CommonColors.ERROR+" could not be switched to "+set.getName()+" permissions, no admin online.");
-				Utils.sendActionBar((Player)player, CommonColors.ERROR+set.getName()+" permissions are unavailable, an "+CoreConfig.adminName+" must be online");
+				Utils.sendActionBar(player.getPlayer(), CommonColors.ERROR+set.getName()+" permissions are unavailable, an "+CoreConfig.adminName+" must be online");
 				return true;
 			}
 
 			// Otherwise, only an admin can switch the player to this set
-			Utils.sendActionBar((Player)player, "An "+CoreConfig.adminName+" must approve your use of "+set.getName()+" permissions");
+			Utils.sendActionBar(player.getPlayer(), "An "+CoreConfig.adminName+" must approve your use of "+set.getName()+" permissions");
 
 			// Prompt all online admins
 			Prompt prompt = new Prompt();
@@ -492,7 +492,7 @@ public class PlayerPerms implements Perms {
 
 		// If player doesn't have access to that set
 		Utils.notifyAdminsError(player.getName()+CommonColors.ERROR+" was denied access to "+set.getName()+" permissions.");
-		Utils.sendActionBar((Player)player, CommonColors.ERROR+"You don't have access to "+set.getName()+" permissions!");
+		Utils.sendActionBar(player.getPlayer(), CommonColors.ERROR+"You don't have access to "+set.getName()+" permissions!");
 
 		return false;
 	}
