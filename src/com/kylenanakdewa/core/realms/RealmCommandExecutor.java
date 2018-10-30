@@ -67,7 +67,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			Collection<PlayerCharacter> members = realm.getOnlineCharacters();
 			if(!members.isEmpty()){
 				prompt.addQuestion(CommonColors.INFO+"-- Online players --");
-				members.forEach(member -> prompt.addAnswer(member.getFormattedName(), "command_player "+member.getUsername()));
+				members.forEach(member -> prompt.addAnswer(member.getFormattedName()+(provider.isOfficer(member)?ChatColor.DARK_GRAY+" [O]":""), "command_player "+member.getUsername()));
 			}
 
 			prompt.display(sender);
@@ -141,10 +141,15 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 				// If player is valid, add as realm officer
 				if(target!=null){
 					PlayerCharacter character = PlayerCharacter.getCharacter(target);
-					if(provider.getCharacterRealm(character).equals(realm)){
+					Realm characterRealm = provider.getCharacterRealm(character);
+					if(characterRealm!=null && characterRealm.equals(realm)){
 						provider.setOfficer(character, isOfficer);
 						sender.sendMessage(character.getName()+CommonColors.MESSAGE+" can "+message+" edit the "+realm.getName()+CommonColors.MESSAGE+" and all sub-realms.");
 						if(target.isOnline()) ((Player)target).sendMessage("You can "+message+" edit the "+realm.getName()+"!");
+						return true;
+					} else {
+						Utils.sendActionBar(sender, character.getName()+CommonColors.ERROR+" is not a member of "+realm.getName());
+						return false;
 					}
 				}
 			}
@@ -166,7 +171,8 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			OfflinePlayer target = Utils.getPlayer(args[2], true);
 			if(target==null) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
 			PlayerCharacter character = PlayerCharacter.getCharacter(target);
-			if(!provider.getCharacterRealm(character).equals(realm)){
+			Realm characterRealm = provider.getCharacterRealm(character);
+			if(characterRealm==null || !characterRealm.equals(realm)){
 				Utils.sendActionBar(sender, character.getName()+CommonColors.ERROR+" is not a member of "+realm.getName());
 				return false;
 			}
@@ -238,9 +244,13 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 				// If player is valid, kick from realm
 				if(player!=null){
 					PlayerCharacter character = PlayerCharacter.getCharacter(target);
-					if(provider.getCharacterRealm(character).equals(realm)){
+					Realm characterRealm = provider.getCharacterRealm(character);
+					if(characterRealm!=null && characterRealm.equals(realm)){
 						character.setRealm(null);
 						sender.sendMessage(character.getName()+CommonColors.MESSAGE+" is no longer a member of the "+realm.getName()+CommonColors.MESSAGE+".");
+					} else {
+						Utils.sendActionBar(sender, character.getName()+CommonColors.ERROR+" is not a member of "+realm.getName());
+						return false;
 					}
 				}
 			}
