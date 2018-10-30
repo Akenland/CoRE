@@ -122,7 +122,7 @@ public class PlayerCharacter implements Character {
 	 * @return true if the player is logged in to the server
 	 */
 	public boolean isOnline(){
-		return player.isOnline();
+		return player.isOnline() && player instanceof Player;
 	}
 
 	/**

@@ -390,7 +390,7 @@ public class PlayerPerms implements Perms {
 	// Remove permissions on quit
 	public boolean removePermissions(){
 		// Check if player is online
-		if(!player.isOnline()){
+		if(!player.isOnline() || !(player instanceof Player)){
 			Utils.notifyAdminsError(player.getName()+" could not have permissions revoked, they are offline.");
 			return false;
 		}
