@@ -228,8 +228,9 @@ public class PlayerCharacter implements Character {
 		// Remove them from old realm
 		if(this.realm!=null) this.realm.removePlayer(this);
 
-		// Reset their title
+		// Reset their title and officer status
 		title = null;
+		plugin.getRealmProvider().setOfficer(this, false);
 
 		// Add them to new realm
 		this.realm = realm;
