@@ -81,6 +81,12 @@ public class ScoreboardRealmProvider implements RealmProvider {
 	}
 
 	@Override
+	public boolean isOfficer(Character character, Realm realm){
+		// This provider does not support officers
+		return false;
+	}
+
+	@Override
 	public void setOfficer(Character character, boolean isOfficer) {
 		// This provider does not support officers
 	}

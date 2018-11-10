@@ -99,6 +99,15 @@ public class ConfigRealmProvider implements RealmProvider {
 	}
 
 	@Override
+	public boolean isOfficer(Character character, Realm realm) {
+		Realm characterRealm = getCharacterRealm(character);
+
+		// Character must be in a realm, be an officer, and be in either the specified realm, or a parent realm
+		// If character is in the specified realm, return true
+		return isOfficer(character) && characterRealm!=null && (characterRealm.equals(realm) || characterRealm.getChildRealms().contains(realm));
+	}
+
+	@Override
 	public void setOfficer(Character character, boolean isOfficer) {
 		updateRealms();
 

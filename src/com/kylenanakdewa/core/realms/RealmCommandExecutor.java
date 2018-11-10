@@ -74,13 +74,14 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			return true;
 		}
 
+		boolean senderIsOfficer = provider.isOfficer(player, realm) || sender.hasPermission("core.realm.globalofficer");
 
 		// Setting data
-		if(args.length>3 && args[1].equalsIgnoreCase("set")){
+		if (args.length > 3 && args[1].equalsIgnoreCase("set")) {
 			if(!sender.hasPermission("core.realm.edit")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && !provider.isOfficer(player))
+			if(sender instanceof Player && !senderIsOfficer)
 				return Error.NO_PERMISSION.displayChat(sender);
 
 			String key = args[2];
@@ -125,7 +126,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			if(!sender.hasPermission("core.realm.officers")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && !provider.isOfficer(player))
+			if(sender instanceof Player && !senderIsOfficer)
 				return Error.NO_PERMISSION.displayChat(sender);
 
 
@@ -163,7 +164,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			if(!sender.hasPermission("core.realm.edit")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && !provider.isOfficer(player))
+			if(sender instanceof Player && !senderIsOfficer)
 				return Error.NO_PERMISSION.displayChat(sender);
 
 
@@ -196,7 +197,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			if(!sender.hasPermission("core.realm.players")) return Error.NO_PERMISSION.displayChat(sender);
 
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && !provider.isOfficer(player)) return Error.NO_PERMISSION.displayChat(sender);
+			if(sender instanceof Player && !senderIsOfficer) return Error.NO_PERMISSION.displayChat(sender);
 
 
 			// Get players
@@ -233,7 +234,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			if(!sender.hasPermission("core.realm.players")) return Error.NO_PERMISSION.displayChat(sender);
 			
 			// If sender does not have edit access, return error
-			if(sender instanceof Player && !provider.isOfficer(player)) return Error.NO_PERMISSION.displayChat(sender);
+			if(sender instanceof Player && !senderIsOfficer) return Error.NO_PERMISSION.displayChat(sender);
 
 
 			// Get players
@@ -268,7 +269,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
 		if(args.length==1){
 			// If admin, return all realms
-			if(sender.hasPermission("core.admin")){
+			if(sender.hasPermission("core.realm.globalofficer")){
 				List<String> completions = new ArrayList<String>();
 				provider.getAllRealms().forEach(realm -> completions.add(realm.getIdentifier()));
 				return completions;

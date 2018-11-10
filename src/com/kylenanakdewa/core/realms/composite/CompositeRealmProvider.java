@@ -157,6 +157,16 @@ public class CompositeRealmProvider implements RealmProvider {
 		}
 		return false;
 	}
+	@Override
+	public boolean isOfficer(Character character, Realm realm) {
+		updateRealms();
+		// Return true if the character is an officer of any realms
+		Iterator<RealmProvider> activeProviders = getActiveProviders();
+		while(activeProviders.hasNext()){
+			if(activeProviders.next().isOfficer(character,realm)) return true;
+		}
+		return false;
+	}
 
 	@Override
 	public void setOfficer(Character character, boolean isOfficer) {

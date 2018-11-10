@@ -37,9 +37,17 @@ public interface RealmProvider {
 	/**
 	 * Checks if the specified Character is an officer of their realms in this provider.
 	 * @param character the character
-	 * @return true if this Character is an officer in the realms that they are a member of
+	 * @return true if the Character is an officer in the realms that they are a member of
 	 */
 	public boolean isOfficer(Character character);
+
+	/**
+	 * Checks if the specified Character is an officer of the specified realm.
+	 * @param character the character
+	 * @param realm the realm
+	 * @return true if the Character is an officer in the specified Realm
+	 */
+	public boolean isOfficer(Character character, Realm realm);
 
 	/**
 	 * Sets a character as an officer. Officers have full control over their own realm, and all child realms.
