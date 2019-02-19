@@ -128,7 +128,19 @@ public class PlayerCharacterManager implements Listener, TabExecutor {
 			}
 
             return true;
-        }
+		}
+		
+		if(args.length==2 && args[1].equalsIgnoreCase("respawn")){
+			if(player.isOnline() && player.getPlayer().isDead()){
+				player.getPlayer().spigot().respawn();
+				Utils.sendActionBar(sender, playerCharacter.getName()+CommonColors.MESSAGE+" was respawned.");
+				return true;
+			}
+			else {
+				Utils.sendActionBar(sender, playerCharacter.getName()+CommonColors.ERROR+" is not dead!");
+				return false;
+			}
+		}
 
 
         return Error.INVALID_ARGS.displayChat(sender);

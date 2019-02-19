@@ -468,6 +468,10 @@ public class PlayerCharacter implements Character {
 				prompt.addAnswer("Location: "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ()+", "+loc.getWorld().getName(), "command_tp "+getUsername());
 				prompt.addAnswer((getPlayer().getPlayer()).getGameMode()+" mode", "");
 				prompt.addAnswer("Permissions: "+new PlayerPerms(getPlayer()).getCurrentSet().getName(), "command_permissions player "+getUsername());
+
+				if(getPlayer().getPlayer().isDead()){
+					prompt.addAnswer("Respawn Player", "command_player "+getUsername()+" respawn");
+				}
 			}
 		}
 
