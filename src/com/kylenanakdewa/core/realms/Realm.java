@@ -104,9 +104,8 @@ public interface Realm {
 	/**
 	 * Gets a view of all logged in players, that are members of this Realm.
 	 * @return a view of currently online players who are members of this Realm
-	 * @deprecated use {@link Realm#getOnlineCharacters()} instead
+	 * @see {@link Realm#getOnlineCharacters()}
 	 */
-	@Deprecated
 	public Collection<Player> getOnlinePlayers();
 
 
@@ -122,7 +121,6 @@ public interface Realm {
 	 * Adds a Player to this Realm.
 	 * @param player the Player to be added
 	 */
-	@Deprecated
 	public void addPlayer(Player player);
 	/**
 	 * Removes a PlayerCharacter from this Realm.
@@ -136,6 +134,5 @@ public interface Realm {
 	 * Removes a Player from this Realm.
 	 * @param player the Player to be removed
 	 */
-	@Deprecated
 	public void removePlayer(Player player);
 }

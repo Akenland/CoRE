@@ -74,7 +74,7 @@ public final class RealmCommandExecutor implements TabExecutor, Listener {
 			return true;
 		}
 
-		boolean senderIsOfficer = provider.isOfficer(player, realm) || sender.hasPermission("core.realm.globalofficer");
+		boolean senderIsOfficer = (player.getRealm().equals(realm) && player.isRealmOfficer()) || sender.hasPermission("core.realm.globalofficer");
 
 		// Setting data
 		if (args.length > 3 && args[1].equalsIgnoreCase("set")) {
