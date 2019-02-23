@@ -124,3 +124,7 @@ commands:
   bladeoflight:
     description: Akenland command, has no use on other servers
     usage: "This command does not work on this server."
+
+permissions:
+  core.invisible:
+    default: false
