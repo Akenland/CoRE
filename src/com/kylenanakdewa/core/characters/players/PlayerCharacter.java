@@ -242,7 +242,8 @@ public class PlayerCharacter implements Character {
 
 	@Override
 	public boolean isRealmOfficer(){
-		return plugin.getRealmProvider().isOfficer(this);
+		//return plugin.getRealmProvider().isOfficer(this); TODO - Not working - need to figure out what's wrong in the provider
+		return getData(plugin).getData().getBoolean("realmofficer");
 	}
 
 
