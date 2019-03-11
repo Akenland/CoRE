@@ -5,7 +5,6 @@ import java.io.File;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.Extras.AFKListener;
 import com.kylenanakdewa.core.Extras.EntityCommands;
 import com.kylenanakdewa.core.Extras.GameModeCommands;
@@ -44,7 +43,7 @@ import com.kylenanakdewa.core.realms.scoreboard.ScoreboardRealmProvider;
 public final class CorePlugin extends JavaPlugin {
 
 	/** This plugin's instance on the running Bukkit server. */
-	@Deprecated
+	//@Deprecated
 	public static CorePlugin plugin;
 
 	/** The RealmProvider in use on this instance of Project CoRE. */
@@ -58,7 +57,7 @@ public final class CorePlugin extends JavaPlugin {
 		reload();
 
 		//// bStats Metrics
-		startMetrics();
+		//startMetrics();
 
 
 		// World loader 9 - TEMP
@@ -163,7 +162,7 @@ public final class CorePlugin extends JavaPlugin {
 	 * Registers listeners for Project CoRE.
 	 */
 	private void registerListeners(){
-		
+
 		getServer().getPluginManager().registerEvents(new PromptActionListener(), this);
 		getServer().getPluginManager().registerEvents(new ModerationCommands(), this);
 		getServer().getPluginManager().registerEvents(new EntityCommands(), this);
@@ -202,7 +201,7 @@ public final class CorePlugin extends JavaPlugin {
 	/**
 	 * Starts bStats Metrics for Project CoRE.
 	 */
-	private void startMetrics(){
+	/*private void startMetrics(){
 		Metrics metrics = new Metrics(this);
 		// Config values
 		metrics.addCustomChart(new Metrics.SimplePie("config_allowCommandBlockCommands", () -> CoreConfig.allowCommandBlocksCommands?"Allowed":"Blocked"));
@@ -224,7 +223,7 @@ public final class CorePlugin extends JavaPlugin {
 		metrics.addCustomChart(new Metrics.SimplePie("config_collisionRule", () -> CoreConfig.collisionRule));
 		// Online admins
 		metrics.addCustomChart(new Metrics.SingleLineChart("players_admins", () -> Utils.getOnlineAdmins().size()));
-	}
+	}*/
 
 
 	/**

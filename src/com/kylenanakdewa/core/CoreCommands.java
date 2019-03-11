@@ -12,7 +12,7 @@ import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.Permissions.PermsUtils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
 
-/** 
+/**
  * Meta commands for Project CoRE.
  * @author Kyle Nanakdewa
  */
@@ -43,7 +43,7 @@ public final class CoreCommands implements TabExecutor {
                 prompt.addAnswer("Permissions enabled: "+CoreConfig.permsEnabled, "");
                 prompt.addAnswer("Chat formatting enabled: "+ CoreConfig.formatChat, "");
                 if(CoreConfig.enableWolfiaFeatures)
-                    prompt.addAnswer("Wolfia functionality enabled: "+CoreConfig.enableWolfiaFeatures, "");
+                    prompt.addAnswer("Akenland functionality enabled: "+CoreConfig.enableWolfiaFeatures, "");
             }
 
             prompt.display(sender);
