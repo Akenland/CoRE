@@ -33,21 +33,21 @@ public class PlayerPerms implements Perms {
 
 	/** The player. */
 	private final OfflinePlayer player;
-	
+
 	// If this player is an admin in file - do NOT use this value, use isAdmin() - double-checked admin
 	private final boolean isAdmin;
-	
+
 	// Permission sets available to this player
 	private final PermissionSet defaultSet;
 	private final PermissionSet utilitySet;
 	private final PermissionSet cheatSet;
 	private final List<PermissionSet> otherSets = new ArrayList<PermissionSet>();
-	
+
 	// Access to permission sets
 	private final List<PermissionSet> instantAccessSets = new ArrayList<PermissionSet>();
 	private final List<PermissionSet> adminSupervisedSets = new ArrayList<PermissionSet>();
-	
-	
+
+
 	// Constructor
 	public PlayerPerms(OfflinePlayer player){
 		this.player = player;
@@ -116,8 +116,8 @@ public class PlayerPerms implements Perms {
 				instantAccessSets.addAll(inherited.getInstantAccessSets());
 			}
 		}
-		
-		//Utils.notifyAdmins("Loading inherited permissions for "+player.getName()+". Default: "+defaultSet+", Utility: "+utilitySet+", Cheat: "+cheatSet+", Other: "+otherSets+", InstantAccess: "+instantAccessSets+", AdminSupervised: "+adminSupervisedSets);		
+
+		//Utils.notifyAdmins("Loading inherited permissions for "+player.getName()+". Default: "+defaultSet+", Utility: "+utilitySet+", Cheat: "+cheatSet+", Other: "+otherSets+", InstantAccess: "+instantAccessSets+", AdminSupervised: "+adminSupervisedSets);
 
 		// Repeat for "everyone"
 		Perms everyone = new ArbitraryPerms("everyone");
@@ -148,7 +148,7 @@ public class PlayerPerms implements Perms {
 			otherSets.add(new PermissionSet(set));
 		}
 
-		
+
 		// Get access to sets
 		for(String set : getStringListFromFile(file, path, inheritedPath, ".permissions.instantAccess")){
 			instantAccessSets.add(new PermissionSet(set));
@@ -157,8 +157,8 @@ public class PlayerPerms implements Perms {
 			adminSupervisedSets.add(new PermissionSet(set));
 		}*/
 	}
-	
-	
+
+
 	/* Easier way to get the perm sets
 	private String getStringFromFile(FileConfiguration file, String pathPrefix, String inheritedPathPrefix, String path){
 		return file.getString(pathPrefix+path, file.getString(inheritedPathPrefix+path));
@@ -183,8 +183,8 @@ public class PlayerPerms implements Perms {
 		else if(source!=null) otherSets.add(source);
 		return target;
 	}
-	
-	
+
+
 	//// Retrieving values
 	// Basic data
 	public boolean isAdmin(){
@@ -211,7 +211,7 @@ public class PlayerPerms implements Perms {
 		// If offline or checks fail, return false
 		return false;
 	}
-	
+
 	// Permission sets
 	public PermissionSet getDefault(){
 		return defaultSet;
@@ -266,50 +266,50 @@ public class PlayerPerms implements Perms {
 		}
 		return setNames;
 	}
-	
-	
+
+
 	// Display permission info to a player
 	boolean displayPermissionInfo(CommandSender sender){
 		// Prepare a prompt
 		Prompt prompt = new Prompt();
 
 		prompt.addQuestion(CommonColors.INFO+"--- Player Permissions: "+CommonColors.MESSAGE+player.getName()+CommonColors.INFO+" ---");
-		
+
 		// Username and UUID
 		prompt.addAnswer("Username: "+player.getName(), "command_playerinfo "+player.getName());
 		prompt.addAnswer("UUID: "+player.getUniqueId(), "url_https://mcuuid.net/?q="+player.getUniqueId());
-		
+
 		// Permission sets
 		prompt.addAnswer("Current set: "+getCurrentSet(), "command_permissions set info "+getCurrentSet());
 
 		prompt.addAnswer("Default set: "+defaultSet, "command_permissions set info "+defaultSet);
 		prompt.addAnswer("Utility set: "+utilitySet, "command_permissions set info "+utilitySet);
 		prompt.addAnswer("Cheat set: "+cheatSet, "command_permissions set info "+cheatSet);
-		
+
 		for(PermissionSet set : otherSets){
 			prompt.addAnswer("Other set: "+set, "command_permissions set info "+set);
 		}
-		
+
 		// Access to sets
 		StringBuilder instantAccessSetsList = new StringBuilder();
 		for(PermissionSet set: instantAccessSets){
 			instantAccessSetsList.append(set).append(", ");
 		}
 		if(instantAccessSetsList.length()>3) prompt.addAnswer("Always available: "+instantAccessSetsList, "");
-		
+
 		StringBuilder adminSupervisedSetsList = new StringBuilder();
 		for(PermissionSet set: adminSupervisedSets){
 			adminSupervisedSetsList.append(set).append(", ");
 		}
 		if(adminSupervisedSetsList.length()>3) prompt.addAnswer("Available with admin supervision: "+adminSupervisedSetsList, "");
-		
+
 		// Display the prompt
 		prompt.display(sender);
-		
+
 		return true;
 	}
-	
-	
+
+
 	//// Applying permissions
 	// Applying a set - do NOT call these methods directly, call switchSet instead as it includes most of the security checks
 	private boolean applySet(PermissionSet set){
@@ -324,23 +324,23 @@ public class PlayerPerms implements Perms {
 			Utils.notifyAdminsError(player.getName()+" could not be switched to "+set.getName()+" permissions, they are offline.");
 			return false;
 		}
-		
+
 		// Check if player has access to this set
 		if(!getAllSetsNames().contains(set.getName())){
 			(player.getPlayer()).sendMessage(CommonColors.ERROR+"Your permissions could not be applied (No access to "+set.getName()+"). Ask an "+CoreConfig.adminName+" for help.");
 			Utils.notifyAdminsError(player.getName()+CommonColors.ERROR+" could not be switched to "+set+" permissions, they do not have access.");
 			return false;
 		}
-		
+
 		// After checks finish, log to console
 		Bukkit.getLogger().info(ChatColor.stripColor("Applied "+set+" permissions to "+player.getName()));
-		
+
 		// Remove previous permissions, and prepare a new attachment
 		PermissionAttachment oldPerms = permissionAttachments.get(player.getUniqueId());
 		if(oldPerms!=null) player.getPlayer().removeAttachment(oldPerms);
 
 		PermissionAttachment playerPerms = player.getPlayer().addAttachment(CorePlugin.plugin);
-		
+
 		// Apply the new permissions
 		for(String permissionNode : set.getTotalPermissions()){
 			playerPerms.setPermission(permissionNode, true);
@@ -352,7 +352,7 @@ public class PlayerPerms implements Perms {
 
 		// Update display name
 		PlayerCharacter.getCharacter(player).updateDisplayName();
-		
+
 		return true;
 	}
 
@@ -407,7 +407,7 @@ public class PlayerPerms implements Perms {
 		catch(IllegalArgumentException e){
 			Utils.notifyAdminsError("Permission attachment could not be removed from "+player.getName()+" because they don't have it.");
 		}*/
-		
+
 		permissionAttachments.remove(player.getUniqueId());
 		currentPermissionSet.remove(player.getUniqueId());
 
@@ -423,7 +423,7 @@ public class PlayerPerms implements Perms {
 			Utils.sendActionBar(checkSender, CommonColors.ERROR+"Permission set not found.");
 			return false;
 		}
-		
+
 		// Check if player is online
 		if(!player.isOnline()){
 			Utils.notifyAdminsError(player.getName()+" could not be switched to "+set.getName()+" permissions, they are offline.");
@@ -450,7 +450,7 @@ public class PlayerPerms implements Perms {
 			// If it's also in instant access, switch the set
 			if(getInstantAccessSetsNames().contains(set.getName())){
 				// Notify admins and player
-				Utils.notifyAdmins(player.getName()+CommonColors.INFO+" switched to "+set.getName()+" permissions.");
+				if(!player.getPlayer().hasPermission("core.admin")) Utils.notifyAdmins(player.getName()+CommonColors.INFO+" switched to "+set.getName()+" permissions.");
 				Utils.sendActionBar(player.getPlayer(), "Switched to "+set.getName()+" permissions");
 
 				// Apply the permission set
@@ -482,7 +482,7 @@ public class PlayerPerms implements Perms {
 
 			prompt.addAnswer("Allow use of permissions", "command_permissions set "+player.getName()+" "+set.getName());
 			prompt.addAnswer("View details for "+set.getName(), "command_permissions set info "+set.getName());
-			
+
 			Collection<Player> admins = Utils.getOnlineAdmins();
 			admins.remove(player);
 			for(Player admin : admins) prompt.display(admin);

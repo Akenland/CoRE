@@ -155,6 +155,7 @@ public final class CorePlugin extends JavaPlugin {
 		this.getCommand("me").setExecutor(new MeCommands());
 		this.getCommand("msg").setExecutor(new MsgCommands());
 		this.getCommand("pack").setExecutor(new ResourcePackCommands());
+		this.getCommand("sign").setExecutor(new SignColorListener());
 		this.getCommand("bladeoflight").setExecutor(new WolfiaListener());
 	}
 

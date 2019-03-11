@@ -25,7 +25,7 @@ public final class GameModeCommands implements TabExecutor {
 			case "gms": case "gm0": case "s": case "survival": case "0":
 			case "gmc": case "gm1": case "c": case "creative": case "1":
 			case "gma": case "gm2": case "a": case "adventure": case "2":
-			case "gmsp": case "gm3": case "sp": case "spectator": case "3": case "vanish": case "noclip": case "spectate":
+			case "gmsp": case "gm3": case "sp": case "spectator": case "3":
                 // Turn the label into the first arg
                 String[] newArgs = new String[args.length+1];
                 newArgs[0] = label;
@@ -59,7 +59,7 @@ public final class GameModeCommands implements TabExecutor {
 			case "gma": case "gm2": case "a": case "adventure": case "2":
 				gameMode = GameMode.ADVENTURE; break;
 			// Spectator mode
-			case "gmsp": case "gm3": case "sp": case "spectator": case "3": case "vanish": case "noclip": case "spectate":
+			case "gmsp": case "gm3": case "sp": case "spectator": case "3":
 				gameMode = GameMode.SPECTATOR; break;
 			// Unknown
 			default:
@@ -124,7 +124,7 @@ public final class GameModeCommands implements TabExecutor {
         //// Completing gamemode
         if(args.length<=1){
             List<String> modes = new ArrayList<String>();
-            
+
             // Check which gamemodes they have access to, and list those
             for(GameMode mode : GameMode.values()){
                 if(sender.hasPermission("core.gamemode."+mode.toString().toLowerCase())){

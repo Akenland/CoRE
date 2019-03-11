@@ -447,7 +447,7 @@ public class PlayerCharacter implements Character {
 		// Check if AFK
 		if(isOnline()){
 			String afkMessage = AFKListener.afkPlayers.get(getUniqueId());
-			if(afkMessage!=null) prompt.addAnswer("AFK"+afkMessage, ""); 
+			if(afkMessage!=null) prompt.addAnswer("AFK"+afkMessage, "");
 		}
 
 		// Check if admin
@@ -460,15 +460,14 @@ public class PlayerCharacter implements Character {
 
 		// Admin info
 		if(includeAdminInfo){
-	
+
 			if(getIP()!=null) prompt.addAnswer("IP: "+getIP(), "url_http://www.whatsmyip.org/ip-geo-location/?ip="+getIP().substring(getIP().indexOf('/')+1));
 
 			// Game info
 			if(isOnline()){
 				Location loc = (getPlayer().getPlayer()).getLocation();
-				prompt.addAnswer("Location: "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ()+", "+loc.getWorld().getName(), "command_tp "+getUsername());
-				prompt.addAnswer((getPlayer().getPlayer()).getGameMode()+" mode", "");
-				prompt.addAnswer("Permissions: "+new PlayerPerms(getPlayer()).getCurrentSet().getName(), "command_permissions player "+getUsername());
+				prompt.addAnswer("Location: "+loc.getBlockX()+" "+loc.getBlockY()+" "+loc.getBlockZ()+", "+loc.getWorld().getName()+" "+CommonColors.INFO+getPlayer().getPlayer().getEntityId(), "command_tp "+getUsername());
+				prompt.addAnswer((getPlayer().getPlayer()).getGameMode()+" mode, "+new PlayerPerms(getPlayer()).getCurrentSet().getName()+" permissions", "command_permissions player "+getUsername());
 
 				if(getPlayer().getPlayer().isDead()){
 					prompt.addAnswer("Respawn Player", "command_player "+getUsername()+" respawn");

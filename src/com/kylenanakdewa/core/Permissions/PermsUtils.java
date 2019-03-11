@@ -27,26 +27,26 @@ public final class PermsUtils {
             if(CoreConfig.allowConsoleCommands){
                 return true;
             }
-            Utils.notifyAdminsError("RealmsCore blocked the console from admin access. To change this, enable console admin commands in coreconfig.yml.");
+            Utils.notifyAdminsError("CoRE blocked the console from admin access. To change this, enable console admin commands in coreconfig.yml.");
         }
 
         // If it's a command block, make sure command blocks are allowed in config
         if(sender instanceof BlockCommandSender){
             Block cmdBlock = ((BlockCommandSender)sender).getBlock();
             if(CoreConfig.allowCommandBlocksCommands){
-                Utils.notifyAdmins("RealmsCore allowed a command block at "+cmdBlock.getX()+" "+cmdBlock.getY()+" "+cmdBlock.getZ()+" to use an admin command.");
+                Utils.notifyAdmins("CoRE allowed a command block at "+cmdBlock.getX()+" "+cmdBlock.getY()+" "+cmdBlock.getZ()+" to use an admin command.");
                 return true;
             }
-            Utils.notifyAdminsError("RealmsCore blocked a command block at "+cmdBlock.getX()+" "+cmdBlock.getY()+" "+cmdBlock.getZ()+" from admin access. To change this, enable command block admin commands in coreconfig.yml.");            
+            Utils.notifyAdminsError("CoRE blocked a command block at "+cmdBlock.getX()+" "+cmdBlock.getY()+" "+cmdBlock.getZ()+" from admin access. To change this, enable command block admin commands in coreconfig.yml.");
         }
 
         // If it's RCON, make sure RCON is allowed in config
         if(sender instanceof RemoteConsoleCommandSender){
             if(CoreConfig.allowRconCommands){
-                Utils.notifyAdmins("RealmsCore allowed a remote console (RCON) to use an admin command.");
+                Utils.notifyAdmins("CoRE allowed a remote console (RCON) to use an admin command.");
                 return true;
             }
-            Utils.notifyAdminsError("RealmsCore blocked a remote console (RCON) from admin access. To change this, enable RCON admin commands in coreconfig.yml.");
+            Utils.notifyAdminsError("CoRE blocked a remote console (RCON) from admin access. To change this, enable RCON admin commands in coreconfig.yml.");
         }
 
         // Otherwise, return false and show error

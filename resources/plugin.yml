@@ -121,6 +121,9 @@ commands:
     description: Download and use a resource pack set by the server
     aliases: [resourcepack]
     usage: "Usage: /pack <pack name>"
+  sign:
+    description: Copy, paste, and edit signs
+    usage: "Usage: /sign <copy/paste/1-4> [new text...]"
   bladeoflight:
     description: Akenland command, has no use on other servers
     usage: "This command does not work on this server."

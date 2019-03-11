@@ -120,7 +120,7 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
         }
 
         // Send the resource pack
-        player.setResourcePack(packURL);
+        player.setResourcePack(packURL, getPackHash());
     }
 
     // Get the default resource pack for a player
@@ -138,7 +138,7 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
     private void displayPacks(CommandSender player){
         Prompt prompt = new Prompt();
         prompt.addQuestion(CommonColors.INFO+"--- "+CommonColors.MESSAGE+"Server Resource Packs"+CommonColors.INFO+" ---");
-        
+
         for(String pack : getResourcePacks()) prompt.addAnswer(pack, "command_pack "+pack);
 
         prompt.display(player);
@@ -158,7 +158,7 @@ public final class ResourcePackCommands implements TabExecutor, Listener {
     /**
      * Gets a hash for a resource pack.
      */
-    private String getPackHash(){
+    private byte[] getPackHash(){
 		return null;
     }
 
