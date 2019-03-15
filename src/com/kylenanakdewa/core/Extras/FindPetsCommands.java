@@ -46,7 +46,7 @@ public final class FindPetsCommands implements CommandExecutor {
         // Get all tamables in all worlds
         for(World world : Bukkit.getWorlds()){
             for(LivingEntity entity : world.getLivingEntities()){
-                if(entity instanceof Tameable && ((Tameable)entity).getOwner().equals(tamer)){
+                if(entity instanceof Tameable && ((Tameable)entity).getOwner()!=null && ((Tameable)entity).getOwner().equals(tamer)){
                     entity.teleport(destination);
                     sender.sendMessage(CommonColors.INFO+"Teleported "+entity.getCustomName()+CommonColors.INFO+" ("+entity.getType().toString()+")");
                 }
