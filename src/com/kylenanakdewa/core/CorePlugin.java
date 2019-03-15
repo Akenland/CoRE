@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.kylenanakdewa.core.Extras.AFKListener;
 import com.kylenanakdewa.core.Extras.EntityCommands;
+import com.kylenanakdewa.core.Extras.FindPetsCommands;
 import com.kylenanakdewa.core.Extras.GameModeCommands;
 import com.kylenanakdewa.core.Extras.InvCommands;
 import com.kylenanakdewa.core.Extras.ItemCommands;
@@ -156,6 +157,7 @@ public final class CorePlugin extends JavaPlugin {
 		this.getCommand("msg").setExecutor(new MsgCommands());
 		this.getCommand("pack").setExecutor(new ResourcePackCommands());
 		this.getCommand("sign").setExecutor(new SignColorListener());
+		this.getCommand("findpets").setExecutor(new FindPetsCommands());
 		this.getCommand("bladeoflight").setExecutor(new WolfiaListener());
 	}
 

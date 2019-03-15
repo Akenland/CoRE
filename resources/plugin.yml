@@ -124,6 +124,9 @@ commands:
   sign:
     description: Copy, paste, and edit signs
     usage: "Usage: /sign <copy/paste/1-4> [new text...]"
+  findpets:
+    description: Find all pets on the server and teleport them to you
+    usage: "Usage: /findpets [player]"
   bladeoflight:
     description: Akenland command, has no use on other servers
     usage: "This command does not work on this server."
