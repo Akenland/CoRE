@@ -122,9 +122,9 @@ public final class RemoveCommands implements TabExecutor {
 
         vehicles = Arrays.asList(EntityType.BOAT,EntityType.MINECART,EntityType.MINECART_CHEST,EntityType.MINECART_COMMAND,EntityType.MINECART_FURNACE,EntityType.MINECART_HOPPER,EntityType.MINECART_MOB_SPAWNER,EntityType.MINECART_TNT);
 
-        drops =  Arrays.asList(EntityType.ARROW,EntityType.DROPPED_ITEM,EntityType.EXPERIENCE_ORB,/*EntityType.LINGERING_POTION,*/EntityType.AREA_EFFECT_CLOUD,EntityType.PRIMED_TNT,EntityType.SPECTRAL_ARROW,EntityType.TIPPED_ARROW);
+        drops =  Arrays.asList(EntityType.ARROW,EntityType.DROPPED_ITEM,EntityType.EXPERIENCE_ORB,/*EntityType.LINGERING_POTION,*/EntityType.AREA_EFFECT_CLOUD,EntityType.PRIMED_TNT,EntityType.SPECTRAL_ARROW/*,EntityType.TIPPED_ARROW*/);
 
-        projectiles = Arrays.asList(EntityType.ARROW,EntityType.DRAGON_FIREBALL,EntityType.EGG,EntityType.ENDER_PEARL,EntityType.ENDER_SIGNAL,EntityType.EVOKER_FANGS,EntityType.FIREBALL,EntityType.FIREWORK,EntityType.LINGERING_POTION,EntityType.LLAMA_SPIT,EntityType.PRIMED_TNT,EntityType.SHULKER_BULLET,EntityType.SMALL_FIREBALL,EntityType.SNOWBALL,EntityType.SPECTRAL_ARROW,EntityType.SPLASH_POTION,EntityType.THROWN_EXP_BOTTLE,EntityType.TIPPED_ARROW,EntityType.WITHER_SKULL);
+        projectiles = Arrays.asList(EntityType.ARROW,EntityType.DRAGON_FIREBALL,EntityType.EGG,EntityType.ENDER_PEARL,EntityType.ENDER_SIGNAL,EntityType.EVOKER_FANGS,EntityType.FIREBALL,EntityType.FIREWORK,/*EntityType.LINGERING_POTION,*/EntityType.LLAMA_SPIT,EntityType.PRIMED_TNT,EntityType.SHULKER_BULLET,EntityType.SMALL_FIREBALL,EntityType.SNOWBALL,EntityType.SPECTRAL_ARROW,EntityType.SPLASH_POTION,EntityType.THROWN_EXP_BOTTLE,/*EntityType.TIPPED_ARROW,*/EntityType.WITHER_SKULL);
 
         lowerLag = new ArrayList<EntityType>();
         lowerLag.addAll(monsters); lowerLag.addAll(drops); lowerLag.addAll(projectiles); lowerLag.addAll(ambientAnimals);
