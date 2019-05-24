@@ -507,9 +507,12 @@ public class Prompt {
 		if(target instanceof Entity) targetAnswers.removeIf(answer -> !answer.visibleTo((Player)target));
 
 		// Send action bar message, prompting target, if any answers have actions
-		targetAnswers.forEach(answer -> {
-			if(answer.getAction()!=null && !answer.getAction().isEmpty()) Utils.sendActionBar(target, "Choose an option");
-		});
+		for(Answer answer : targetAnswers){
+			if(answer.getAction()!=null && !answer.getAction().isEmpty()){
+				Utils.sendActionBar(target, "Choose an option");
+				break;
+			}
+		}
 
 		// Store answers/actions for this sender
 		int code = updateSenderAnswerList(target, targetAnswers);
