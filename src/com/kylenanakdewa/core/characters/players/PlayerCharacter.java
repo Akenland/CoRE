@@ -8,10 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.Extras.AFKListener;
-import com.kylenanakdewa.core.Permissions.PlayerPerms;
+import com.kylenanakdewa.core.permissions.PlayerPerms;
 import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;

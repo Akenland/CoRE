@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.Permissions;
+package com.kylenanakdewa.core.permissions;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ interface Perms {
 	public PermissionSet getUtility();
     public PermissionSet getCheat();
     public List<PermissionSet> getOtherSets();
-    
+
     public List<PermissionSet> getAllSets();
 
     public List<PermissionSet> getAdminSupervisedSets();

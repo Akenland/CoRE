@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.Permissions;
+package com.kylenanakdewa.core.permissions;
 
 import java.util.ArrayList;
 import java.util.Collection;

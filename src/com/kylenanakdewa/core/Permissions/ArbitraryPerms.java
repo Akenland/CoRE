@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.Permissions;
+package com.kylenanakdewa.core.permissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ class ArbitraryPerms implements Perms {
 	private final PermissionSet utilitySet;
 	private final PermissionSet cheatSet;
 	private final List<PermissionSet> otherSets = new ArrayList<PermissionSet>();
-	
+
 	// Access to permission sets
 	private final List<PermissionSet> instantAccessSets = new ArrayList<PermissionSet>();
 	private final List<PermissionSet> adminSupervisedSets = new ArrayList<PermissionSet>();
@@ -85,7 +85,7 @@ class ArbitraryPerms implements Perms {
 				instantAccessSets.addAll(inherited.getInstantAccessSets());
 			}
 		}
-		
+
 
 		// Repeat for "everyone"
 		if(!name.equalsIgnoreCase("everyone")){
@@ -136,7 +136,7 @@ class ArbitraryPerms implements Perms {
     public List<PermissionSet> getOtherSets(){
         return otherSets;
     }
-    
+
     public List<PermissionSet> getAllSets(){
         List<PermissionSet> allSets = otherSets;
 		allSets.add(defaultSet); allSets.add(utilitySet); allSets.add(cheatSet);

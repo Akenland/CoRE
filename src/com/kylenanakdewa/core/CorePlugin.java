@@ -1,6 +1,8 @@
 package com.kylenanakdewa.core;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,11 +26,13 @@ import com.kylenanakdewa.core.Extras.TimeWeatherCommands;
 import com.kylenanakdewa.core.Extras.WolfiaListener;
 import com.kylenanakdewa.core.Extras.WorldCommands;
 
-import com.kylenanakdewa.core.Permissions.PermissionsCommands;
+import com.kylenanakdewa.core.permissions.PermissionsManager;
 
 import com.kylenanakdewa.core.characters.players.PlayerCharacterManager;
+
 import com.kylenanakdewa.core.common.prompts.PromptActionListener;
 import com.kylenanakdewa.core.common.prompts.PromptCommands;
+
 import com.kylenanakdewa.core.realms.RealmCommandExecutor;
 import com.kylenanakdewa.core.realms.RealmProvider;
 import com.kylenanakdewa.core.realms.composite.CompositeRealmProvider;
@@ -36,37 +40,48 @@ import com.kylenanakdewa.core.realms.configuration.CoreRealmProvider;
 import com.kylenanakdewa.core.realms.scoreboard.ScoreboardRealmProvider;
 
 /**
- * Project CoRE for Bukkit
+ * Project CoRE for Bukkit.
  * <p>
- * A roleplaying framework and server essentials, for small/medium survival and roleplay servers.
+ * A roleplaying framework and server essentials, for small/medium survival and
+ * roleplay servers.
+ *
  * @author Kyle Nanakdewa
  */
 public final class CorePlugin extends JavaPlugin {
 
 	/** This plugin's instance on the running Bukkit server. */
-	//@Deprecated
+	@Deprecated
 	public static CorePlugin plugin;
 
-	/** The RealmProvider in use on this instance of Project CoRE. */
-	private RealmProvider realmProvider;
+	/**
+	 * The modules that are in-use on this CoRE instance.
+	 * <p>
+	 * Modules are to be created and managed from this plugin only. External plugins
+	 * should not create or manage CoRE modules.
+	 */
+	private Set<CoreModule> modules;
 
+	/** The RealmProvider in use on this instance of Project CoRE. */
+	@Deprecated
+	private RealmProvider realmProvider; // TODO - move all realm stuff out of the main plugin
 
 	@Override
-	public void onEnable(){
-		plugin = this;
+	public void onEnable() {
+		plugin = this; // TODO - remove this
 
 		reload();
-
-		//// bStats Metrics
-		//startMetrics();
-
 
 		// World loader 9 - TEMP
 		WorldCommands.loadWorldStartup();
 	}
 
 	@Override
-	public void onDisable(){
+	public void onDisable() {
+		// Notify all modules
+		for (CoreModule module : modules) {
+			module.onDisable();
+		}
+
 		// Cancel all tasks
 		getServer().getScheduler().cancelTasks(this);
 		// Unregister listeners
@@ -76,11 +91,15 @@ public final class CorePlugin extends JavaPlugin {
 	/**
 	 * Reloads Project CoRE.
 	 */
-	public void reload(){
+	public void reload() {
 		onDisable();
 
+		// Set up modules
+		modules = new HashSet<CoreModule>();
+		modules.add(new PermissionsManager(this));
+
 		saveDefaultConfigs();
-		CoreConfig.reloadConfig();
+		CoreConfig.reloadConfig(); // TODO - move all realm stuff to its own package
 		CoreRealmProvider.reload();
 
 		// Set up Realm Providers - delayed so it runs after server startup
@@ -97,11 +116,10 @@ public final class CorePlugin extends JavaPlugin {
 		registerListeners();
 	}
 
-
 	/**
 	 * Registers commands for Project CoRE.
 	 */
-	private void registerCommands(){
+	private void registerCommands() {
 		// Plugin
 		getCommand("core").setExecutor(new CoreCommands(this));
 
@@ -109,8 +127,8 @@ public final class CorePlugin extends JavaPlugin {
 
 		// Realm - moved to setupCompositeRealmProvider()
 
-		// Permissions
-		this.getCommand("permissions").setExecutor(new PermissionsCommands());
+		// Permissions - moved to PermissionsManager()
+		//this.getCommand("permissions").setExecutor(new PermissionsCommands());
 
 		// Prompts
 		{
@@ -118,7 +136,6 @@ public final class CorePlugin extends JavaPlugin {
 			getCommand("prompts").setExecutor(promptCommands);
 			getCommand("help").setExecutor(promptCommands);
 		}
-
 
 		//// Extra commands
 		// Server utilities
@@ -164,7 +181,7 @@ public final class CorePlugin extends JavaPlugin {
 	/**
 	 * Registers listeners for Project CoRE.
 	 */
-	private void registerListeners(){
+	private void registerListeners() {
 
 		getServer().getPluginManager().registerEvents(new PromptActionListener(), this);
 		getServer().getPluginManager().registerEvents(new ModerationCommands(), this);
@@ -172,117 +189,104 @@ public final class CorePlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MovementCommands(), this);
 		getServer().getPluginManager().registerEvents(new ResourcePackCommands(), this);
 		getServer().getPluginManager().registerEvents(new SignColorListener(), this);
-		if(CoreConfig.afkEnabled) getServer().getPluginManager().registerEvents(new AFKListener(), this);
-		if(CoreConfig.enableWolfiaFeatures) getServer().getPluginManager().registerEvents(new WolfiaListener(), this);
+		if (CoreConfig.afkEnabled)
+			getServer().getPluginManager().registerEvents(new AFKListener(), this);
+		if (CoreConfig.enableWolfiaFeatures)
+			getServer().getPluginManager().registerEvents(new WolfiaListener(), this);
 	}
 
 	/**
 	 * Saves default config files for Project CoRE.
 	 */
-	private void saveDefaultConfigs(){
+	private void saveDefaultConfigs() {
 		// Core Config
 		CoreConfig.saveDefaultConfig();
 
 		// Realms file
-		if(!new File(this.getDataFolder(),"realms.yml").exists()) this.saveResource("realms.yml", false);
+		if (!new File(this.getDataFolder(), "realms.yml").exists())
+			this.saveResource("realms.yml", false);
 
 		// Permissions files
-		if(CoreConfig.permsEnabled){
-			if(!new File(this.getDataFolder(),"playerperms.yml").exists()) this.saveResource("playerperms.yml", false);
-			if(!new File(this.getDataFolder(),"permsets.yml").exists()) this.saveResource("permsets.yml", false);
+		if (CoreConfig.permsEnabled) {
+			if (!new File(this.getDataFolder(), "playerperms.yml").exists())
+				this.saveResource("playerperms.yml", false);
+			if (!new File(this.getDataFolder(), "permsets.yml").exists())
+				this.saveResource("permsets.yml", false);
 		}
 
 		// Example prompts
-		if(!new File(this.getDataFolder(),"prompts\\example.yml").exists()) this.saveResource("prompts\\example.yml", false);
-		if(!new File(this.getDataFolder(),"prompts\\help.yml").exists()) this.saveResource("prompts\\help.yml", false);
-		if(!new File(this.getDataFolder(),"prompts\\motd.yml").exists()) this.saveResource("prompts\\motd.yml", false);
+		if (!new File(this.getDataFolder(), "prompts\\example.yml").exists())
+			this.saveResource("prompts\\example.yml", false);
+		if (!new File(this.getDataFolder(), "prompts\\help.yml").exists())
+			this.saveResource("prompts\\help.yml", false);
+		if (!new File(this.getDataFolder(), "prompts\\motd.yml").exists())
+			this.saveResource("prompts\\motd.yml", false);
 
 		// Resource packs file
-		if(!new File(this.getDataFolder(),"packs.yml").exists()) this.saveResource("packs.yml", false);
+		if (!new File(this.getDataFolder(), "packs.yml").exists())
+			this.saveResource("packs.yml", false);
 	}
 
 	/**
-	 * Starts bStats Metrics for Project CoRE.
-	 */
-	/*private void startMetrics(){
-		Metrics metrics = new Metrics(this);
-		// Config values
-		metrics.addCustomChart(new Metrics.SimplePie("config_allowCommandBlockCommands", () -> CoreConfig.allowCommandBlocksCommands?"Allowed":"Blocked"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_allowConsoleCommands", () -> CoreConfig.allowConsoleCommands?"Allowed":"Blocked"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_allowRconCommands", () -> CoreConfig.allowRconCommands?"Allowed":"Blocked"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_multiCheckAdmins", () -> CoreConfig.multiCheckAdmins?"Enabled":"Disabled"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_permsEnabled", () -> CoreConfig.permsEnabled?"Enabled":"Disabled"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_lockoutNewIPs", () -> CoreConfig.lockoutNewIPs?"Enabled":"Disabled"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_formatChat", () -> CoreConfig.formatChat?"Enabled":"Disabled"));
-		// Realm config values
-		metrics.addCustomChart(new Metrics.SimplePie("config_playersForNewRealm", () -> CoreConfig.playersForNewRealm+" players"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_playersCreateNewRealm", () -> CoreConfig.playersCreateNewRealm?"New realms":"Sub-realms only"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_officersCreateSubRealms", () -> CoreConfig.officersCreateSubRealms?"Realm officers only":"Anyone"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_useScoreboard", () -> CoreConfig.useScoreboard?"Enabled":"Disabled"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_blockFriendlyFire", () -> CoreConfig.blockFriendlyFire?"Friendly-fire blocked":"Friendly-fire allowed"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_seeFriendlyInvisibles", () -> CoreConfig.seeFriendlyInvisibles?"Members see invisibles":"Invisible to everyone"));
-		metrics.addCustomChart(new Metrics.SimplePie("config_nameTagVisibility", () -> CoreConfig.nameTagVisibility));
-		metrics.addCustomChart(new Metrics.SimplePie("config_deathMessageVisibility", () -> CoreConfig.deathMessageVisibility));
-		metrics.addCustomChart(new Metrics.SimplePie("config_collisionRule", () -> CoreConfig.collisionRule));
-		// Online admins
-		metrics.addCustomChart(new Metrics.SingleLineChart("players_admins", () -> Utils.getOnlineAdmins().size()));
-	}*/
-
-
-	/**
-	 * Gets the active RealmProvider for this instance of Project CoRE.
-	 * The RealmProvider is responsible for managing all Realms for this plugin.
+	 * Gets the active RealmProvider for this instance of Project CoRE. The
+	 * RealmProvider is responsible for managing all Realms for this plugin.
 	 * <p>
-	 * NOTE: The active provider will change if the plugin is reloaded. For this reason, avoid storing the returned provider.
+	 * NOTE: The active provider will change if the plugin is reloaded. For this
+	 * reason, avoid storing the returned provider.
+	 *
 	 * @return the current RealmProvider
 	 */
-	public RealmProvider getRealmProvider(){
+	public RealmProvider getRealmProvider() {
 		return realmProvider;
 	}
+
 	/**
-	 * Gets the active RealmProvider for this instance of Project CoRE.
-	 * The RealmProvider is responsible for managing all Realms for this plugin.
+	 * Gets the active RealmProvider for this instance of Project CoRE. The
+	 * RealmProvider is responsible for managing all Realms for this plugin.
 	 * <p>
-	 * NOTE: The active provider will change if the plugin is reloaded. For this reason, avoid storing the returned provider.
+	 * NOTE: The active provider will change if the plugin is reloaded. For this
+	 * reason, avoid storing the returned provider.
+	 *
 	 * @return the current RealmProvider
 	 */
-	public static RealmProvider getServerRealmProvider(){
+	@Deprecated
+	public static RealmProvider getServerRealmProvider() {
 		return plugin.getRealmProvider();
 	}
 
 	/**
-	 * Creates a CompositeRealmProvider for this instance of Project CoRE.
-	 * The active providers are retrieved from the config.
+	 * Creates a CompositeRealmProvider for this instance of Project CoRE. The
+	 * active providers are retrieved from the config.
 	 * <p>
 	 * Also registers realm commands for the provider.
 	 * <p>
-	 * Do not call until all plugins have loaded! Otherwise, the providers might not be registered, and exceptions will be thrown.
+	 * Do not call until all plugins have loaded! Otherwise, the providers might not
+	 * be registered, and exceptions will be thrown.
 	 */
-	private void setupCompositeRealmProvider(){
+	private void setupCompositeRealmProvider() {
 		// Register CoRE's included providers
-		CompositeRealmProvider.registerProvider("scoreboard", new ScoreboardRealmProvider(getServer().getScoreboardManager().getMainScoreboard()));
+		CompositeRealmProvider.registerProvider("scoreboard",
+				new ScoreboardRealmProvider(getServer().getScoreboardManager().getMainScoreboard()));
 		CompositeRealmProvider.registerProvider("core", new CoreRealmProvider(this));
-
 
 		CompositeRealmProvider compositeProvider = new CompositeRealmProvider();
 		CoreConfig.realmLoadSource.forEach(activeProvider -> {
 			compositeProvider.activateProvider(activeProvider);
-			getLogger().info("Activated Realm Provider: "+activeProvider);
+			getLogger().info("Activated Realm Provider: " + activeProvider);
 		});
-		getLogger().info("Loaded "+compositeProvider.getAllRealms().size()+" realms");
+		getLogger().info("Loaded " + compositeProvider.getAllRealms().size() + " realms");
 		realmProvider = compositeProvider;
 
 		// Register commands and listener
 		getCommand("realm").setExecutor(new RealmCommandExecutor(realmProvider, this));
 	}
 
-
 	/**
 	 * Creates a PlayerCharacterManager for this instance of Project CoRE.
 	 * <p>
 	 * Automatically registers commands and listeners.
 	 */
-	private void setupPlayerCharacterManager(){
+	private void setupPlayerCharacterManager() {
 		// Register commands and listener
 		getCommand("player").setExecutor(new PlayerCharacterManager(this));
 	}

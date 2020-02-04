@@ -9,7 +9,7 @@ import org.bukkit.command.TabExecutor;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PermsUtils;
+import com.kylenanakdewa.core.permissions.PermsUtils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
 
 /**
@@ -39,7 +39,6 @@ public final class CoreCommands implements TabExecutor {
 
             // Plugin configuration info
             if(sender.hasPermission("core.admin")){
-                prompt.addAnswer("Server running compatible version: "+Utils.isLatestVersion()+" (click for details)", "command_version");
                 prompt.addAnswer("Permissions enabled: "+CoreConfig.permsEnabled, "");
                 prompt.addAnswer("Chat formatting enabled: "+ CoreConfig.formatChat, "");
                 if(CoreConfig.enableWolfiaFeatures)

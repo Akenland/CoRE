@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.Permissions;
+package com.kylenanakdewa.core.permissions;
 
 import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
@@ -53,4 +53,5 @@ public final class PermsUtils {
         Utils.notifyAdminsError(sender.getName()+CommonColors.ERROR+" failed security check (Admin Multi-Check failed).");
         return false;
     }
+
 }

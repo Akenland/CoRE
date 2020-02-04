@@ -62,6 +62,7 @@ public class ConfigAccessor {
 	 * Gets a ConfigAccessor for a file in the CoRE plugin folder.
 	 * @param fileName the name of the file, relative to /plugins/CoRE/
 	 */
+	@Deprecated
 	public ConfigAccessor(String fileName){
 		this(fileName, Bukkit.getPluginManager().getPlugin("CoRE"));
 	}

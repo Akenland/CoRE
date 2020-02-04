@@ -1,12 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.kylenanakdewa</groupId>
   <artifactId>CoRE</artifactId>
-  <version>1.0</version>
+  <version>1.4</version>
 
   <build>
     <sourceDirectory>${basedir}/src</sourceDirectory>
@@ -34,16 +33,16 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
+      <version>1.14.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <!--NMS-->
-    <dependency>
+    <!--<dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot</artifactId>
       <version>1.12.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
     <!--RealmsStory-->
     <!--dependency>
       <groupId>com.kylenanakdewa</groupId>

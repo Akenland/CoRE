@@ -25,6 +25,7 @@ import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.characters.players.PlayerCharacter;
 
+@Deprecated // TODO - move this to a separate plugin
 public final class WolfiaListener implements Listener, CommandExecutor {
 
     //// Blade of Light
@@ -32,7 +33,7 @@ public final class WolfiaListener implements Listener, CommandExecutor {
     private static ItemStack getBladeOfLight(PlayerCharacter player){
         ItemStack sword = new ItemStack(Material.WOOD_SWORD);
         ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.WOOD_SWORD);
-        
+
         // Get player info
         String username = player.getUsername();
         String dateString = player.getFirstLoginDate().format(DateTimeFormatter.ofPattern("MM/dd/yy"));
