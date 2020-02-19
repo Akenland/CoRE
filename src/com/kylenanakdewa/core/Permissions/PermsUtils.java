@@ -11,6 +11,7 @@ import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Utils;
 
+@Deprecated
 public final class PermsUtils {
 
     // Double-check a sender to make sure they're an admin

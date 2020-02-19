@@ -14,8 +14,16 @@ import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
+import com.kylenanakdewa.core.permissions.PermissionSet;
+import com.kylenanakdewa.core.permissions.PermissionsManager;
 
-final class PermissionsCommands implements TabExecutor {
+/**
+ * Handles commands (including their tab-completions) for the CoRE Permissions
+ * system.
+ *
+ * @author Kyle Nanakdewa
+ */
+public final class PermissionsCommands implements TabExecutor {
 
 	/** The CoRE Permissions system that owns this command executor. */
 	private final PermissionsManager permissionsManager;
@@ -31,43 +39,37 @@ final class PermissionsCommands implements TabExecutor {
 			if (!sender.hasPermission("core.admin"))
 				return Error.NO_PERMISSION.displayChat(sender);
 			sender.sendMessage(CommonColors.ERROR
-					+ "CoRE Permissions are not enabled on this server. Use another plugin to manage permissions, or enable permissions in the config. See http://plugins.akenland.com for help.");
+					+ "CoRE Permissions are not enabled on this server. Use another plugin to manage permissions, or enable permissions in the config.");
 			return true;
 		}
 
-		//// First check if it's a alias for set switching
-		//// (default/utility/cheat/switchset)
-		if (sender instanceof Player && sender.hasPermission("core.permissions.setswitch")) {
-			if (label.equalsIgnoreCase("default"))
-				return new PlayerPerms((Player) sender).applyDefaultSet();
-			if (label.equalsIgnoreCase("utility"))
-				return new PlayerPerms((Player) sender).applyUtilitySet();
-			if (label.equalsIgnoreCase("cheat"))
-				return new PlayerPerms((Player) sender).applyCheatSet();
-			if (label.toLowerCase().contains("set") && args.length == 1)
-				return new PlayerPerms((Player) sender).switchSet(permissionsManager.getPermissionSet(args[0]));
+		// Set switch command
+		if (sender instanceof Player && sender.hasPermission("core.permissions.setswitch")
+				&& label.toLowerCase().contains("set")) {
+			if (args.length == 1) {
+				PermissionSet set = permissionsManager.getPermissionSet(args[0]);
+				if (set == null)
+					return Error.INVALID_ARGS.displayActionBar(sender);
+				permissionsManager.getPlayer((Player) sender).setCurrentSet(set, false);
+				return true;
+			} else
+				return Error.INVALID_ARGS.displayActionBar(sender);
 		}
 
-		// All perms commands require at least one arg, so return invalid args error if
-		// there aren't any
+		// All perms commands require at least one arg
 		if (args.length == 0)
 			return Error.INVALID_ARGS.displayActionBar(sender);
 
-		//// Manage a set
+		// Manage a set
 		if (args[0].equalsIgnoreCase("set")) {
 
-			// If second arg is info, show info about the set
-			if (args.length == 3 && args[1].equalsIgnoreCase("info")) {
+			// If no other args, show info about the set
+			if (args.length == 2) {
 				if (!sender.hasPermission("core.permissions.set"))
 					return Error.NO_PERMISSION.displayChat(sender);
 
 				permissionsManager.getPermissionSet(args[2]).getInfoPrompt().display(sender);
 				return true;
-			}
-
-			// If two args, attempt to switch sending player to that set
-			if (args.length == 2 && sender instanceof Player && sender.hasPermission("core.permissions.setswitch")) {
-				return new PlayerPerms((Player) sender).switchSet(permissionsManager.getPermissionSet(args[1]));
 			}
 
 			// If three args, attempt to switch another player to a set
@@ -89,7 +91,9 @@ final class PermissionsCommands implements TabExecutor {
 					return Error.INVALID_ARGS.displayActionBar(sender);
 				}
 
-				return new PlayerPerms(targetPlayer).switchSet(permissionsManager.getPermissionSet(args[2]), sender);
+				permissionsManager.getPlayer(targetPlayer).setCurrentSet(permissionsManager.getPermissionSet(args[2]),
+						false);
+				return true;
 			}
 		}
 
@@ -97,7 +101,7 @@ final class PermissionsCommands implements TabExecutor {
 		if (args.length >= 2 && args[0].equalsIgnoreCase("player")) {
 
 			// These commands require double-checked admin status
-			if (!PermsUtils.isDoubleCheckedAdmin(sender)) {
+			if (!sender.hasPermission("core.permissions.player") || !PermsUtils.isDoubleCheckedAdmin(sender)) {
 				Utils.notifyAdminsError(sender.getName() + CommonColors.ERROR
 						+ " failed security check (command: /permissions " + String.join(" ", args) + ").");
 				return Error.NO_PERMISSION.displayChat(sender);
@@ -109,23 +113,6 @@ final class PermissionsCommands implements TabExecutor {
 				return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
 			}
 
-			// If third arg is set, switch player's set
-			if (args.length == 4 && args[2].equalsIgnoreCase("set")) {
-				// Check permissions
-				if (!sender.hasPermission("core.permissions.setswitch.others")) {
-					Utils.notifyAdminsError(sender.getName() + CommonColors.ERROR + " failed security check (switching "
-							+ targetPlayer.getName() + " to " + args[3] + " permissions).");
-					return Error.NO_PERMISSION.displayChat(sender);
-				}
-				if (targetPlayer.equals(sender)) {
-					sender.sendMessage(CommonColors.ERROR
-							+ "You must use this command to switch your own permissions: /set <set name>");
-					return Error.INVALID_ARGS.displayActionBar(sender);
-				}
-
-				return new PlayerPerms(targetPlayer).switchSet(permissionsManager.getPermissionSet(args[3]), sender);
-			}
-
 			// If third arg is revoke, revoke player's permissions
 			if (args.length == 3 && args[2].equalsIgnoreCase("revoke")) {
 				// Check permissions
@@ -135,15 +122,12 @@ final class PermissionsCommands implements TabExecutor {
 					return Error.NO_PERMISSION.displayChat(sender);
 				}
 
-				return new PlayerPerms(targetPlayer).revokePermissions();
+				permissionsManager.getPlayer(targetPlayer).revokePermissions();
+				return true;
 			}
 
-			// Otherwise, show info on the player
-			if (sender.hasPermission("core.permissions.player")) {
-				return new PlayerPerms(targetPlayer).displayPermissionInfo(sender);
-			}
-
-			return Error.NO_PERMISSION.displayChat(sender);
+			permissionsManager.getPlayer(targetPlayer).getPermissionsInfoPrompt().display(sender);
+			return true;
 		}
 
 		return Error.INVALID_ARGS.displayActionBar(sender);

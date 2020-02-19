@@ -14,7 +14,7 @@ import org.bukkit.permissions.Permission;
  * Represents a set of permission nodes that may be applied to a
  * {@link org.bukkit.permissions.Permissible}.
  * <p>
- * The set is loaded from the CoRE permsets.yml file.
+ * The set is loaded from the CoRE Permissions sets.yml file.
  * <p>
  * Only one permission set may be applied to a Permissible at a time, although
  * sets may inherit from other sets, thus allowing a Permissible to have all
@@ -48,7 +48,7 @@ public class CorePermissionSet extends PermissionSet {
     }
 
     /**
-     * Loads this set's data from the CoRE permsets.yml file.
+     * Loads this set's data from the CoRE Permissions sets.yml file.
      */
     private void load() {
         // If already loaded, don't load it again
@@ -62,11 +62,17 @@ public class CorePermissionSet extends PermissionSet {
         if (file.contains("sets." + getName())) {
 
             // Get inherited sets
-            if (file.contains("sets." + getName() + ".inheritedSets")) {
+            if (file.contains("sets." + getName() + ".inherited-sets")) {
                 inheritedSets = new ArrayList<PermissionSet>();
 
-                for (String setName : file.getStringList("sets." + getName() + ".inheritedSets")) {
-                    inheritedSets.add(permissionsManager.getPermissionSet(setName));
+                for (String setName : file.getStringList("sets." + getName() + ".inherited-sets")) {
+                    PermissionSet set = permissionsManager.getPermissionSet(setName);
+
+                    if (set == null)
+                        Utils.notifyAdminsError("CoRE Permissions was unable to find permission set " + setName
+                                + ", inherited by permission set " + getName() + ". Check the sets.yml file.");
+                    else
+                        inheritedSets.add(set);
                 }
             }
 
@@ -85,8 +91,8 @@ public class CorePermissionSet extends PermissionSet {
             loaded = true;
         } else {
             // If set could not be loaded, show an error to admins and console
-            Utils.notifyAdminsError("CoRE Permissions was unable to find permission set " + getName()
-                    + ". Check the permsets.yml file.");
+            Utils.notifyAdminsError(
+                    "CoRE Permissions was unable to find permission set " + getName() + ". Check the sets.yml file.");
         }
     }
 

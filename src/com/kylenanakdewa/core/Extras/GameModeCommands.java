@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PlayerPerms;
+import com.kylenanakdewa.core.permissions.PlayerPerms;
 
 public final class GameModeCommands implements TabExecutor {
 
