@@ -25,7 +25,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PermsUtils;
+import com.kylenanakdewa.core.permissions.PermsUtils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
 
 public final class EntityCommands implements TabExecutor, Listener {
@@ -127,7 +127,7 @@ public final class EntityCommands implements TabExecutor, Listener {
                     return Error.INVALID_ARGS.displayActionBar(sender);
             }
         }
-    
+
     return Error.INVALID_ARGS.displayActionBar(sender);
     }
 
@@ -136,7 +136,7 @@ public final class EntityCommands implements TabExecutor, Listener {
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
         // Completions for editing an entity
         if(args.length==2) return Arrays.asList("tphere", "invulnerable", "name", "glowing", "remove");
-        
+
         return null;
     }
 
@@ -157,7 +157,7 @@ public final class EntityCommands implements TabExecutor, Listener {
     public void displayEntityInfo(CommandSender sender, Entity entity){
         Prompt prompt = new Prompt();
         prompt.addQuestion(CommonColors.INFO+"--- "+CommonColors.MESSAGE+"Entity "+entity.getEntityId()+" - "+entity.getType()+CommonColors.INFO+" ---");
-        
+
         // Basic info
         prompt.addAnswer("Name: "+entity.getName() + (entity.getCustomName()!=null ? " ("+entity.getCustomName()+")" : ""), "");
         Location loc = entity.getLocation();

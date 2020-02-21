@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.permissions;
+package com.kylenanakdewa.core.permissions.sets;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,59 +22,24 @@ import com.kylenanakdewa.core.common.prompts.Prompt;
  *
  * @author Kyle Nanakdewa
  */
-public class PermissionSet {
+public abstract class PermissionSet {
 
 	/** Unique name of this permission set. */
 	private final String id;
 
 	/**
-	 * A list of other sets that are inherited by this set. All of their permissions
-	 * are also included in this set.
-	 * <p>
-	 * This is recursive: sets can inherit other sets.
-	 */
-	protected List<PermissionSet> inheritedSets;
-
-	/**
-	 * The permissions included in this set, and their value.
-	 * <p>
-	 * Permissions that are true will be applied to the Permissible. Permissions
-	 * that are false will be denied from the Permissible.
-	 * <p>
-	 * This map does not include inherited permissions.
-	 */
-	protected Map<Permission, Boolean> permissions;
-
-	/**
 	 * Creates a permission set, with the specified collection of permissions.
 	 *
-	 * @param id            a unique ID for the permission set
-	 * @param inheritedSets permission sets which will be inherited by this set (all
-	 *                      permissions will be included, recursively), can be null
-	 * @param permissions   permissions to assign as part of this set, and their
-	 *                      value (true to assign the permission, false to deny the
-	 *                      permission), can be null
+	 * @param id a unique ID for the permission set
 	 */
-	public PermissionSet(String id, List<PermissionSet> inheritedSets, Map<Permission, Boolean> permissions) {
+	protected PermissionSet(String id) {
 		this.id = id.toLowerCase();
-		this.inheritedSets = inheritedSets;
-		this.permissions = permissions;
-
-		// Check that this set does not contain itself
-		if (inheritedSets != null) {
-			for (PermissionSet set : inheritedSets) {
-				if (set.getName().equals(id)) {
-					Utils.notifyAdminsError("CoRE Permissions found a permission set that inherits itself (" + id
-							+ "). This can cause unpredictable results, incorrect permissions, or server instability.");
-				}
-			}
-		}
 	}
 
 	/**
 	 * Gets the unique name of this set.
 	 */
-	public String getName() {
+	public final String getName() {
 		return id;
 	}
 
@@ -86,9 +51,7 @@ public class PermissionSet {
 	 * <p>
 	 * May be null.
 	 */
-	public List<PermissionSet> getInheritedSets() {
-		return inheritedSets;
-	}
+	public abstract List<PermissionSet> getInheritedSets();
 
 	/**
 	 * Gets the permissions included in this set, and their values.
@@ -100,9 +63,7 @@ public class PermissionSet {
 	 * <p>
 	 * May be null.
 	 */
-	public Map<Permission, Boolean> getPermissions() {
-		return permissions;
-	}
+	public abstract Map<Permission, Boolean> getPermissions();
 
 	/**
 	 * Gets the permissions included in this set, and their values. This includes
@@ -113,7 +74,7 @@ public class PermissionSet {
 	 * <p>
 	 * If there are no permissions, this will return an empty map.
 	 */
-	public Map<Permission, Boolean> getTotalPermissions() {
+	public final Map<Permission, Boolean> getTotalPermissions() {
 		Map<Permission, Boolean> map = new HashMap<Permission, Boolean>();
 
 		// Add the permissions from this set
@@ -138,7 +99,7 @@ public class PermissionSet {
 	 * value provided by the permission's plugin. This will typically be false, but
 	 * some plugins may specify a default value of true.
 	 */
-	public boolean hasPermission(Permission permission) {
+	public final boolean hasPermission(Permission permission) {
 		return getTotalPermissions().getOrDefault(permission, permission.getDefault().getValue(false));
 	}
 
@@ -149,7 +110,7 @@ public class PermissionSet {
 	 * value provided by the permission's plugin. This will typically be false, but
 	 * some plugins may specify a default value of true.
 	 */
-	public boolean hasPermission(String permissionName) {
+	public final boolean hasPermission(String permissionName) {
 		// Attempt to get a permission registered on the server
 		Permission permission = Bukkit.getPluginManager().getPermission(permissionName);
 

@@ -15,7 +15,7 @@ import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PermsUtils;
+import com.kylenanakdewa.core.permissions.PermsUtils;
 
 import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
@@ -52,7 +52,7 @@ public final class ModerationCommands implements CommandExecutor, Listener {
             targetPlayer = Utils.getPlayer(args[0], true);
         }
         if(targetPlayer==null) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
-        
+
 
 
         //// Kick command
@@ -82,12 +82,12 @@ public final class ModerationCommands implements CommandExecutor, Listener {
             // If no message supplied, add a generic message
             if(message.length()<=1) message = null;
 
-            Utils.notifyAdminsError(targetPlayer.getName()+CommonColors.ERROR+" was banned from the server by "+sender.getName()+" (reason: "+message+")");            
+            Utils.notifyAdminsError(targetPlayer.getName()+CommonColors.ERROR+" was banned from the server by "+sender.getName()+" (reason: "+message+")");
 
             // Ban the player
             Bukkit.getBanList(Type.NAME).addBan(targetPlayer.getName(), message, null, sender.getName());
             if(targetPlayer.isOnline()) ((Player)targetPlayer).kickPlayer(message);
-            
+
             return true;
         }
 
@@ -98,7 +98,7 @@ public final class ModerationCommands implements CommandExecutor, Listener {
             Date expires = null;
             if(args.length>=2){
                 String input = args[1];
-                
+
                 // Try to parse as duration, otherwise parse as date
                 try{
                     Duration duration = Duration.parse("P"+input);
@@ -121,12 +121,12 @@ public final class ModerationCommands implements CommandExecutor, Listener {
             // If no message supplied, add a generic message
             if(message.length()<=1) message = null;
 
-            Utils.notifyAdminsError(targetPlayer.getName()+CommonColors.ERROR+" was banned from the server until "+expires+" by "+sender.getName()+" (reason: "+message+")");            
+            Utils.notifyAdminsError(targetPlayer.getName()+CommonColors.ERROR+" was banned from the server until "+expires+" by "+sender.getName()+" (reason: "+message+")");
 
             // Ban the player
             Bukkit.getBanList(Type.NAME).addBan(targetPlayer.getName(), message, expires, sender.getName());
             if(targetPlayer.isOnline()) ((Player)targetPlayer).kickPlayer(message);
-            
+
             return true;
         }
 

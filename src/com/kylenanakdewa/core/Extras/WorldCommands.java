@@ -20,7 +20,7 @@ import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PermsUtils;
+import com.kylenanakdewa.core.permissions.PermsUtils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
 
 // World management commands, including world loading, unloading, and entering
@@ -29,7 +29,7 @@ public final class WorldCommands implements TabExecutor {
     //// Commands
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        
+
         // All commands require permission core.world
         if(!sender.hasPermission("core.world")) return Error.NO_PERMISSION.displayChat(sender);
 
@@ -38,19 +38,19 @@ public final class WorldCommands implements TabExecutor {
         if(args.length==0){
         	// Get the list of worlds from Bukkit
 		    List<World> worlds = Bukkit.getWorlds();
-		
+
 		    // Prepare a prompt
             Prompt list = new Prompt();
 		    list.addQuestion(CommonColors.INFO+"--- "+CommonColors.MESSAGE+"Worlds"+CommonColors.INFO+" ---");
-		
+
             // Add each world name, with the action to get info
 		    for(World world : worlds){
 			    list.addAnswer(getWorldColor(world)+world.getName(), "command_world "+world.getName());
 		    }
-		
+
 		    // Display the prompt to sender
 		    list.display(sender);
-		
+
 		    return true;
         }
 
@@ -154,7 +154,7 @@ public final class WorldCommands implements TabExecutor {
             return true;
         }
 
-        
+
         // Unload world
         if(args.length==2 && args[1].equalsIgnoreCase("unload")){
             // Check permissions
@@ -163,8 +163,8 @@ public final class WorldCommands implements TabExecutor {
 		    Utils.notifyAdmins("Unloaded world "+world.getName());
 		    return Bukkit.unloadWorld(world, true);
         }
-        
-        
+
+
         // Teleport to world spawn
         if(args.length>=2 && args[1].equalsIgnoreCase("enter")){
             // Check permissions
@@ -176,11 +176,11 @@ public final class WorldCommands implements TabExecutor {
             else if(sender instanceof Player)
                 targetPlayer = (Player) sender;
             if(targetPlayer==null) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
-		
+
 		    Utils.sendActionBar(sender, "Warping to world "+world.getName());
 		    return targetPlayer.teleport(world.getSpawnLocation());
         }
-		
+
         return Error.INVALID_ARGS.displayActionBar(sender);
     }
 
@@ -188,7 +188,7 @@ public final class WorldCommands implements TabExecutor {
     //// Tab completions
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        
+
         // If no permission, return nothing
         if(!sender.hasPermission("core.world")) return Arrays.asList("");
 
@@ -226,7 +226,7 @@ public final class WorldCommands implements TabExecutor {
                 return completions;
             }
         }
-        
+
         return null;
     }
 

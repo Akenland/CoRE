@@ -1,11 +1,14 @@
-package com.kylenanakdewa.core.permissions;
+package com.kylenanakdewa.core.permissions.playergroups;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import com.kylenanakdewa.core.common.Utils;
+import com.kylenanakdewa.core.permissions.PermissionsManager;
+import com.kylenanakdewa.core.permissions.sets.PermissionSet;
 
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,19 +16,28 @@ import org.bukkit.configuration.file.FileConfiguration;
 /**
  * Represents a group of players that can be assigned permission sets.
  * <p>
- * The group is loaded from the CoRE Permissions players.yml file.
+ * The group is loaded from the CoRE Permissions playergroups.yml file.
  *
  * @author Kyle Nanakdewa
  */
-class CorePlayerPermissionsGroup extends PlayerPermissionsGroup {
+public class CorePlayerGroup extends PlayerGroup {
 
     /** The CoRE Permissions system that owns this group. */
     private final PermissionsManager permissionsManager;
 
+    /** The gamemode permissions sets for this group. */
+    private Map<GameMode, PermissionSet> gameModeSets;
+
+    /** The other permission sets for this group. */
+    private Set<PermissionSet> otherSets;
+
+    /** The player UUIDs in this group. */
+    private Set<UUID> playerUuids;
+
     /** Whether this group's data has already been loaded. */
     private boolean loaded;
 
-    CorePlayerPermissionsGroup(String id, PermissionsManager permissionsManager) {
+    public CorePlayerGroup(String id, PermissionsManager permissionsManager) {
         super(id);
         this.permissionsManager = permissionsManager;
     }
@@ -33,30 +45,34 @@ class CorePlayerPermissionsGroup extends PlayerPermissionsGroup {
     @Override
     public PermissionSet getGameModeSet(GameMode gameMode) {
         load();
-        return super.getGameModeSet(gameMode);
+
+        if (gameModeSets == null)
+            return null;
+        else
+            return gameModeSets.get(gameMode);
     }
 
     @Override
     public Set<PermissionSet> getOtherSets() {
         load();
-        return super.getOtherSets();
+        return otherSets;
     }
 
     @Override
     public Set<UUID> getPlayerUuids() {
         load();
-        return super.getPlayerUuids();
+        return playerUuids;
     }
 
     /**
-     * Loads this group's data from the CoRE Permissions players.yml file.
+     * Loads this group's data from the CoRE Permissions playergroups.yml file.
      */
     private void load() {
         // If already loaded, don't load it again
         if (loaded)
             return;
 
-        // Load the permsets.yml file
+        // Load the playergroups.yml file
         FileConfiguration file = permissionsManager.getPlayersFile();
 
         // Check if this group can be found in file
@@ -72,7 +88,7 @@ class CorePlayerPermissionsGroup extends PlayerPermissionsGroup {
                     if (set == null)
                         Utils.notifyAdminsError("CoRE Permissions was unable to find permission set " + setName
                                 + ", for player permissions group " + getName()
-                                + ". Check the sets.yml and players.yml file.");
+                                + ". Check the sets.yml and playergroups.yml file.");
                     else
                         gameModeSets.put(gameMode, set);
                 }
@@ -88,7 +104,7 @@ class CorePlayerPermissionsGroup extends PlayerPermissionsGroup {
                     if (set == null)
                         Utils.notifyAdminsError("CoRE Permissions was unable to find permission set " + setName
                                 + ", for player permissions group " + getName()
-                                + ". Check the sets.yml and players.yml file.");
+                                + ". Check the sets.yml and playergroups.yml file.");
                     else
                         otherSets.add(set);
                 }
@@ -108,7 +124,7 @@ class CorePlayerPermissionsGroup extends PlayerPermissionsGroup {
         } else {
             // If set could not be loaded, show an error to admins and console
             Utils.notifyAdminsError("CoRE Permissions was unable to find player permissions group " + getName()
-                    + ". Check the players.yml file.");
+                    + ". Check the playergroups.yml file.");
         }
     }
 

@@ -31,8 +31,8 @@ public final class WolfiaListener implements Listener, CommandExecutor {
     //// Blade of Light
     // Get the blade for a player
     private static ItemStack getBladeOfLight(PlayerCharacter player){
-        ItemStack sword = new ItemStack(Material.WOOD_SWORD);
-        ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.WOOD_SWORD);
+        ItemStack sword = new ItemStack(Material.WOODEN_SWORD);
+        ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.WOODEN_SWORD);
 
         // Get player info
         String username = player.getUsername();

@@ -3,7 +3,6 @@ package com.kylenanakdewa.core.realms;
 import java.util.Collection;
 
 import com.kylenanakdewa.core.characters.Character;
-import com.kylenanakdewa.core.realms.Realm;
 
 /**
  * A provider of Realms.

@@ -1,4 +1,4 @@
-package com.kylenanakdewa.core.permissions;
+package com.kylenanakdewa.core.permissions.sets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kylenanakdewa.core.common.Utils;
+import com.kylenanakdewa.core.permissions.PermissionsManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.permissions.Permission;
@@ -27,24 +28,42 @@ public class CorePermissionSet extends PermissionSet {
     /** The CoRE Permissions system that owns this set. */
     private final PermissionsManager permissionsManager;
 
+    /**
+     * A list of other sets that are inherited by this set. All of their permissions
+     * are also included in this set.
+     * <p>
+     * This is recursive: sets can inherit other sets.
+     */
+    private List<PermissionSet> inheritedSets;
+
+    /**
+     * The permissions included in this set, and their value.
+     * <p>
+     * Permissions that are true will be applied to the Permissible. Permissions
+     * that are false will be denied from the Permissible.
+     * <p>
+     * This map does not include inherited permissions.
+     */
+    private Map<Permission, Boolean> permissions;
+
     /** Whether this set's data has already been loaded. */
     private boolean loaded;
 
-    CorePermissionSet(String id, PermissionsManager permissionsManager) {
-        super(id, null, null);
+    public CorePermissionSet(String id, PermissionsManager permissionsManager) {
+        super(id);
         this.permissionsManager = permissionsManager;
     }
 
     @Override
     public List<PermissionSet> getInheritedSets() {
         load();
-        return super.getInheritedSets();
+        return inheritedSets;
     }
 
     @Override
     public Map<Permission, Boolean> getPermissions() {
         load();
-        return super.getPermissions();
+        return permissions;
     }
 
     /**
@@ -52,8 +71,9 @@ public class CorePermissionSet extends PermissionSet {
      */
     private void load() {
         // If already loaded, don't load it again
-        if (loaded)
+        if (loaded) {
             return;
+        }
 
         // Load the permsets.yml file
         FileConfiguration file = permissionsManager.getPermissionSetsFile();
@@ -66,13 +86,26 @@ public class CorePermissionSet extends PermissionSet {
                 inheritedSets = new ArrayList<PermissionSet>();
 
                 for (String setName : file.getStringList("sets." + getName() + ".inherited-sets")) {
+                    // Check that this set does not contain itself
+                    if (setName.toLowerCase().equals(getName())) {
+                        Utils.notifyAdminsError("CoRE Permissions found a permission set that inherits itself ("
+                                + setName
+                                + "). This can cause unpredictable results, incorrect permissions, or server instability.");
+                    }
+
+                    // Get the set from the permissions manager
                     PermissionSet set = permissionsManager.getPermissionSet(setName);
 
-                    if (set == null)
+                    // If set does not exist, show an error
+                    if (set == null) {
                         Utils.notifyAdminsError("CoRE Permissions was unable to find permission set " + setName
                                 + ", inherited by permission set " + getName() + ". Check the sets.yml file.");
-                    else
+                    }
+
+                    // Otherwise, inherit the set
+                    else {
                         inheritedSets.add(set);
+                    }
                 }
             }
 
@@ -89,7 +122,9 @@ public class CorePermissionSet extends PermissionSet {
             }
 
             loaded = true;
-        } else {
+        }
+
+        else {
             // If set could not be loaded, show an error to admins and console
             Utils.notifyAdminsError(
                     "CoRE Permissions was unable to find permission set " + getName() + ". Check the sets.yml file.");

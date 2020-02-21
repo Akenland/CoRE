@@ -37,7 +37,7 @@ public final class MsgCommands implements TabExecutor {
         // If replying, re-run with target player
         if(label.equalsIgnoreCase("r") && sender instanceof Player){
             Player targetPlayer = Bukkit.getPlayer(replies.get(((Player)sender).getUniqueId()));
-            
+
             // If player not found, show error
             if(targetPlayer==null) return Error.PLAYER_NOT_FOUND.displayActionBar(sender);
 
@@ -69,8 +69,8 @@ public final class MsgCommands implements TabExecutor {
         // Target players to receive the message
         Collection<Player> targetPlayers = new ArrayList<Player>();
         String targetName;
-        
-        // If first arg is "admin", send to all admins        
+
+        // If first arg is "admin", send to all admins
         if(args[0].equalsIgnoreCase("admin") || args[0].equalsIgnoreCase("admins")){
             targetPlayers = new ArrayList<Player>(Utils.getOnlineAdmins());
             targetName = CommonColors.ADMIN+"Admins";
@@ -94,7 +94,7 @@ public final class MsgCommands implements TabExecutor {
             targetPlayers.add(targetPlayer);
             targetName = targetPlayer.getDisplayName();
         }
-        
+
         String finalMessage = senderName+CommonColors.INFO+"[To "+targetName+CommonColors.INFO+"] "+ChatColor.RESET+message;
         sender.sendMessage(finalMessage);
 
@@ -104,7 +104,7 @@ public final class MsgCommands implements TabExecutor {
 
             // Notify target player
             Utils.sendActionBar(target, "Private message received. Type /r <message...> to reply.");
-            target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BELL, 10000f, 1f);
+            target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 10000f, 1f);
 
             // Save reply
             if(sender instanceof Player) replies.put(target.getUniqueId(), ((Player)sender).getUniqueId());
@@ -114,7 +114,7 @@ public final class MsgCommands implements TabExecutor {
                 sender.sendMessage(target.getDisplayName()+CommonColors.INFO+" is AFK, and may not see your message.");
             }
         }
-        
+
         return true;
     }
 

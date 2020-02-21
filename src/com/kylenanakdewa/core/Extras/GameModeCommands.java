@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.permissions.PlayerPerms;
 
 public final class GameModeCommands implements TabExecutor {
 
@@ -70,13 +69,15 @@ public final class GameModeCommands implements TabExecutor {
         String permission = "core.gamemode."+gameMode.toString().toLowerCase();
 		if(!sender.hasPermission(permission)){
             // Check if their cheat set has the permission, and if so, switch to it
-            PlayerPerms playerPerms = new PlayerPerms((Player)sender);
+            /*PlayerPerms playerPerms = new PlayerPerms((Player)sender);
             if(playerPerms.getCheat()!=null && playerPerms.getCheat().getTotalPermissions().contains(permission)){
                 playerPerms.applyCheatSet();
             } else {
                 sender.sendMessage(CommonColors.ERROR+"You can't switch to this gamemode! Ask an admin for help.");
 			    return false;
-            }
+            }*/
+            sender.sendMessage(CommonColors.ERROR+"You can't switch to this gamemode! Ask an admin for help.");
+			return false;
 		}
 
 

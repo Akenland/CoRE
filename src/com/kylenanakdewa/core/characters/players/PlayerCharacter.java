@@ -12,7 +12,6 @@ import java.util.UUID;
 import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.Extras.AFKListener;
-import com.kylenanakdewa.core.permissions.PlayerPerms;
 import com.kylenanakdewa.core.characters.Character;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.ConfigAccessor;
@@ -72,7 +71,7 @@ public class PlayerCharacter implements Character {
 
 	private PlayerCharacter(OfflinePlayer player){
 		this.player = player;
-		dataFile = new ConfigAccessor("players"+File.separator+getUniqueId()+".yml");
+		dataFile = new ConfigAccessor("players"+File.separator+getUniqueId()+".yml", plugin);
 
 		// Load name and title from player file
 		ConfigurationSection coreData = getData(plugin).getData();
@@ -322,7 +321,7 @@ public class PlayerCharacter implements Character {
 
 		// Set up permissions, apply the player's default set
 		final boolean isOp = getPlayer().isOp();
-		if(CoreConfig.permsEnabled) new PlayerPerms(event.getPlayer()).applyDefaultSetOnJoin();
+		//if(CoreConfig.permsEnabled) new PlayerPerms(event.getPlayer()).applyDefaultSetOnJoin(); // Moved to PlayerPermissionsHolder in CoRE 4
 
 		if(CoreConfig.formatChat){
 			// Set join message
@@ -371,7 +370,7 @@ public class PlayerCharacter implements Character {
 		}
 
 		// Remove permissions
-		new PlayerPerms(getPlayer()).removePermissions();
+		//new PlayerPerms(getPlayer()).removePermissions(); // Moved to PlayerPermissionsHolder in CoRE 4
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
 			// Remove this stored PlayerCharacter

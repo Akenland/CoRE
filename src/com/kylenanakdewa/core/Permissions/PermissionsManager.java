@@ -2,6 +2,7 @@ package com.kylenanakdewa.core.permissions;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -10,6 +11,10 @@ import com.kylenanakdewa.core.CoreModule;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.characters.players.PlayerCharacter;
 import com.kylenanakdewa.core.common.ConfigAccessor;
+import com.kylenanakdewa.core.permissions.playergroups.CorePlayerGroupProvider;
+import com.kylenanakdewa.core.permissions.playergroups.PlayerGroup;
+import com.kylenanakdewa.core.permissions.sets.CorePermissionSet;
+import com.kylenanakdewa.core.permissions.sets.PermissionSet;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,8 +31,8 @@ public final class PermissionsManager extends CoreModule {
     /** All permission sets that are part of this permissions system. */
     private Set<PermissionSet> permissionSets;
 
-    /** The player permission groups that are part of this permissions system. */
-    private Set<PlayerPermissionsGroup> playerPermissionsGroups;
+    /** The player groups that are part of this permissions system. */
+    private LinkedHashSet<PlayerGroup> playerGroups;
 
     /** The players that are part of this permissions system. */
     private Map<UUID, PlayerPermissionsHolder> players;
@@ -46,9 +51,13 @@ public final class PermissionsManager extends CoreModule {
         // Set up commands
         getPlugin().getCommand("permissions").setExecutor(new PermissionsCommands(this));
 
-        // Load sets and groups
+        // Load permission sets
         loadPermissionSetsFile();
-        loadPlayersFile();
+
+        // Load player groups
+        for (PlayerGroup playerGroup : new CorePlayerGroupProvider(this).getPlayerGroups()) {
+            registerPlayerGroup(playerGroup);
+        }
 
         players = new HashMap<UUID, PlayerPermissionsHolder>();
 
@@ -74,28 +83,17 @@ public final class PermissionsManager extends CoreModule {
     }
 
     /**
-     * Loads the player permissions groups that are defined in the players.yml file.
-     */
-    private void loadPlayersFile() {
-        playerPermissionsGroups = new HashSet<PlayerPermissionsGroup>();
-
-        for (String groupName : getPlayersFile().getConfigurationSection("players").getKeys(false)) {
-            playerPermissionsGroups.add(new CorePlayerPermissionsGroup(groupName, this));
-        }
-    }
-
-    /**
      * Gets the file configuration for the sets.yml file.
      */
-    FileConfiguration getPermissionSetsFile() {
-        return new ConfigAccessor("permissions\\sets.yml", getPlugin()).getConfig();
+    public FileConfiguration getPermissionSetsFile() {
+        return getPermissionsConfigFile("sets.yml");
     }
 
     /**
-     * Gets the file configuration for the players.yml file.
+     * Gets a file configuration for a file in the permissions config folder.
      */
-    FileConfiguration getPlayersFile() {
-        return new ConfigAccessor("permissions\\players.yml", getPlugin()).getConfig();
+    public FileConfiguration getPermissionsConfigFile(String fileName) {
+        return new ConfigAccessor("permissions\\" + fileName, getPlugin()).getConfig();
     }
 
     /**
@@ -110,7 +108,7 @@ public final class PermissionsManager extends CoreModule {
      * <p>
      * If no set has that ID, returns null.
      */
-    PermissionSet getPermissionSet(String id) {
+    public PermissionSet getPermissionSet(String id) {
         for (PermissionSet set : getPermissionSets()) {
             if (set.getName().equals(id)) {
                 return set;
@@ -120,14 +118,23 @@ public final class PermissionsManager extends CoreModule {
     }
 
     /**
-     * Gets all groups that include the specified player.
+     * Registers a player group in this permissions system. Player groups are used
+     * to link players to permission sets.
+     */
+    private void registerPlayerGroup(PlayerGroup playerGroup) {
+        playerGroups.add(playerGroup);
+    }
+
+    /**
+     * Gets all groups that include the specified player, in order of priority.
      * <p>
      * If there are no groups that include this player, returns an empty set.
      */
-    Set<PlayerPermissionsGroup> getPlayerPermissionsGroup(OfflinePlayer player) {
-        Set<PlayerPermissionsGroup> set = new HashSet<PlayerPermissionsGroup>();
+    @Deprecated
+    LinkedHashSet<PlayerGroup> getPlayerGroup(OfflinePlayer player) {
+        LinkedHashSet<PlayerGroup> set = new LinkedHashSet<PlayerGroup>();
 
-        for (PlayerPermissionsGroup group : playerPermissionsGroups) {
+        for (PlayerGroup group : playerGroups) {
             if (group.getPlayerUuids() != null && group.getPlayerUuids().contains(player.getUniqueId())) {
                 set.add(group);
             }
@@ -142,7 +149,7 @@ public final class PermissionsManager extends CoreModule {
     private Set<UUID> getPlayersWithPermissions() {
         Set<UUID> set = new HashSet<UUID>();
 
-        for (PlayerPermissionsGroup group : playerPermissionsGroups) {
+        for (PlayerGroup group : playerGroups) {
             if (group.getPlayerUuids() != null)
                 set.addAll(group.getPlayerUuids());
         }

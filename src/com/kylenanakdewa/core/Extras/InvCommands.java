@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
-import com.kylenanakdewa.core.Permissions.PermsUtils;
+import com.kylenanakdewa.core.permissions.PermsUtils;
 
 public final class InvCommands implements CommandExecutor {
     //// Commands
@@ -48,7 +48,7 @@ public final class InvCommands implements CommandExecutor {
         // Show the inventory to the sender
         Utils.sendActionBar(sender, "Showing "+invName+" of "+targetPlayer.getDisplayName());
         ((Player)sender).openInventory(inv);
-        
+
         return true;
     }
 }

@@ -11,6 +11,8 @@ import com.kylenanakdewa.core.characters.players.PlayerCharacter;
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.common.prompts.Prompt;
+import com.kylenanakdewa.core.permissions.playergroups.PlayerGroup;
+import com.kylenanakdewa.core.permissions.sets.PermissionSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -173,15 +175,15 @@ final class PlayerPermissionsHolder {
      * <p>
      * If there are no groups that include this player, returns an empty set.
      */
-    private Set<PlayerPermissionsGroup> getPermissionsGroups() {
-        return permissionsManager.getPlayerPermissionsGroup(player.getPlayer());
+    private Set<PlayerGroup> getPermissionsGroups() {
+        return permissionsManager.getPlayerGroup(player.getPlayer());
     }
 
     /**
      * Attempts to determine the main group that this player is part of.
      */
-    private PlayerPermissionsGroup getBestGroup() {
-        Set<PlayerPermissionsGroup> groups = new HashSet<PlayerPermissionsGroup>();
+    private PlayerGroup getBestGroup() {
+        Set<PlayerGroup> groups = new HashSet<PlayerGroup>();
         groups.addAll(getPermissionsGroups());
         groups.removeIf(group -> group.getName().equals("everyone"));
 
@@ -196,10 +198,10 @@ final class PlayerPermissionsHolder {
      * If this player has access to no permissions sets, this will return an empty
      * map.
      */
-    private Map<PermissionSet, PlayerPermissionsGroup> getAllSets() {
-        Map<PermissionSet, PlayerPermissionsGroup> map = new HashMap<PermissionSet, PlayerPermissionsGroup>();
+    private Map<PermissionSet, PlayerGroup> getAllSets() {
+        Map<PermissionSet, PlayerGroup> map = new HashMap<PermissionSet, PlayerGroup>();
 
-        for (PlayerPermissionsGroup group : getPermissionsGroups()) {
+        for (PlayerGroup group : getPermissionsGroups()) {
             for (PermissionSet set : group.getAllSets()) {
                 map.put(set, group);
             }
@@ -214,10 +216,10 @@ final class PlayerPermissionsHolder {
      * If this player has access to no permissions sets for this gamemode, this will
      * return an empty map.
      */
-    private Map<PlayerPermissionsGroup, PermissionSet> getGameModeSets(GameMode gameMode) {
-        Map<PlayerPermissionsGroup, PermissionSet> map = new HashMap<PlayerPermissionsGroup, PermissionSet>();
+    private Map<PlayerGroup, PermissionSet> getGameModeSets(GameMode gameMode) {
+        Map<PlayerGroup, PermissionSet> map = new HashMap<PlayerGroup, PermissionSet>();
 
-        for (PlayerPermissionsGroup group : getPermissionsGroups()) {
+        for (PlayerGroup group : getPermissionsGroups()) {
             map.put(group, group.getGameModeSet(gameMode));
         }
 
@@ -242,14 +244,14 @@ final class PlayerPermissionsHolder {
                 "command_permissions set " + getCurrentSet().getName());
 
         // Group sets
-        for (PlayerPermissionsGroup group : getPermissionsGroups()) {
+        for (PlayerGroup group : getPermissionsGroups()) {
             prompt.addAnswer(CommonColors.INFO + "-- " + CommonColors.MESSAGE + group.getName() + " group"
                     + CommonColors.INFO + " --", "");
 
-            if (group.gameModeSets != null) {
-                for (Entry<GameMode, PermissionSet> gameModeSet : group.gameModeSets.entrySet()) {
-                    prompt.addAnswer(gameModeSet.getKey() + " set: " + gameModeSet.getValue().getName(),
-                            "command_permissions set " + gameModeSet.getValue().getName());
+            for (GameMode gameMode : GameMode.values()) {
+                PermissionSet set = group.getGameModeSet(gameMode);
+                if (set != null) {
+                    prompt.addAnswer(gameMode + " set: " + set.getName(), "command_permissions set " + set.getName());
                 }
             }
 
