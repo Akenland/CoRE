@@ -110,14 +110,11 @@ public final class AdminMultiCheck {
      * Checks if a player is listed in the admins.yml file.
      */
     private boolean isListedAdmin(OfflinePlayer player) {
-        // Check if offline player matches
-        if (getListedAdmins().contains(player)) {
-            return true;
-        }
-
-        // Check if online player matches
-        if (player.isOnline() && getOnlineListedAdmins().contains(player.getPlayer())) {
-            return true;
+        // Compare UUIDs
+        for (OfflinePlayer admin : getListedAdmins()) {
+            if(admin.getUniqueId().equals(player.getUniqueId())){
+                return true;
+            }
         }
 
         // Otherwise return false
