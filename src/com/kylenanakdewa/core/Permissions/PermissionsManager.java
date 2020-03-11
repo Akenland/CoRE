@@ -11,12 +11,18 @@ import com.kylenanakdewa.core.CoreModule;
 import com.kylenanakdewa.core.CorePlugin;
 import com.kylenanakdewa.core.characters.players.PlayerCharacter;
 import com.kylenanakdewa.core.common.ConfigAccessor;
-import com.kylenanakdewa.core.permissions.playergroups.CorePlayerGroupProvider;
+import com.kylenanakdewa.core.permissions.playergroups.core.CorePlayerGroupProvider;
+import com.kylenanakdewa.core.permissions.commands.GameModeCommands;
+import com.kylenanakdewa.core.permissions.commands.PermissionsCommands;
+import com.kylenanakdewa.core.permissions.commands.SetSwitchCommands;
+import com.kylenanakdewa.core.permissions.multicheck.AdminMultiCheck;
 import com.kylenanakdewa.core.permissions.playergroups.PlayerGroup;
+import com.kylenanakdewa.core.permissions.playergroups.PlayerGroupProvider;
 import com.kylenanakdewa.core.permissions.sets.CorePermissionSet;
 import com.kylenanakdewa.core.permissions.sets.PermissionSet;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -31,11 +37,14 @@ public final class PermissionsManager extends CoreModule {
     /** All permission sets that are part of this permissions system. */
     private Set<PermissionSet> permissionSets;
 
-    /** The player groups that are part of this permissions system. */
-    private LinkedHashSet<PlayerGroup> playerGroups;
+    /** The player group providers that are part of this permissions system. */
+    private LinkedHashSet<PlayerGroupProvider> playerGroupProviders;
 
     /** The players that are part of this permissions system. */
     private Map<UUID, PlayerPermissionsHolder> players;
+
+    /** The Admin Multi-Check system. */
+    private AdminMultiCheck adminMultiCheck;
 
     /**
      * Creates a new instance of the CoRE Permissions system.
@@ -50,16 +59,20 @@ public final class PermissionsManager extends CoreModule {
     public void onEnable() {
         // Set up commands
         getPlugin().getCommand("permissions").setExecutor(new PermissionsCommands(this));
+        getPlugin().getCommand("permset").setExecutor(new SetSwitchCommands(this));
+        getPlugin().getCommand("gamemode").setExecutor(new GameModeCommands(this));
 
         // Load permission sets
         loadPermissionSetsFile();
 
         // Load player groups
-        for (PlayerGroup playerGroup : new CorePlayerGroupProvider(this).getPlayerGroups()) {
-            registerPlayerGroup(playerGroup);
-        }
+        registerPlayerGroupProvider(new CorePlayerGroupProvider(this));
 
+        // Set up player permissions holders
         players = new HashMap<UUID, PlayerPermissionsHolder>();
+
+        // Set up Admin Multi-Check
+        adminMultiCheck = new AdminMultiCheck(this);
 
         // Register listener
         getPlugin().getServer().getPluginManager().registerEvents(new PermissionsListener(this, getPlugin()),
@@ -121,8 +134,8 @@ public final class PermissionsManager extends CoreModule {
      * Registers a player group in this permissions system. Player groups are used
      * to link players to permission sets.
      */
-    private void registerPlayerGroup(PlayerGroup playerGroup) {
-        playerGroups.add(playerGroup);
+    private void registerPlayerGroupProvider(PlayerGroupProvider playerGroupProvider) {
+        playerGroupProviders.add(playerGroupProvider);
     }
 
     /**
@@ -131,30 +144,50 @@ public final class PermissionsManager extends CoreModule {
      * If there are no groups that include this player, returns an empty set.
      */
     @Deprecated
-    LinkedHashSet<PlayerGroup> getPlayerGroup(OfflinePlayer player) {
-        LinkedHashSet<PlayerGroup> set = new LinkedHashSet<PlayerGroup>();
+    LinkedHashSet<PlayerGroup> getPlayerGroups(OfflinePlayer player, boolean ignoreEveryone) {
+        LinkedHashSet<PlayerGroup> groups = new LinkedHashSet<PlayerGroup>();
 
-        for (PlayerGroup group : playerGroups) {
-            if (group.getPlayerUuids() != null && group.getPlayerUuids().contains(player.getUniqueId())) {
-                set.add(group);
+        for (PlayerGroupProvider provider : playerGroupProviders) {
+            PlayerGroup group = provider.getGroupForPlayer(player, ignoreEveryone);
+            if (group != null) {
+                groups.add(group);
             }
         }
 
-        return set;
+        return groups;
     }
 
     /**
-     * Gets all player UUIDs that have explicit permissions set.
+     * Gets the highest-priority group for the specified player.
+     * <p>
+     * More specifically, this will check all providers, in order, for a group that
+     * explicitly contains this player (ignoring "everyone" groups). If a group is
+     * not found, and ignoreEveryone is false, checks for the first provider with an
+     * "everyone" group.
+     * <p>
+     * May return null if this player isn't listed in any groups, and there are no
+     * "everyone" groups (or ignoreEveryone is true).
      */
-    private Set<UUID> getPlayersWithPermissions() {
-        Set<UUID> set = new HashSet<UUID>();
-
-        for (PlayerGroup group : playerGroups) {
-            if (group.getPlayerUuids() != null)
-                set.addAll(group.getPlayerUuids());
+    PlayerGroup getPlayerGroup(OfflinePlayer player, boolean ignoreEveryone) {
+        // Check all providers in order, ignoring "everyone" groups
+        for (PlayerGroupProvider provider : playerGroupProviders) {
+            PlayerGroup group = provider.getGroupForPlayer(player, true);
+            if (group != null) {
+                return group;
+            }
         }
 
-        return set;
+        // Failing that, check for "everyone" groups
+        if (!ignoreEveryone) {
+            for (PlayerGroupProvider provider : playerGroupProviders) {
+                PlayerGroup group = provider.getGroupForPlayer(player, false);
+                if (group != null) {
+                    return group;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -180,4 +213,12 @@ public final class PermissionsManager extends CoreModule {
         // Remove players if they are offline
         players.values().removeIf(player -> !player.getPlayer().isOnline());
     }
+
+    /**
+     * Returns true if the specified CommandSender is a verified admin.
+     */
+    public boolean performAdminMultiCheck(CommandSender sender) {
+        return adminMultiCheck.performCheck(sender);
+    }
+
 }

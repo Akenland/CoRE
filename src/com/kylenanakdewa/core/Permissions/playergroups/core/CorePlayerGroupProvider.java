@@ -1,10 +1,12 @@
-package com.kylenanakdewa.core.permissions.playergroups;
+package com.kylenanakdewa.core.permissions.playergroups.core;
 
 import java.util.LinkedHashSet;
 
 import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.permissions.PermissionsManager;
+import com.kylenanakdewa.core.permissions.playergroups.PlayerGroup;
+import com.kylenanakdewa.core.permissions.playergroups.PlayerGroupProvider;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,10 +21,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  *
  * @author Kyle Nanakdewa
  */
-public class CorePlayerGroupProvider {
-
-    /** The CoRE Permissions system that owns this provider. */
-    private final PermissionsManager permissionsManager;
+public class CorePlayerGroupProvider extends PlayerGroupProvider {
 
     /** The player groups that are from this provider. */
     private LinkedHashSet<PlayerGroup> playerGroups;
@@ -31,7 +30,7 @@ public class CorePlayerGroupProvider {
     private boolean loaded;
 
     public CorePlayerGroupProvider(PermissionsManager permissionsManager) {
-        this.permissionsManager = permissionsManager;
+        super(permissionsManager);
     }
 
     /**
@@ -52,8 +51,8 @@ public class CorePlayerGroupProvider {
 
         playerGroups = new LinkedHashSet<PlayerGroup>();
 
-        for (String groupName : getPlayersFile().getConfigurationSection("players").getKeys(false)) {
-            playerGroups.add(new CorePlayerGroup(groupName, permissionsManager));
+        for (String groupName : getPlayersFile().getConfigurationSection("playergroups").getKeys(false)) {
+            playerGroups.add(new CorePlayerGroup(groupName, permissionsManager, this));
         }
 
         loaded = true;
@@ -66,7 +65,7 @@ public class CorePlayerGroupProvider {
      * <p>
      * May be null, if group does not exist in this provider.
      */
-    private PlayerGroup getGroup(String groupName) {
+    public PlayerGroup getGroup(String groupName) {
         for (PlayerGroup group : getPlayerGroups()) {
             if (group.getName().equals(groupName)) {
                 return group;
@@ -80,16 +79,18 @@ public class CorePlayerGroupProvider {
      * Gets the group that contains the specified player.
      * <p>
      * If the player is part of multiple groups, this will only return the first
-     * listed group that they are part of. If the player is not explicitly listed,
-     * but an "everyone" group exists, that group will be returned.
+     * listed group that they are part of. In general, players should not be
+     * included in multiple groups, and if detected, a warning will be displayed to
+     * admins and the console.
      * <p>
-     * In general, players should not be included in multiple groups, and if
-     * detected, a warning will be displayed to admins and the console.
+     * If the player is not explicitly listed, but an "everyone" group exists, that
+     * group will be returned, unless ignoreEveryone is true.
      * <p>
-     * May be null if this player isn't listed in the playergroups.yml file, and
-     * there is no "everyone" group.
+     * May return null if this player isn't listed in the playergroups.yml file, and
+     * there is no "everyone" group (or ignoreEveryone is true).
      */
-    public PlayerGroup getGroupForPlayer(OfflinePlayer player) {
+    @Override
+    public PlayerGroup getGroupForPlayer(OfflinePlayer player, boolean ignoreEveryone) {
         PlayerGroup groupForPlayer = null;
 
         // Look for a group that contains this player
@@ -110,7 +111,7 @@ public class CorePlayerGroupProvider {
         }
 
         // If none, look for the "everyone" group
-        if (groupForPlayer == null) {
+        if (!ignoreEveryone && groupForPlayer == null) {
             groupForPlayer = getGroup("everyone");
         }
 

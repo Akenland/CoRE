@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.kylenanakdewa.core.Extras.AFKListener;
 import com.kylenanakdewa.core.Extras.EntityCommands;
 import com.kylenanakdewa.core.Extras.FindPetsCommands;
-import com.kylenanakdewa.core.Extras.GameModeCommands;
 import com.kylenanakdewa.core.Extras.InvCommands;
 import com.kylenanakdewa.core.Extras.ItemCommands;
 import com.kylenanakdewa.core.Extras.ListCommands;
@@ -63,7 +62,7 @@ public final class CorePlugin extends JavaPlugin {
 
 	/** The RealmProvider in use on this instance of Project CoRE. */
 	@Deprecated
-	private RealmProvider realmProvider; // TODO - move all realm stuff out of the main plugin
+	private RealmProvider realmProvider; // TODO - move all realm stuff to its own module
 
 	@Override
 	public void onEnable() {
@@ -99,8 +98,8 @@ public final class CorePlugin extends JavaPlugin {
 		modules.add(new PermissionsManager(this));
 
 		saveDefaultConfigs();
-		CoreConfig.reloadConfig(); // TODO - move all realm stuff to its own package
-		CoreRealmProvider.reload();
+		CoreConfig.reloadConfig();
+		CoreRealmProvider.reload(); // TODO - move all realm stuff to its own module
 
 		// Set up Realm Providers - delayed so it runs after server startup
 		CompositeRealmProvider.unregisterAllProviders();
@@ -128,7 +127,7 @@ public final class CorePlugin extends JavaPlugin {
 		// Realm - moved to setupCompositeRealmProvider()
 
 		// Permissions - moved to PermissionsManager()
-		//this.getCommand("permissions").setExecutor(new PermissionsCommands());
+		// this.getCommand("permissions").setExecutor(new PermissionsCommands());
 
 		// Prompts
 		{
@@ -160,7 +159,8 @@ public final class CorePlugin extends JavaPlugin {
 		this.getCommand("lowerlag").setExecutor(new RemoveCommands());
 
 		// Player cheats
-		this.getCommand("gamemode").setExecutor(new GameModeCommands());
+		// this.getCommand("gamemode").setExecutor(new GameModeCommands()); - moved to
+		// PermissionsManager()
 		this.getCommand("fly").setExecutor(new MovementCommands());
 		this.getCommand("speed").setExecutor(new MovementCommands());
 		this.getCommand("item").setExecutor(new ItemCommands());

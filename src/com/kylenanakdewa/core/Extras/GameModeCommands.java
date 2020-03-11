@@ -14,6 +14,7 @@ import com.kylenanakdewa.core.common.CommonColors;
 import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
 
+@Deprecated
 public final class GameModeCommands implements TabExecutor {
 
     //// Commands
