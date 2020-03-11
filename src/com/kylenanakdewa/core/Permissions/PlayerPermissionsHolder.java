@@ -121,6 +121,9 @@ public final class PlayerPermissionsHolder {
     /**
      * Sets this player's permission set to the one appropriate for their current
      * gamemode.
+     * <p>
+     * If the player is offline, this may throw an exception. Make sure the player
+     * is online before calling.
      */
     void setCurrentSetAutomatic() {
         // Make sure player is online
@@ -134,6 +137,12 @@ public final class PlayerPermissionsHolder {
         GameMode gameMode = player.getPlayer().getPlayer().getGameMode();
 
         PermissionSet set = getGameModeSet(gameMode);
+        // Warn if set is not found
+        if (set == null) {
+            Utils.notifyAdminsError(player.getName() + CommonColors.ERROR + " is in "
+                    + gameMode.toString().toLowerCase() + " mode, but does not have a permission set.");
+            return;
+        }
 
         setCurrentSet(set, true);
     }
@@ -143,6 +152,18 @@ public final class PlayerPermissionsHolder {
      */
     public void setGameMode(GameMode gameMode) {
         PermissionSet set = getGameModeSet(gameMode);
+        // Warn if set not found
+        if (set == null) {
+            Utils.notifyAdminsError(player.getName() + CommonColors.ERROR + " couldn't be switched to "
+                    + gameMode.toString().toLowerCase() + "mode, they don't have a permission set.");
+            // Notify the player
+            if (player.isOnline()) {
+                Utils.sendActionBar(player.getPlayer().getPlayer(),
+                        CommonColors.ERROR + "You don't have access to " + gameMode.toString().toLowerCase() + "mode!");
+            }
+            return;
+        }
+
         String permission = "core.gamemode." + gameMode.toString().toLowerCase();
 
         // Make sure set grants them access to this gamemode
@@ -167,10 +188,11 @@ public final class PlayerPermissionsHolder {
     }
 
     /**
-     * Revokes all permissions.
+     * Revokes all permissions. If silent is false, online admins will be notified.
      */
     void revokePermissions(boolean silent) {
-        attachment.remove();
+        if (attachment != null)
+            attachment.remove();
         attachment = null;
         currentSet = null;
 
@@ -192,6 +214,14 @@ public final class PlayerPermissionsHolder {
 
     /**
      * Gets this player's group.
+     * <p>
+     * More specifically, this will check all providers, in order, for a group that
+     * explicitly contains this player (ignoring "everyone" groups). If a group is
+     * not found, and ignoreEveryone is false, checks for the first provider with an
+     * "everyone" group.
+     * <p>
+     * May return null if this player isn't listed in any groups, and there are no
+     * "everyone" groups (or ignoreEveryone is true).
      */
     private PlayerGroup getGroup(boolean ignoreEveryone) {
         return permissionsManager.getPlayerGroup(player.getPlayer(), ignoreEveryone);
@@ -220,10 +250,11 @@ public final class PlayerPermissionsHolder {
      */
     private PermissionSet getGameModeSet(GameMode gameMode) {
         PlayerGroup group = getGroup(false);
-        if (group != null)
+        if (group != null) {
             return group.getGameModeSet(gameMode);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -240,26 +271,30 @@ public final class PlayerPermissionsHolder {
         prompt.addAnswer("UUID: " + player.getUniqueId(), "url_https://mcuuid.net/?q=" + player.getUniqueId());
 
         // Current set
-        prompt.addAnswer("Current set: " + getCurrentSet().getName(),
-                "command_permissions set " + getCurrentSet().getName());
+        String setName = getCurrentSet() != null ? getCurrentSet().getName() : "None";
+        prompt.addAnswer("Current set: " + setName, "command_permissions set " + setName);
 
         // Group name
-        prompt.addAnswer(CommonColors.INFO + "-- " + CommonColors.MESSAGE + getGroup(false).getName() + " group"
-                + CommonColors.INFO + " --", "");
+        if (getGroup(false) != null) {
+            prompt.addAnswer(CommonColors.INFO + "-- " + CommonColors.MESSAGE + getGroup(false).getName() + " group"
+                    + CommonColors.INFO + " --", "");
 
-        // Gamemode sets
-        for (GameMode gameMode : GameMode.values()) {
-            PermissionSet set = getGameModeSet(gameMode);
-            if (set != null) {
-                prompt.addAnswer(gameMode + " set: " + set.getName(), "command_permissions set " + set.getName());
+            // Gamemode sets
+            for (GameMode gameMode : GameMode.values()) {
+                PermissionSet set = getGameModeSet(gameMode);
+                if (set != null) {
+                    prompt.addAnswer(gameMode + " set: " + set.getName(), "command_permissions set " + set.getName());
+                }
             }
-        }
 
-        // Other sets
-        if (getGroup(false).getOtherSets() != null) {
-            for (PermissionSet set : getGroup(false).getOtherSets()) {
-                prompt.addAnswer("Other set: " + set.getName(), "command_permissions set " + set.getName());
+            // Other sets
+            if (getGroup(false).getOtherSets() != null) {
+                for (PermissionSet set : getGroup(false).getOtherSets()) {
+                    prompt.addAnswer("Other set: " + set.getName(), "command_permissions set " + set.getName());
+                }
             }
+        } else {
+            prompt.addAnswer("This player isn't in a group, and therefore has no permissions.", "");
         }
 
         return prompt;
