@@ -66,6 +66,7 @@ public final class PermissionsManager extends CoreModule {
         loadPermissionSetsFile();
 
         // Load player groups
+        playerGroupProviders = new LinkedHashSet<PlayerGroupProvider>();
         registerPlayerGroupProvider(new CorePlayerGroupProvider(this));
 
         // Set up player permissions holders
