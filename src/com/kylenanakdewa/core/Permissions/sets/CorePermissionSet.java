@@ -114,8 +114,12 @@ public class CorePermissionSet extends PermissionSet {
                 permissions = new HashMap<Permission, Boolean>();
 
                 for (String node : file.getStringList("sets." + getName() + ".permissions")) {
-                    // If node begins with !, it is false, otherwise true
-                    boolean value = !node.startsWith("!");
+                    // If node begins with -, it is false, otherwise true
+                    boolean value = true;
+                    if (node.startsWith("-")) {
+                        value = false;
+                        node = node.replaceFirst("-", "");
+                    }
 
                     permissions.put(new Permission(node), value);
                 }
