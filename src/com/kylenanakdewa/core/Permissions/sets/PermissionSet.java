@@ -84,7 +84,7 @@ public abstract class PermissionSet {
 		// Add the permissions from each inherited set
 		if (getInheritedSets() != null) {
 			for (PermissionSet set : getInheritedSets()) {
-				map.putAll(set.getPermissions());
+				map.putAll(set.getTotalPermissions());
 			}
 		}
 
