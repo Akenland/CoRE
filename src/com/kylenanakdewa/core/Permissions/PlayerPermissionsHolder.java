@@ -124,11 +124,12 @@ public final class PlayerPermissionsHolder {
      */
     void setCurrentSetAutomatic() {
         // Make sure player is online
-        if (player.isOnline()) {
-            Utils.notifyAdminsError(player.getName() + CommonColors.ERROR
-                    + " could not have permissions switched automatically, they are offline.");
-            return;
-        }
+        /*
+         * if (player.isOnline()) { Utils.notifyAdminsError(player.getName() +
+         * CommonColors.ERROR +
+         * " could not have permissions switched automatically, they are offline.");
+         * return; }
+         */
 
         GameMode gameMode = player.getPlayer().getPlayer().getGameMode();
 

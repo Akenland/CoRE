@@ -94,7 +94,7 @@ public class CorePlayerGroupProvider extends PlayerGroupProvider {
         PlayerGroup groupForPlayer = null;
 
         // Look for a group that contains this player
-        for (PlayerGroup group : playerGroups) {
+        for (PlayerGroup group : getPlayerGroups()) {
             if (group.getPlayerUuids() != null && group.getPlayerUuids().contains(player.getUniqueId())) {
                 if (groupForPlayer == null) {
                     groupForPlayer = group;
