@@ -99,6 +99,11 @@ public final class CorePlugin extends JavaPlugin {
         modules = new HashSet<CoreModule>();
         modules.add(new PermissionsManager(this));
 
+        // Notify all modules
+        for (CoreModule module : modules) {
+            module.onEnable();
+        }
+
         saveDefaultConfigs();
         CoreConfig.reloadConfig();
         CoreRealmProvider.reload(); // TODO - move all realm stuff to its own module
