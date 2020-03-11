@@ -49,37 +49,36 @@ public final class GameModeCommands implements TabExecutor {
             case "gmsp":
                 gameMode = GameMode.SPECTATOR;
                 break;
-            default:
-                break;
         }
 
-        // Check number of args
-        if (gameMode == null && args.length == 0) {
+        // Argument
+        if (gameMode == null && args.length > 0) {
+            switch (args[0].toLowerCase()) {
+                case "survival":
+                    gameMode = GameMode.SURVIVAL;
+                    break;
+                case "creative":
+                    gameMode = GameMode.CREATIVE;
+                    break;
+                case "adventure":
+                    gameMode = GameMode.ADVENTURE;
+                    break;
+                case "spectator":
+                    gameMode = GameMode.SPECTATOR;
+                    break;
+            }
+        }
+
+        // Make sure gamemode was specified
+        if (gameMode == null) {
             Utils.sendActionBar(sender, CommonColors.ERROR + "Specify a game mode to switch to");
             return false;
         }
 
-        // Argument
-        switch (args[0].toLowerCase()) {
-            case "survival":
-                gameMode = GameMode.SURVIVAL;
-                break;
-            case "creative":
-                gameMode = GameMode.CREATIVE;
-                break;
-            case "adventure":
-                gameMode = GameMode.ADVENTURE;
-                break;
-            case "spectator":
-                gameMode = GameMode.SPECTATOR;
-                break;
-            default:
-                return Error.INVALID_ARGS.displayActionBar(sender);
-        }
-
         // Get target player
         Player player = null;
-        if (args.length == 2 && sender.hasPermission("core.gamemode.others") && permissionsManager.performAdminMultiCheck(sender)) {
+        if (args.length == 2 && sender.hasPermission("core.gamemode.others")
+                && permissionsManager.performAdminMultiCheck(sender)) {
             player = Utils.getPlayer(args[1]);
         } else if (sender instanceof Player) {
             player = (Player) sender;
