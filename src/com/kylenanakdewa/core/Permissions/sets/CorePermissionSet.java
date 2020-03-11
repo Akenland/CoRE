@@ -8,6 +8,7 @@ import java.util.Map;
 import com.kylenanakdewa.core.common.Utils;
 import com.kylenanakdewa.core.permissions.PermissionsManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.permissions.Permission;
 
@@ -121,7 +122,14 @@ public class CorePermissionSet extends PermissionSet {
                         node = node.replaceFirst("-", "");
                     }
 
-                    permissions.put(new Permission(node), value);
+                    // Get permission node from server plugin manager
+                    Permission permission = Bukkit.getPluginManager().getPermission(node);
+                    if (permission == null) {
+                        permission = new Permission(node);
+                        Bukkit.getPluginManager().addPermission(permission);
+                    }
+
+                    permissions.put(permission, value);
                 }
             }
 
