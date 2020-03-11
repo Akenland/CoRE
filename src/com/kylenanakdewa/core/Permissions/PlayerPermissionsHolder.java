@@ -175,8 +175,10 @@ public final class PlayerPermissionsHolder {
             Utils.sendActionBar(player.getPlayer().getPlayer(), CommonColors.INFO + "Switched to "
                     + gameMode.toString().toLowerCase() + " mode (" + set.getName() + " permissions)");
 
-            // Permissions will switch automatically, when their gamemode changes
+            // Set gamemode
             player.getPlayer().getPlayer().setGameMode(gameMode);
+            // Set permissions
+            setCurrentSet(set, true);
         }
 
         else {

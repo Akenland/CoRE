@@ -49,21 +49,24 @@ final class PermissionsListener implements Listener {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> permissionsManager.cleanPlayers());
     }
 
-    @EventHandler
-    public void onPlayerGameModeChange(PlayerGameModeChangeEvent event) {
-        PlayerPermissionsHolder player = permissionsManager.getPlayer(event.getPlayer());
-
-        // Switch permission set automatically, when gamemode changes
-        player.setCurrentSetAutomatic();
-    }
+    /*
+     * @EventHandler public void onPlayerGameModeChange(PlayerGameModeChangeEvent
+     * event) { PlayerPermissionsHolder player =
+     * permissionsManager.getPlayer(event.getPlayer());
+     *
+     * // Switch permission set automatically, when gamemode changes
+     * player.setCurrentSetAutomatic(); }
+     */
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         // If player is opped, perform Admin Multi-Check
-        if(event.getPlayer().isOp()){
+        if (event.getPlayer().isOp()) {
             // If Admin Multi-Check fails, cancel command, and de-op player
-            if(!permissionsManager.performAdminMultiCheck(event.getPlayer())){
-                Utils.notifyAdminsError(event.getPlayer().getName() + CommonColors.ERROR+ " failed security check (Admin Multi-Check failed while player was op). CoRE has de-opped this player to protect your server. "+CommonColors.INFO+"Command: "+event.getMessage());
+            if (!permissionsManager.performAdminMultiCheck(event.getPlayer())) {
+                Utils.notifyAdminsError(event.getPlayer().getName() + CommonColors.ERROR
+                        + " failed security check (Admin Multi-Check failed while player was op). CoRE has de-opped this player to protect your server. "
+                        + CommonColors.INFO + "Command: " + event.getMessage());
                 event.setCancelled(true);
                 event.getPlayer().setOp(false);
             }
