@@ -133,7 +133,7 @@ public class CorePlayerGroup extends PlayerGroup {
             if (file.contains("playergroups." + getName() + ".players")) {
                 playerUuids = new HashSet<UUID>();
 
-                for (String uuidString : file.getStringList("sets." + getName() + ".players")) {
+                for (String uuidString : file.getStringList("playergroups." + getName() + ".players")) {
                     UUID uuid = UUID.fromString(uuidString);
                     playerUuids.add(uuid);
                 }

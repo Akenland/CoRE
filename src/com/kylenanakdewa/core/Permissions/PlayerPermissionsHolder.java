@@ -155,11 +155,11 @@ public final class PlayerPermissionsHolder {
         // Warn if set not found
         if (set == null) {
             Utils.notifyAdminsError(player.getName() + CommonColors.ERROR + " couldn't be switched to "
-                    + gameMode.toString().toLowerCase() + "mode, they don't have a permission set.");
+                    + gameMode.toString().toLowerCase() + " mode, they don't have a permission set.");
             // Notify the player
             if (player.isOnline()) {
                 Utils.sendActionBar(player.getPlayer().getPlayer(),
-                        CommonColors.ERROR + "You don't have access to " + gameMode.toString().toLowerCase() + "mode!");
+                        CommonColors.ERROR + "You don't have access to " + gameMode.toString().toLowerCase() + " mode!");
             }
             return;
         }

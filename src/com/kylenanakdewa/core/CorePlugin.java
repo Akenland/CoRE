@@ -214,12 +214,12 @@ public final class CorePlugin extends JavaPlugin {
             this.saveResource("realms.yml", false);
 
         // Permissions files
-        if (CoreConfig.permsEnabled) {
+        /*if (CoreConfig.permsEnabled) {
             if (!new File(this.getDataFolder(), "playerperms.yml").exists())
                 this.saveResource("playerperms.yml", false);
             if (!new File(this.getDataFolder(), "permsets.yml").exists())
                 this.saveResource("permsets.yml", false);
-        }
+        }*/
 
         // Example prompts
         if (!new File(this.getDataFolder(), "prompts\\example.yml").exists())
