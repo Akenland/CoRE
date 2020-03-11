@@ -1,11 +1,11 @@
 name: CoRE
-version: 1.2pre
+version: 1.4pre
 description: A roleplaying framework and server essentials, for small/medium survival and roleplay servers.
 author: Kyle Nanakdewa
 website: http://plugins.akenland.com/
 
+api-version: 1.14
 main: com.kylenanakdewa.core.CorePlugin
-softdepend: [Citizens]
 
 commands:
   core:
@@ -13,16 +13,18 @@ commands:
 
   player:
     description: View and edit information about a player
-    aliases: [seen, whois, nick]
+    aliases: [nick]
     usage: "Usage: /player <player name>"
   realm:
     description: View and edit realms
     usage: "Usage: /realm <name>"
 
   permissions:
-    description: Manage permissions for players
-    aliases: [perms, switchset, set, default, utility, cheat]
-    usage: "Usage: /permissions <set/player> <set name/player name>"
+    description: View permissions information for a set or player
+    usage: "Usage: /permissions <set/player/revoke> <set name/player name>"
+  permset:
+    description: Switch your active permission set
+    usage: "Usage: /permset <set name> [player]"
 
   prompts:
     description: Display a prompt to a player
@@ -85,7 +87,7 @@ commands:
 
   gamemode:
     description: Change a player's gamemode
-    aliases: [gm, survival,gms, creative,gmc, adventure,gma, spectator,gmsp]
+    aliases: [gms, gmc, gma, gmsp]
     usage: "Usage: /gamemode <s/c/a/sp> [player]"
   fly:
     description: Allow a player to fly
