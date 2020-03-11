@@ -73,6 +73,7 @@ public final class PermissionsManager extends CoreModule {
 
         // Set up Admin Multi-Check
         adminMultiCheck = new AdminMultiCheck(this);
+        PermsUtils.adminMultiCheck = adminMultiCheck;
 
         // Register listener
         getPlugin().getServer().getPluginManager().registerEvents(new PermissionsListener(this, getPlugin()),
