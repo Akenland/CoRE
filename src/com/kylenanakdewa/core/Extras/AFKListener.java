@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent.BedEnterResult;
 
 import com.kylenanakdewa.core.CoreConfig;
 import com.kylenanakdewa.core.CorePlugin;
@@ -26,7 +27,7 @@ import com.kylenanakdewa.core.common.Error;
 import com.kylenanakdewa.core.common.Utils;
 
 public final class AFKListener implements Listener, CommandExecutor {
-    
+
     // HashMap of AFK players - with AFK message
     public static final HashMap<UUID,String> afkPlayers = new HashMap<UUID,String>();
     // Stored timers for players that could be marked as AFK
@@ -135,6 +136,8 @@ public final class AFKListener implements Listener, CommandExecutor {
     // Shorten timer when players are in bed
     @EventHandler
     public void afkTimeEnterBed(PlayerBedEnterEvent event){
+        if(!event.getBedEnterResult().equals(BedEnterResult.OK)) return;
+
         // Halve the time every time a player enters bed
         afkTime = afkTime/2;
     }
