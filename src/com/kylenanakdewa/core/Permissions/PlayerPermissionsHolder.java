@@ -98,7 +98,7 @@ public final class PlayerPermissionsHolder {
             attachment = player.getPlayer().getPlayer().addAttachment(plugin);
 
             // Apply the permissions
-            Utils.notifyAdmins("Found "+set.getTotalPermissions().size()+" permission nodes for set "+set.getName());
+            //Utils.notifyAdmins("Found "+set.getTotalPermissions().size()+" permission nodes for set "+set.getName());
             for (Entry<Permission, Boolean> node : set.getTotalPermissions().entrySet()) {
                 attachment.setPermission(node.getKey(), node.getValue());
             }
