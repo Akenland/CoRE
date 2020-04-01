@@ -54,8 +54,15 @@ public final class PermissionsCommands implements TabExecutor {
 				return Error.NO_PERMISSION.displayChat(sender);
 			}
 
+			// Check that set exists
+			PermissionSet set = permissionsManager.getPermissionSet(setName);
+			if (set == null) {
+				Utils.sendActionBar(sender, CommonColors.ERROR + "Permission set not found.");
+				return false;
+			}
+
 			// Display info prompt
-			permissionsManager.getPermissionSet(setName).getInfoPrompt().display(sender);
+			set.getInfoPrompt().display(sender);
 
 			return true;
 		}
