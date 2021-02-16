@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -48,15 +47,6 @@ final class PermissionsListener implements Listener {
         // Clean out old players
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> permissionsManager.cleanPlayers());
     }
-
-    /*
-     * @EventHandler public void onPlayerGameModeChange(PlayerGameModeChangeEvent
-     * event) { PlayerPermissionsHolder player =
-     * permissionsManager.getPlayer(event.getPlayer());
-     *
-     * // Switch permission set automatically, when gamemode changes
-     * player.setCurrentSetAutomatic(); }
-     */
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
