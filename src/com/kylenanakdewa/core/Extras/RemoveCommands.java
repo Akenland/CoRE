@@ -110,21 +110,21 @@ public final class RemoveCommands implements TabExecutor {
     private static final Collection<EntityType> lowerLag;
 
     static {
-        netherMonsters = Arrays.asList(EntityType.BLAZE,EntityType.GHAST,EntityType.MAGMA_CUBE,EntityType.PIG_ZOMBIE,EntityType.WITHER_SKELETON);
+        netherMonsters = Arrays.asList(EntityType.BLAZE,EntityType.GHAST,EntityType.MAGMA_CUBE,EntityType.WITHER_SKELETON);
 
-        monsters = new ArrayList<EntityType>(Arrays.asList(EntityType.CAVE_SPIDER,EntityType.CREEPER,EntityType.ENDERMAN,EntityType.ENDERMITE,EntityType.GUARDIAN,EntityType.HUSK,EntityType.SILVERFISH,EntityType.SKELETON,EntityType.SKELETON_HORSE,EntityType.SLIME,EntityType.SPIDER,EntityType.STRAY,EntityType.VEX,EntityType.WITCH,EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER));
+        monsters = new ArrayList<EntityType>(Arrays.asList(EntityType.CAVE_SPIDER,EntityType.CREEPER,EntityType.DROWNED,EntityType.ENDERMAN,EntityType.GUARDIAN,EntityType.HUSK,EntityType.PHANTOM,EntityType.SILVERFISH,EntityType.SKELETON,EntityType.SLIME,EntityType.SPIDER,EntityType.STRAY,EntityType.VEX,EntityType.ZOMBIE));
         monsters.addAll(netherMonsters);
 
-        ambientAnimals = Arrays.asList(EntityType.BAT,EntityType.SQUID);
+        ambientAnimals = Arrays.asList(EntityType.BAT,EntityType.COD,EntityType.PUFFERFISH,EntityType.SALMON,EntityType.SQUID,EntityType.TROPICAL_FISH);
 
-        passiveAnimals = new ArrayList<EntityType>(Arrays.asList(EntityType.CHICKEN,EntityType.COW,EntityType.MUSHROOM_COW,EntityType.PIG,EntityType.POLAR_BEAR,EntityType.RABBIT,EntityType.SHEEP));
+        passiveAnimals = new ArrayList<EntityType>(Arrays.asList(EntityType.CHICKEN,EntityType.COW,EntityType.FOX,EntityType.MUSHROOM_COW,EntityType.OCELOT,EntityType.PIG,EntityType.POLAR_BEAR,EntityType.RABBIT,EntityType.SHEEP,EntityType.TURTLE));
         passiveAnimals.addAll(ambientAnimals);
 
         vehicles = Arrays.asList(EntityType.BOAT,EntityType.MINECART,EntityType.MINECART_CHEST,EntityType.MINECART_COMMAND,EntityType.MINECART_FURNACE,EntityType.MINECART_HOPPER,EntityType.MINECART_MOB_SPAWNER,EntityType.MINECART_TNT);
 
-        drops =  Arrays.asList(EntityType.ARROW,EntityType.DROPPED_ITEM,EntityType.EXPERIENCE_ORB,/*EntityType.LINGERING_POTION,*/EntityType.AREA_EFFECT_CLOUD,EntityType.PRIMED_TNT,EntityType.SPECTRAL_ARROW/*,EntityType.TIPPED_ARROW*/);
+        drops =  Arrays.asList(EntityType.ARROW,EntityType.DROPPED_ITEM,EntityType.EXPERIENCE_ORB,EntityType.AREA_EFFECT_CLOUD);
 
-        projectiles = Arrays.asList(EntityType.ARROW,EntityType.DRAGON_FIREBALL,EntityType.EGG,EntityType.ENDER_PEARL,EntityType.ENDER_SIGNAL,EntityType.EVOKER_FANGS,EntityType.FIREBALL,EntityType.FIREWORK,/*EntityType.LINGERING_POTION,*/EntityType.LLAMA_SPIT,EntityType.PRIMED_TNT,EntityType.SHULKER_BULLET,EntityType.SMALL_FIREBALL,EntityType.SNOWBALL,EntityType.SPECTRAL_ARROW,EntityType.SPLASH_POTION,EntityType.THROWN_EXP_BOTTLE,/*EntityType.TIPPED_ARROW,*/EntityType.WITHER_SKULL);
+        projectiles = Arrays.asList(EntityType.ARROW,EntityType.DRAGON_FIREBALL,EntityType.EGG,EntityType.ENDER_PEARL,EntityType.ENDER_SIGNAL,EntityType.EVOKER_FANGS,EntityType.FIREBALL,EntityType.FIREWORK,EntityType.LLAMA_SPIT,EntityType.PRIMED_TNT,EntityType.SHULKER_BULLET,EntityType.SMALL_FIREBALL,EntityType.SNOWBALL,EntityType.SPECTRAL_ARROW,EntityType.SPLASH_POTION,EntityType.THROWN_EXP_BOTTLE,EntityType.TRIDENT,EntityType.WITHER_SKULL);
 
         lowerLag = new ArrayList<EntityType>();
         lowerLag.addAll(monsters); lowerLag.addAll(drops); lowerLag.addAll(projectiles); lowerLag.addAll(ambientAnimals);
@@ -147,7 +147,7 @@ public final class RemoveCommands implements TabExecutor {
 
     // Remove a collection of entities
     private int removeEntities(Collection<Entity> entities){
-        for(Entity entity : entities) if(entity.getCustomName()==null && !entity.isCustomNameVisible()) entity.remove();
+        for(Entity entity : entities) if(entity.getCustomName()==null && !entity.isCustomNameVisible() && !entity.isPersistent()) entity.remove();
         return entities.size();
     }
     // Remove entities by type
