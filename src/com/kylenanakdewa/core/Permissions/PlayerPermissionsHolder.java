@@ -102,6 +102,11 @@ public final class PlayerPermissionsHolder {
             for (Entry<Permission, Boolean> node : set.getTotalPermissions().entrySet()) {
                 attachment.setPermission(node.getKey(), node.getValue());
             }
+
+            // Send packet to fix auto-completions - version-specific
+            if(Bukkit.getVersion().contains("1.16")){
+                NMSUtils.fixCommandTabCompletions(player.getPlayer().getPlayer());
+            }
         }
 
         else {
