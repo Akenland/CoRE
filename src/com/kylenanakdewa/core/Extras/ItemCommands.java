@@ -58,7 +58,7 @@ public final class ItemCommands implements TabExecutor {
 
 			// Sort by relevancy
 			String materialArg = args[0];
-			Comparator<String> comparator = Comparator.<String,Boolean>comparing(materialName -> materialName.contains(materialArg)).reversed();
+			Comparator<String> comparator = Comparator.<String,Boolean>comparing(materialName -> materialName.contains(materialArg.toUpperCase())).reversed();
 			completions.sort(comparator);
 
 			return completions;
