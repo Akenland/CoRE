@@ -1,7 +1,7 @@
 package com.kylenanakdewa.core.Extras;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -18,28 +18,31 @@ public final class ItemCommands implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		// Check permissions
-		if (!sender.hasPermission("core.item"))
+		if (!sender.hasPermission("core.item") || !(sender instanceof Player)) {
 			return Error.NO_PERMISSION.displayChat(sender);
-
-		// If no args or sender is not player, return error
-		if (args.length == 0 || !(sender instanceof Player))
-			return Error.INVALID_ARGS.displayActionBar(sender);
-
-		// Item data
-		final Material material = Material.matchMaterial(args[0]);
-		int amount = 0;
-		try {
-			amount = (args.length >= 2) ? Integer.parseInt(args[1]) : 1;
-		} catch (NumberFormatException e) {
 		}
 
-		// Make sure material is not null
-		if (material == null)
-			return Error.ITEM_NOT_FOUND.displayActionBar(sender);
-		// Make sure amount is greater than 0
-		if (amount <= 0)
+		// Must have 1 or 2 args
+		if (args.length != 1 && args.length != 2) {
 			return Error.INVALID_ARGS.displayActionBar(sender);
+		}
+
+		// First arg - material name
+		Material material = Material.matchMaterial(args[0]);
+		if (material == null) {
+			return Error.ITEM_NOT_FOUND.displayActionBar(sender);
+		}
+
+		// Second arg - amount
+		int amount = 1;
+		if (args.length == 2) {
+			String amountArg = args[1];
+			try {
+				amount = Integer.parseInt(amountArg);
+			} catch (NumberFormatException e) {
+				return Error.INVALID_ARGS.displayActionBar(sender);
+			}
+		}
 
 		// Give item to player
 		((Player) sender).getInventory().addItem(new ItemStack(material, amount));
@@ -50,20 +53,42 @@ public final class ItemCommands implements TabExecutor {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		if (args.length == 1 && sender.hasPermission("core.item")) {
-			// Add all item names as completion
-			List<String> completions = new ArrayList<String>();
-			for (Material type : Material.values())
-				completions.add(type.name());
+		if (sender.hasPermission("core.item")) {
+			// First arg - material name
+			if (args.length == 1) {
+				String materialArg = args[0].toUpperCase();
 
-			// Sort by relevancy
-			String materialArg = args[0];
-			Comparator<String> comparator = Comparator.<String,Boolean>comparing(materialName -> materialName.contains(materialArg.toUpperCase())).reversed();
-			completions.sort(comparator);
+				// If no arg was entered, add all item names as completions
+				if (materialArg.length() == 0) {
+					List<String> completions = new ArrayList<String>();
+					for (Material type : Material.values()) {
+						completions.add(type.name());
+					}
+					return completions;
+				}
 
-			return completions;
+				List<String> matches = new ArrayList<String>();
+				List<String> partialMatches = new ArrayList<String>();
+				for (Material type : Material.values()) {
+					// Show closest matches at the top
+					if (type.name().startsWith(materialArg)) {
+						matches.add(type.name());
+					}
+					// Show partial matches below that
+					else if (type.name().contains(materialArg)) {
+						partialMatches.add(type.name());
+					}
+				}
+				matches.addAll(partialMatches);
+				return matches;
+			}
+
+			// Second arg - amount
+			if (args.length == 2) {
+				return Arrays.asList("16", "32", "64", "128", "256", "512", "576", "1728");
+			}
 		}
 
-		return null;
+		return Arrays.asList("");
 	}
 }
