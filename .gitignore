@@ -4,3 +4,4 @@
 *.prefs
 **/bin/**
 **/target/**
+.vscode/**

@@ -1,6 +1,7 @@
 package com.kylenanakdewa.core.Extras;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -57,8 +58,8 @@ public final class ItemCommands implements TabExecutor {
 
 			// Sort by relevancy
 			String materialArg = args[0];
-			completions.sort((material1, material2) -> material1.contains(materialArg) ? -1
-					: material2.contains(materialArg) ? 1 : 0);
+			Comparator<String> comparator = Comparator.<String,Boolean>comparing(materialName -> materialName.contains(materialArg)).reversed();
+			completions.sort(comparator);
 
 			return completions;
 		}

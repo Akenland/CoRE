@@ -6,7 +6,7 @@
         {
             "label": "Install and deploy to test server",
             "type": "shell",
-            "command": "mvn -B install \\\"&\\\" copy target\\CoRE.jar \\\\MCSERVER\\Testing_Spigot\\plugins",
+            "command": "mvn -B install \\\"&\\\" copy target\\CoRE.jar F:\\MC_2020_Aunix\\plugins",
             "group": "build"
         }
     ]
